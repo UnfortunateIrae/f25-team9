@@ -15,10 +15,10 @@
 
 ## App Functions
 1. Customer (the user with the customer role):
-    1. Create/modify customer profile - <how will your app do this?>
-    2. View available services - <how will your app do this?>.
-    3. Subscribe to available services - <how will your app do this?>.
-    4. Write reviews for subscribed services - <how will your app do this?>.
+    1. Create/modify customer profile - Customers shall create an account and choose what category(tags) their interested in.
+    2. View available services - Customers will choose their topic of interest based on category, tags and providers.
+    3. Subscribe to available services - They can follow a provider that they like or select a topic to stay updated on. They will also be sent weekly email with a summary of the news as well.
+    4. Write reviews for subscribed services - People will be able to comment on the article/newsletter and starred review
 2. Provider (the user with the provider role):
     1. Create/modify/remove provider profile - Can update the new topics every week with more recent stories
     2. Create services - Add topics
