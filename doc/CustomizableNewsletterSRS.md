@@ -2,7 +2,7 @@
 ## For Customizable Newsletter
 
 Version 0.1  
-Prepared by Namrata Karki, James   
+Prepared by Namrata Karki, James Kerrigan  
 CSC 340
 September 16, 2025
 
@@ -36,48 +36,55 @@ Table of Contents
     * 3.2.7 [Deadline](#327-deadline)
 
 ## Revision History
-| Name | Date    | Reason For Changes  | Version   |
-| ---- | ------- | ------------------- | --------- |
-|      |         |                     |           |
-|      |         |                     |           |
-|      |         |                     |           |
+| Name | Date       | Reason For Changes  | Version   |
+| ---- | ---------- | ------------------- | --------- |
+| J.K. | 09/18/2025 | Updating SRS        | 0.1       |
+|      |            |                     |           |
+|      |            |                     |           |
+|      |            |                     |           |
 
 ## 1. Introduction
 
 ### 1.1 Document Purpose
-Describe the purpose of the SRS and its intended audience.
+The purpose of this Software Requirements Specification Document (SRS) is to describe the client-side and developer-side requirements for the CustomizableNewsletter software.
+Client-oriented requirements describe the system from the client’s view. These requirements include a description of the different types of users served by the system.
+Developer-oriented requirements describe the system from a software developer’s view. These requirements include but aren't limited to a detailed description of functional, data, performance, ststistcal metricss.
 
 ### 1.2 Product Scope
-Identify the product whose software requirements are specified in this document, including the revision or release number. Explain what the product that is covered by this SRS will do, particularly if this SRS describes only part of the system or a single subsystem. 
-Provide a short description of the software being specified and its purpose, including relevant benefits, objectives, and goals. Relate the software to corporate goals or business strategies. If a separate vision and scope document is available, refer to it rather than duplicating its contents here.
+The purpose of this software is to allow customers easy and reliable access to news that they care about, customized by them to thier preferences. This system is going to be an application downloadable by any potential client, to ensure ease of use and development.
 
-### 1.3 Definitions, Acronyms and Abbreviations                                                                                                                                                                          |
+### 1.3 Definitions, Acronyms and Abbreviations
+| Reference  | Definition                                                                                                   
+|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Java       | A programming language originally developed by James Gosling at Sun Microsystems. We will be using this language to build the backend service for LocalHarvest Hub                 |
+| Postgresql | Open-source relational database management system.                                                                                                                                 |
+| API        | Application Programming Interface. This will be used to interface the backend and the fronted of our application.                                                                  |
+| HTML       | Hypertext Markup Language. This is the code that will be used to structure and design the web application and its content.                                                         |
+| CSS        | Cascading Style Sheets. Will be used to add styles and appearance to the web app.                                                                                                  |
+| JavaScript | An object-oriented computer programming language commonly used to create interactive effects within web browsers.Will be used in conjuction with HTML and CSS to make the web app. |
+| VS Code    | An integrated development environment (IDE) for Java. This is where our system will be created.                                                                                    |
+|            |                                                                                                                                                                                    |                                                                                             |
 
 ### 1.4 References
-List any other documents or Web addresses to which this SRS refers. These may include user interface style guides, contracts, standards, system requirements specifications, use case documents, or a vision and scope document. Provide enough information so that the reader could access a copy of each reference, including title, author, version number, date, and source or location.
+https://www.twilio.com/docs/sendgrid/api-reference
 
 ### 1.5 Document Overview
-Describe what the rest of the document contains and how it is organized.
+Section 1 goes over a general idea of what can be expected of this software, along with helpful acronyms and terms that will be scattered throughout this SRS. Section two focuses on the product itself, including restraints, functions and certain assumptions we have going forward about the user and the development process as a whole. Section three focuses on the more business side of the project, including cost, time of launch, and less functional requirements.
 
 ## 2. Product Overview
-This section should describe the general factors that affect the product and its requirements. This section does not state specific requirements. Instead, it provides a background for those requirements, which are defined in detail in Section 3, and makes them easier to understand.
+CustomizableNewsletter is a executable program that will allow users to customize their news feeds with information that they actually want to see. Tehy'll be able to browse topics and read stories in each topic that can help them decide if that's a regualr piece of news they're wanting to learn more about. Writers will be able to post new stories and view how well or poorly their topic is being recieved. This system will allow for customers, writers, and sysadmin to help ensure a smooth and well managed news outlet for everyone.
 
 ### 2.1 Product Functions
-Summarize the major functions the product must perform or must let the user perform. Details will be provided in Section 3, so only a high level summary (such as a bullet list) is needed here. Organize the functions to make them understandable to any reader of the SRS. A picture of the major groups of related requirements and how they relate, such as a top level data flow diagram or object class diagram, is often effective.
+CustomizableNewsletter will let Writers write and moderate their stories. They can view how their topic is performing, and respond to reviews. Users can customize their weekly email to have whatever topics suit their interst, and can also browse topics or review them.
 
 ### 2.2 Product Constraints
-This subsection should provide a general description of any other items that will limit the developer’s options. These may include:  
-
-* Interfaces to users, other applications or hardware.  
-* Quality of service constraints.  
-* Standards compliance.  
-* Constraints around design or implementation.
+At this point, the program will only run on a computer with Java jdk 21 installed. The full scope of the project is hopefully realized, however the team has a deadline of about 10 weeks, which could lead to feature cuts. The program would have a challenge scaling, as the current plan is to use a free version of a Postgresql database to store the information, as well as stress-test the free version of an email-API to handle the sending of the newsletters.
   
 ### 2.3 User Characteristics
-Identify the various user classes that you anticipate will use this product. User classes may be differentiated based on frequency of use, subset of product functions used, technical expertise, security or privilege levels, educational level, or experience. Describe the pertinent characteristics of each user class. Certain requirements may pertain only to certain user classes. Distinguish the most important user classes for this product from those who are less important to satisfy.
+Our executable application does not expect our users to have any prior knowledge of a computer, apart from downloading a client. As long as users know what news topics they want to read about, they should be expert level within several uses of the application.
 
 ### 2.4 Assumptions and Dependencies
-List any assumed factors (as opposed to known facts) that could affect the requirements stated in the SRS. These could include third-party or commercial components that you plan to use, issues around the development or operating environment, or constraints. The project could be affected if these assumptions are incorrect, are not shared, or change. Also identify any dependencies the project has on external factors, such as software components that you intend to reuse from another project, unless they are already documented elsewhere (for example, in the vision and scope document or the project plan).
+We will be using Java and developed with VS Code. The application will also use an external email API that will help customers recieve their newsletters on a regular weekly basis.
 
 ## 3. Requirements
 
