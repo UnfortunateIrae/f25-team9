@@ -39,7 +39,7 @@ Table of Contents
 | Name | Date       | Reason For Changes  | Version   |
 | ---- | ---------- | ------------------- | --------- |
 | J.K. | 09/18/2025 | Updating SRS        | 0.1       |
-|      |            |                     |           |
+| N.K. | 09/18/2025 | Updating SRS        |    0.2    |
 |      |            |                     |           |
 |      |            |                     |           |
 
