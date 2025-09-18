@@ -82,46 +82,50 @@ List any assumed factors (as opposed to known facts) that could affect the requi
 ## 3. Requirements
 
 ### 3.1 Functional Requirements 
-This section specifies the software product's requirements. Specify all of the software requirements to a level of detail sufficient to enable designers to design a software system to satisfy those requirements, and to enable testers to test that the software system satisfies those requirements.
 
-The specific requirements should:
-* Be uniquely identifiable.
-* State the subject of the requirement (e.g., system, software, etc.) and what shall be done.
-* Optionally state the conditions and constraints, if any.
-* Describe every input (stimulus) into the software system, every output (response) from the software system, and all functions performed by the software system in response to an input or in support of an output.
-* Be verifiable (e.g., the requirement realization can be proven to the customer's satisfaction)
-* Conform to agreed upon syntax, keywords, and terms.
+- FR0: The system will allow users to create accounts as either a customer or a writer.
+   - Each account shall have a unique identifier assigned at the time of creation, customerID or writerID. 
+- FR1: The system shall allow writers to create a new newsletter by providing writing the article and assigning it a topic.
+- FR2: The system shall allow customers to browse through the list of newsletter either by the writer or topic.
+   - The newsletters shall have a search and filter option.
+- FR3: The system shall allow customers to subscribe to any topic or writer of their choosing. They can also subscribe to summary emails.
+   - A customer may unsubscribe at any time if they are not longer interested in maintainging their subscription.
+- FR4: Users can modify their own profiles at any time.
+- FR5: The system shall allow customers to rate and review the articles.
+- FR6: The system shall allow a writers to respond to a review.
 
 #### 3.1.1 User interfaces
-Define the software components for which a user interface is needed. Describe the logical characteristics of each interface between the software product and the users. This may include sample screen images, any GUI standards or product family style guides that are to be followed, screen layout constraints, standard buttons and functions (e.g., help) that will appear on every screen, keyboard shortcuts, error message display standards, and so on. Details of the user interface design should be documented in a separate user interface specification.
-
-Could be further divided into Usability and Convenience requirements.
+Website made with HTML, CSS and Javascript. API's may be used.
 
 #### 3.1.2 Hardware interfaces
-Describe the logical and physical characteristics of each interface between the software product and the hardware components of the system. This may include the supported device types, the nature of the data and control interactions between the software and the hardware, and communication protocols to be used.
+Any device that can run a website/ have a web browser.
 
-#### 3.1.3 Software interfaces
-Describe the connections between this product and other specific software components (name and version), including databases, operating systems, tools, libraries, and integrated commercial components. Identify the data items or messages coming into the system and going out and describe the purpose of each. Describe the services needed and the nature of communications. Refer to documents that describe detailed application programming interface protocols. Identify data that will be shared across software components. If the data sharing mechanism must be implemented in a specific way (for example, use of a global data area in a multitasking operating system), specify this as an implementation constraint.
+#### 3.1.3 Software interface
+VS Code 1.104.0
+Java JDK 21
+Twilio (Email API)
+Git 2.50.1.windows.1
 
 ### 3.2 Non Functional Requirements 
 
 #### 3.2.1 Performance
-If there are performance requirements for the product under various circumstances, state them here and explain their rationale, to help the developers understand the intent and make suitable design choices. Specify the timing relationships for real time systems. Make such requirements as specific as possible. You may need to state performance requirements for individual functional requirements or features.
+
+- NFR0: The new user will be able to add and manage  subscriptions in less than 1 minutes.
+- NFR1: The expert user will be able to add and manage produce subscriptions in less than 30 sec.
 
 #### 3.2.2 Security
-Specify any requirements regarding security or privacy issues surrounding use of the product or protection of the data used or created by the product. Define any user identity authentication requirements. Refer to any external policies or regulations containing security issues that affect the product. Define any security or privacy certifications that must be satisfied.
+- NFR2: The system is only available to authorized users, using their username and password.
 
 #### 3.2.3 Reliability
-Specify the factors required to establish the required reliability of the software system at time of delivery.
+- NFR3: Articles can have links to other sources to make sure the articles are reliable.
 
 #### 3.2.4 Availability
-Specify the factors required to guarantee a defined availability level for the entire system such as checkpoint, recovery, and restart.
+- NFR4: The customicable newsletter web will be available 24/7. Users can reach out if they have any issue. Monthy maintainance will be scheduled to keep up with the web.
 
 #### 3.2.5 Compliance
-Specify the requirements derived from existing standards or regulations
 
 #### 3.2.6 Cost
-Specify monetary cost of the software product.
+- NFR5: We expect to spend zero dollars on this project.
 
 #### 3.2.7 Deadline
-Specify schedule for delivery of the software product.
+- NFR6: The final product must be delivered by December 2025.
