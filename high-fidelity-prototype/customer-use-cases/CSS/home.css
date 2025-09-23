@@ -1,0 +1,56 @@
+ 
+        :root {
+  /* Blue Shades */
+  --color-deep-navy-blue: #0A1F44;
+  --color-cobalt-blue: #2645A6;
+  --color-sky-blue: #5AA9E6;
+  --color-periwinkle: #A3BFFA;
+
+  /* Purple Shades */
+  --color-lavender: #C3AED6;
+  --color-royal-purple: #6B1F9A;
+  --color-violet: #9A4DFF;
+  --color-orchid: #DA70D6;
+
+  /* Yellow Shades */
+  --color-pale-yellow: #FFF9B1;
+  --color-lemon-yellow: #FFEB3B;
+  --color-goldenrod: #FFC107;
+  --color-marigold: #FFB300;
+}
+
+:root {
+  --color-cobalt-blue: #2645A6;
+  --color-sky-blue: #5AA9E6;
+  --color-lavender: #C3AED6;
+  --color-violet: #9A4DFF;
+  --color-goldenrod: #FFC107;
+}
+
+
+
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #333;
+            }
+
+            li {
+                float: left;
+            }
+
+            li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+            li a:hover {
+                background-color: #111;
+            }
+     
+   

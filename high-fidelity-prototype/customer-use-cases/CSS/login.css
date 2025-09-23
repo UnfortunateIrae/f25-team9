@@ -1,0 +1,11 @@
+:root {
+  --cobalt-blue: #2645A6;
+  --sky-blue: #5AA9E6;
+  --lavender: #C3AED6;
+  --violet: #9A4DFF;
+  --goldenrod: #FFC107;
+}
+
+body{
+    background-color: #C3AED6;
+}
