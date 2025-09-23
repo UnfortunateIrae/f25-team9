@@ -9,3 +9,48 @@
 body{
     background-color: #C3AED6;
 }
+
+h1{
+    color: #2645A6;
+}
+
+h3{
+    text-align: center;
+}
+
+#start{
+display: flex;
+background-color: #9A4DFF;
+padding: 8%;
+justify-content: space-between;
+gap: 1rem;
+height: 80vh;
+width: 100%;
+min-width: 0;
+border-radius: 15px;
+}
+
+.box{
+    flex:1;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+#login{
+    background-color: #FFC107;
+    padding: 2%;
+    border-radius: 15px;
+    text-align:center;
+}
+
+#Signup {
+    background-color: #5AA9E6;
+    padding:10%;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.end{
+    height: 10vh;
+    background-color: #FFC107;
+}
