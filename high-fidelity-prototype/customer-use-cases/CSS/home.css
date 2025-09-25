@@ -123,7 +123,7 @@ body {
     margin: 0;
     padding: 14px;
   }
-  
+
   .nav input[type=text] {
     border: 1px solid #ccc;  
   }
@@ -136,7 +136,7 @@ body {
   margin: auto;
 }
 
-header h1 {
+h1 {
   text-align: center;
   color: var(--primary);
   margin-bottom: 2rem;
@@ -147,28 +147,54 @@ header h1 {
   border-spacing: 2rem;
 }
 
-.topic-btn {
-  width: 100%;
-  height: 200px;
-  background-color: var(--secondary);
-  border: none;
+  .topic {
+  background-color: #5AA9E6;
   color: white;
-  font-size: 1.5rem;
-  font-weight: bold;
+  height: 400px;
+  width: 100%;
   border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   transition: transform 0.3s ease, background-color 0.3s ease;
-  cursor: pointer;
 }
 
-.topic-btn:hover {
+.topic h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #FFF9B1;
+}
+
+.topic p {
+  flex-grow: 1;
+  font-size: 1rem;
+  color: white;
+}
+
+.learn {
   background-color: #FFC107;
-  transform: scale(1.05);
+  color: black;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s ease;
 }
 
-  .topic-btn {
-    height: 150px;
-    font-size: 1.2rem;
-  }
+.learn:hover {
+  background-color: #FFC107;
+  color: black;
+}
+
+.topic:hover {
+  transform: scale(1.03);
+  background-color: #2645A6;
+}
+
+  
 
 
      
