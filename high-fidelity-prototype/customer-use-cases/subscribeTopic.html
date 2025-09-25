@@ -7,6 +7,37 @@
     <link rel="stylesheet" href="CSS/subscribeTopic.css">
 </head>
 <body>
-    
+    <div class="nav">
+  <a class="active" href="home.html">Home</a>
+  <a href="#about">About</a>
+  <a href="profile.html">Profile</a>
+   <a href="subscribeTopic.html">Subscription</a>
+    <div class="search-container">
+        <form action="/action_page.php">
+        <input type="text" placeholder="Search.." name="search">
+        <button type="submit">Submit</button>
+        </form>
+    </div>
+   </div>
+
+    <div class="container">
+    <h1>Subscribe to Our Newsletter</h1>
+    <p>Select the topics you're interested in:</p>
+
+    <form class="subscription-form">
+      <label for="email">Email Address:</label>
+      <input type="email" id="email" name="email" required placeholder="your@example.com" />
+
+      <div class="topics">
+        <label><input type="checkbox" name="topic" value="tech" /> Technology</label>
+        <label><input type="checkbox" name="topic" value="health" /> Health</label>
+        <label><input type="checkbox" name="topic" value="science" /> Science</label>
+        <label><input type="checkbox" name="topic" value="sports" /> Sports</label>
+        <label><input type="checkbox" name="topic" value="arts" /> Arts & Culture</label>
+      </div>
+
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
 </body>
 </html>

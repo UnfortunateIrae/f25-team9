@@ -4,38 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[TOPIC NAME HERE]</title>
+        <link rel="stylesheet" href="CSS/home.css">
+
 </head>
 <body>
-    <ul>
-        <style>
-            ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-                background-color: #333;
-            }
-
-            li {
-                float: left;
-            }
-
-            li a {
-                display: block;
-                color: white;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
-
-            li a:hover {
-                background-color: #111;
-            }
-        </style>
-        <li><a href="home.html">Home</a></li>
-        <li><a href="topics.html">Your Topics</a></li>
-        <li><a href="profile.html">Profile</a></li>
-    </ul>
+  
+         <div class="nav">
+  <a class="active" href="home.html">Home</a>
+  <a href="#about">About</a>
+  <a href="profile.html">Profile</a>
+   <a href="subscribeTopic.html">Subscription</a>
+    <div class="search-container">
+        <form action="/action_page.php">
+        <input type="text" placeholder="Search.." name="search">
+        <button type="submit">Submit</button>
+        </form>
+    </div>
+   </div>
+    
     <div class="container">
         <header>
             <style>
