@@ -1,0 +1,98 @@
+:root {
+  --cobalt-blue: #2645A6;
+  --sky-blue: #5AA9E6;
+  --lavender: #C3AED6;
+  --violet: #9A4DFF;
+  --goldenrod: #FFC107;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #A3BFFA;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  color: #2645A6;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  text-align: center;
+  padding: 1rem;
+}
+
+#start {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 4%;
+  justify-content: space-between;
+  gap: 2rem;
+  min-height: 80vh;
+  width: 90%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  border-radius: 15px;
+}
+
+.box {
+  flex: 1;
+  transition: flex 0.3s;
+  min-width: 280px;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.box:hover {
+  flex: 2; 
+}
+
+#login {
+  background-color: #FFF9B1;
+}
+
+#Signup {
+  background-color: #FFF9B1;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="submit"] {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+input[type="submit"] {
+  background-color: #2645A6;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #5AA9E6;
+}
+
+.end {
+  background-color: #FFC107;
+  text-align: center;
+  padding: 1rem;
+  font-size: 1rem;
+}
