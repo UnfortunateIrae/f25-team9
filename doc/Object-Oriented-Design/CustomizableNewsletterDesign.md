@@ -30,8 +30,7 @@ to their email inbox, with no further interaction!
 
 ## 2. Use Cases
 ### 2.1 Use Case Model
-![Use Case Model]![(https://github.com/UnfortunateIrae/f25-team9/tree/78a67b2cf12340ea5cf99ec672c710b7507858dc/doc/Object-Oriented-Design/Use%20Cases)
-]
+![Use Case Model]!(https://github.com/UnfortunateIrae/f25-team9/tree/78a67b2cf12340ea5cf99ec672c710b7507858dc/doc/Object-Oriented-Design/Use%20Cases)
 ### 2.2 Use Case Descriptions
 
 #### 2.2.1 Actor: Writer
