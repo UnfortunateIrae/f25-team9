@@ -66,4 +66,4 @@ A customer may write a review for a newsletter they read to. They will be able t
 ## 3. UML Class Diagram
 ![UML Class Diagram](https://github.com/UnfortunateIrae/f25-team9/blob/b7052b9763d7633985e1ae27d4f2c525f81d800b/doc/Object-Oriented-Design/UML%20Diagram/UML%20Diagram.png)
 ## 4. Database Schema
-![UML Class Diagram](https://github.com/csc340-uncg/f25-team0/blob/main/doc/Object-Oriented-Design/schema.png)
+![UML Class Diagram](https://github.com/UnfortunateIrae/f25-team9/blob/main/doc/Object-Oriented-Design/Database%20Scheme.png)
