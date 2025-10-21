@@ -21,7 +21,7 @@ Table of Contents
 | Name | Date    | Reason For Changes  | Version   |
 | ---- | ------- | ------------------- | --------- |
 |  JK  |10/20    | Producer Cases      |    1.1    |
-|      |         |                     |           |
+|  NK  | 10/21   | Customer Case/Database Schema   |   1.2       |
 |      |         |                     |           |
 
 ## 1. Product Overview
@@ -30,7 +30,7 @@ to their email inbox, with no further interaction!
 
 ## 2. Use Cases
 ### 2.1 Use Case Model
-![Use Case Model]!(https://github.com/UnfortunateIrae/f25-team9/tree/78a67b2cf12340ea5cf99ec672c710b7507858dc/doc/Object-Oriented-Design/Use%20Cases)
+![Use Case Model](https://github.com/UnfortunateIrae/f25-team9/tree/78a67b2cf12340ea5cf99ec672c710b7507858dc/doc/Object-Oriented-Design/Use%20Cases)
 ### 2.2 Use Case Descriptions
 
 #### 2.2.1 Actor: Writer
@@ -66,4 +66,4 @@ A customer may write a review for a newsletter they read to. They will be able t
 ## 3. UML Class Diagram
 ![UML Class Diagram](https://github.com/UnfortunateIrae/f25-team9/blob/b7052b9763d7633985e1ae27d4f2c525f81d800b/doc/Object-Oriented-Design/UML%20Diagram/UML%20Diagram.png)
 ## 4. Database Schema
-![UML Class Diagram]![(https://github.com/csc340-uncg/f25-team0/blob/main/doc/Object-Oriented-Design/schema.png)]
+![UML Class Diagram](https://github.com/csc340-uncg/f25-team0/blob/main/doc/Object-Oriented-Design/schema.png)
