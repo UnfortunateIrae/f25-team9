@@ -1,9 +1,9 @@
-# LocalHarvest Hub - Software Design 
+# CustomizableNewsletter - Software Design 
 
 Version 1  
-Prepared by Alice Beback\
-LocalHarvest Hub\
-Oct 8, 2025
+Prepared by James Kerrigan and Namrata Karki\
+CustimizableNewsletter\
+Oct 20, 2025
 
 Table of Contents
 =================
@@ -12,7 +12,7 @@ Table of Contents
 * 2 [Use Cases](#2-use-cases)
   * 2.1 [Use Case Model](#21-use-case-model)
   * 2.2 [Use Case Descriptions](#22-use-case-descriptions)
-    * 2.2.1 [Actor: Farmer](#221-actor-farmer)
+    * 2.2.1 [Actor: Writer](#221-actor-Writer)
     * 2.2.2 [Actor: Customer](#222-actor-customer) 
 * 3 [UML Class Diagram](#3-uml-class-diagram)
 * 4 [Database Schema](#4-database-schema)
@@ -20,31 +20,37 @@ Table of Contents
 ## Revision History
 | Name | Date    | Reason For Changes  | Version   |
 | ---- | ------- | ------------------- | --------- |
-|  Al  |10/8     | Initial Design      |    1      |
+|  JK  |10/20    | Producer Cases      |    1.1    |
 |      |         |                     |           |
 |      |         |                     |           |
 
 ## 1. Product Overview
-LocalHarvest Hub is a simple, comprehensive, easy to use web app with the goal of connecting consumers to locally grown produce. Farmers and customers make use of the centralized platform to meet their needs. 
-Farmers create and publish produce boxes, customers subscribe any available boxes that they are interested in, either as a one-off or recurring subscription.
+CustomizableNewsletter is an easy to use, web-based application that will allow for people to quickly choose which topics they'd like to hear more about on the news. What's more is that the articles they've indicated inerest in will be delivered directly
+to their email inbox, with no further interaction!
 
 ## 2. Use Cases
 ### 2.1 Use Case Model
-![Use Case Model](https://github.com/csc340-uncg/f25-team0/blob/main/doc/Object-Oriented-Design/use-case.png)
+![Use Case Model](https://github.com/UnfortunateIrae/f25-team9/tree/78a67b2cf12340ea5cf99ec672c710b7507858dc/doc/Object-Oriented-Design/Use%20Cases)
 
 ### 2.2 Use Case Descriptions
 
-#### 2.2.1 Actor: Farmer
+#### 2.2.1 Actor: Writer
 ##### 2.2.1.1 Sign Up
-A farmer can sign up to create their profile with their name, email, password, and phone number. Emails must be unique.
+A Writer can sign up to create their profile with their name, email, password, and phone number. Emails must be unique.
 ##### 2.2.1.2 Log In
-A farmer shall be able to sign in using their registred email and password. After logging in, the farmer shall be directed their dashboard where they see an overview of their farm, boxes and stats.
+A Writer shall be able to sign in using their registred email and password. After logging in, the Writer shall be directed their dashboard where they see an overview of their topic, articles and stats.
 ##### 2.2.1.3 Update Profile
-A farmer shall be to modify their profile by going to their profile page. They can change their email, password, and farm.
-##### 2.2.1.4 Create Produce Boxes
-The farmer shall be able to create a new produce box listing. They would provide a box name, description, and price. This box will be created to be associated with only this farmer and their farm.
-##### 2.2.1.4 View Customer Stats
-A farmer will be able to view several statistics such as total revenue, total subscribers, and average ratings.
+A Writer shall be to modify their profile by going to their profile page. They can change their email, password, and topic.
+##### 2.2.1.4 Create Article
+The Writer shall be able to create a new article. They would provide an article title, and description. This article will be created to be associated with only this Writer and their topic.
+##### 2.2.1.5 Post Articles
+A Writer will be able to post their article to their topic.
+##### 2.2.1.6 Edit Article
+A Writer can edit their article after it's been posted.
+##### 2.2.1.7 View Statistics
+A Writer will be able to view several statistics such as total subscribers, and average ratings.
+##### 2.2.1.8 Reply to reviews
+A Writer shall be able to reply to reviews made about their articles/topics.
 
 #### 2.2.2 Actor: Customer
 ##### 2.2.2.1 Sign Up
@@ -59,6 +65,6 @@ Upon selecting a box, a customer shall be able to subscribe for the box using a 
 A customer may write a review for a box they subscribed to. They will be able to rate the box based on freshness and delivery.
 
 ## 3. UML Class Diagram
-![UML Class Diagram](https://github.com/csc340-uncg/f25-team0/blob/main/doc/Object-Oriented-Design/class-diagram.png)
+![UML Class Diagram](https://github.com/UnfortunateIrae/f25-team9/blob/b7052b9763d7633985e1ae27d4f2c525f81d800b/doc/Object-Oriented-Design/UML%20Diagram/UML%20Diagram.png)
 ## 4. Database Schema
 ![UML Class Diagram](https://github.com/csc340-uncg/f25-team0/blob/main/doc/Object-Oriented-Design/schema.png)
