@@ -1,4 +1,4 @@
- 
+
         :root {
   /* Blue Shades */
   --color-deep-navy-blue: #0A1F44;
@@ -129,7 +129,6 @@ body {
   }
 }
 
-
 .container {
   padding: 2rem;
   max-width: 1200px;
@@ -192,10 +191,3 @@ h1 {
 .topic:hover {
   transform: scale(1.03);
   background-color: #2645A6;
-}
-
-  
-
-
-     
-   
