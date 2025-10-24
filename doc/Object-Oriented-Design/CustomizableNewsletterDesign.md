@@ -21,7 +21,7 @@ Table of Contents
 | Name | Date    | Reason For Changes  | Version   |
 | ---- | ------- | ------------------- | --------- |
 |  JK  |10/20    | Producer Cases      |    1.1    |
-|      |         |                     |           |
+|  NK  | 10/21   | Customer Case/Database Schema   |   1.2       |
 |      |         |                     |           |
 
 ## 1. Product Overview
@@ -30,8 +30,7 @@ to their email inbox, with no further interaction!
 
 ## 2. Use Cases
 ### 2.1 Use Case Model
-![Use Case Model](https://github.com/UnfortunateIrae/f25-team9/tree/main/doc/Object-Oriented-Design/Use%20Cases)
-
+![Use Case Model](https://github.com/UnfortunateIrae/f25-team9/tree/78a67b2cf12340ea5cf99ec672c710b7507858dc/doc/Object-Oriented-Design/Use%20Cases)
 ### 2.2 Use Case Descriptions
 
 #### 2.2.1 Actor: Writer
@@ -57,14 +56,14 @@ A Writer shall be able to reply to reviews made about their articles/topics.
 A customer can sign up to create their profile with their name, email, password, and address. Emails must be unique.
 ##### 2.2.2.2 Log In
 A customer shall be able to sign in using their registred email and password. After logging in, the customer shall be directed their dashboard where they see an overview of their subscriptions.
-##### 2.2.2.3 Browse Produce Boxes
-A customer shall be able to view available produce boxes. They can do this from the home page or using a search function. They can also filter boxes by name, descriptions, or farm. They will also be able to select one box and view more details.
-##### 2.2.1.4 Subscribe to Produce Box
-Upon selecting a box, a customer shall be able to subscribe for the box using a one-click action. This box will then appear on their dashboard, and they will be able to ammend the subscription.
-##### 2.2.1.5 Review Produce Box
-A customer may write a review for a box they subscribed to. They will be able to rate the box based on freshness and delivery.
+##### 2.2.2.3 Browse topics
+A customer shall be able to view available topic categories. They can do this from the home page or using a search function. They can also filter topics by name, descriptions, or writer. They will also be able to select one newsletter and view more details.
+##### 2.2.1.4 Subscribe to a newsletter topic
+Upon selecting a topic, a customer shall be able to subscribe for the topic using a one-click action. This topic will then appear on their dashboard, and they will be able to ammend the subscription.
+##### 2.2.1.5 Review newsletter
+A customer may write a review for a newsletter they read to. They will be able to rate the box based on freshness and delivery.
 
 ## 3. UML Class Diagram
 ![UML Class Diagram](https://github.com/UnfortunateIrae/f25-team9/blob/b7052b9763d7633985e1ae27d4f2c525f81d800b/doc/Object-Oriented-Design/UML%20Diagram/UML%20Diagram.png)
 ## 4. Database Schema
-![UML Class Diagram](https://github.com/csc340-uncg/f25-team0/blob/main/doc/Object-Oriented-Design/schema.png)
+![UML Class Diagram](https://github.com/UnfortunateIrae/f25-team9/blob/main/doc/Object-Oriented-Design/Database%20Scheme.png)
