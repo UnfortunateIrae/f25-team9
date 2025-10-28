@@ -1,4 +1,4 @@
-package com.Customer;
+package com.Topic;
 
 import com.Customer.Customer;
 import com.Writer.Writer;
@@ -16,4 +16,4 @@ import java.util.OptionalDouble;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class CustomerService {}
+public class TopicService {}
