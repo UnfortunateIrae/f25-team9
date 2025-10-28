@@ -17,7 +17,7 @@
           "mode": "raw",
           "raw": "{\n  \"title\": \"Breaking News\",\n  \"content\": \"Content of the article.\"\n}"
         },
-        "url": "http://localhost:8080/api/articles/writer/1"
+        "url": "http://localhost:8080/api/articles/writer/22"
       },
       "response": [
         {
@@ -36,7 +36,7 @@
           "mode": "raw",
           "raw": "{\n  \"title\": \"\",\n  \"content\": \"\"\n}"
         },
-        "url": "http://localhost:8080/api/articles/writer/1"
+        "url": "http://localhost:8080/api/articles/writer/22"
       },
       "response": [
         {
