@@ -1,0 +1,274 @@
+# CustomizableNewsletter API Documentation
+
+{
+  "info": {
+    "name": "Article API",
+    "_postman_id": "article-collection",
+    "description": "CRUD requests for Article with all endpoints, success and error responses",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Article - Success",
+      "request": {
+        "method": "POST",
+        "header": [{"key":"Content-Type","value":"application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Breaking News\",\n  \"content\": \"Content of the article.\"\n}"
+        },
+        "url": "http://localhost:8080/api/articles/writer/1"
+      },
+      "response": [
+        {
+          "name": "201 Created",
+          "body": "{\n  \"id\":1,\n  \"title\":\"Breaking News\",\n  \"content\":\"Content of the article.\",\n  \"writer\":{\"id\":1}\n}",
+          "status": "201 Created"
+        }
+      ]
+    },
+    {
+      "name": "Create Article - Error 400",
+      "request": {
+        "method": "POST",
+        "header": [{"key":"Content-Type","value":"application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"\",\n  \"content\": \"\"\n}"
+        },
+        "url": "http://localhost:8080/api/articles/writer/1"
+      },
+      "response": [
+        {
+          "name": "400 Bad Request",
+          "body": "{\"errors\":[\"Title is blank\",\"Content is blank\"]}",
+          "status": "400 Bad Request"
+        }
+      ]
+    },
+    {
+      "name": "Get Article by ID - Success",
+      "request": {"method":"GET","url":"http://localhost:8080/api/articles/1"},
+      "response":[
+        {
+          "name": "200 OK",
+          "body": "{\n  \"id\":1,\n  \"title\":\"Breaking News\",\n  \"content\":\"Content of the article.\",\n  \"writer\":{\"id\":1}\n}",
+          "status":"200 OK"
+        }
+      ]
+    },
+    {
+      "name": "Get Article by ID - Error 404",
+      "request": {"method":"GET","url":"http://localhost:8080/api/articles/999"},
+      "response":[
+        {
+          "name": "404 Not Found",
+          "body":"{\"error\":\"Article not found\"}",
+          "status":"404 Not Found"
+        }
+      ]
+    },
+    {
+      "name": "Update Article - Success",
+      "request": {
+        "method":"PUT",
+        "header":[{"key":"Content-Type","value":"application/json"}],
+        "body":{"mode":"raw","raw":"{\n  \"title\": \"Updated Title\",\n  \"content\": \"Updated content.\"\n}"},
+        "url":"http://localhost:8080/api/articles/1"
+      },
+      "response":[
+        {
+          "name":"200 OK",
+          "body":"{\n  \"id\":1,\n  \"title\":\"Updated Title\",\n  \"content\":\"Updated content.\",\n  \"writer\":{\"id\":1}\n}",
+          "status":"200 OK"
+        }
+      ]
+    },
+    {
+      "name": "Delete Article - Success",
+      "request":{"method":"DELETE","url":"http://localhost:8080/api/articles/1"},
+      "response":[
+        {
+          "name":"204 No Content",
+          "body":"",
+          "status":"204 No Content"
+        }
+      ]
+    },
+    {
+      "name": "Get All Articles - Success",
+      "request":{"method":"GET","url":"http://localhost:8080/api/articles"},
+      "response":[
+        {
+          "name":"200 OK",
+          "body":"[\n  {\n    \"id\":1,\n    \"title\":\"Breaking News\",\n    \"content\":\"Content of the article.\",\n    \"writer\":{\"id\":1}\n  }\n]",
+          "status":"200 OK"
+        }
+      ]
+    },
+    {
+      "name": "Get Articles by Writer - Success",
+      "request":{"method":"GET","url":"http://localhost:8080/api/articles/writer/1"},
+      "response":[
+        {
+          "name":"200 OK",
+          "body":"[\n  {\n    \"id\":1,\n    \"title\":\"Breaking News\",\n    \"content\":\"Content of the article.\",\n    \"writer\":{\"id\":1}\n  }\n]",
+          "status":"200 OK"
+        }
+      ]
+    },
+    {
+      "name": "Get Articles by Writer - Error 404",
+      "request":{"method":"GET","url":"http://localhost:8080/api/articles/writer/999"},
+      "response":[
+        {
+          "name":"404 Not Found",
+          "body":"{\"error\":\"Writer not found\"}",
+          "status":"404 Not Found"
+        }
+      ]
+    }
+  ]
+}
+
+{
+  "info": {
+    "name": "Review API",
+    "_postman_id": "review-collection",
+    "description": "CRUD requests for Review with expected responses and errors",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Add Review - Success",
+      "request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"rating\":5,\n  \"comment\":\"Excellent writer!\"\n}"},"url":"http://localhost:8080/api/reviews/writer/1"},
+      "response":[{"name":"201 Created","body":"{\n  \"id\":1,\n  \"rating\":5,\n  \"comment\":\"Excellent writer!\"\n}","status":"201 Created"}]
+    },
+    {
+      "name": "Add Review - Error 400",
+      "request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"rating\":6,\n  \"comment\":\"\"\n}"}},
+      "response":[{"name":"400 Bad Request","body":"{\"errors\":[\"Rating must be between 1 and 5\",\"Comment is blank\"]}","status":"400 Bad Request"}]
+    },
+    {
+      "name": "Get Review by ID - Success",
+      "request":{"method":"GET","url":"http://localhost:8080/api/reviews/1"},
+      "response":[{"name":"200 OK","body":"{\n  \"id\":1,\n  \"rating\":5,\n  \"comment\":\"Excellent writer!\",\n  \"writer\":{\"id\":1}\n}","status":"200 OK"}]
+    },
+    {
+      "name": "Get Review by ID - Error 404",
+      "request":{"method":"GET","url":"http://localhost:8080/api/reviews/999"},
+      "response":[{"name":"404 Not Found","body":"{\"error\":\"Review not found\"}","status":"404 Not Found"}]
+    },
+    {
+      "name": "Update Review - Success",
+      "request":{"method":"PUT","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"rating\":4,\n  \"comment\":\"Very good writer.\"\n}"},"url":"http://localhost:8080/api/reviews/1"},
+      "response":[{"name":"200 OK","body":"{\n  \"id\":1,\n  \"rating\":4,\n  \"comment\":\"Very good writer.\",\n  \"writer\":{\"id\":1}\n}","status":"200 OK"}]
+    },
+    {
+      "name": "Delete Review - Success",
+      "request":{"method":"DELETE","url":"http://localhost:8080/api/reviews/1"},
+      "response":[{"name":"204 No Content","body":"","status":"204 No Content"}]
+    },
+    {
+      "name":"Get Reviews by Writer - Success",
+      "request":{"method":"GET","url":"http://localhost:8080/api/reviews/writer/1"},
+      "response":[{"name":"200 OK","body":"[{\"id\":1,\"rating\":5,\"comment\":\"Excellent writer!\",\"writer\":{\"id\":1}}]","status":"200 OK"}]
+    },
+    {
+      "name":"Get Average Rating for Writer",
+      "request":{"method":"GET","url":"http://localhost:8080/api/reviews/writer/1/average"},
+      "response":[{"name":"200 OK","body":"5.0","status":"200 OK"}]
+    }
+  ]
+}
+
+{
+  "info": {
+    "name": "Source API",
+    "_postman_id": "source-collection",
+    "description": "CRUD requests for Source with expected responses and errors",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item":[
+    {
+      "name":"Create Source - Success",
+      "request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"name\":\"Tech News\",\n  \"url\":\"https://technews.com\"\n}"},"url":"http://localhost:8080/api/sources"},
+      "response":[{"name":"201 Created","body":"{\n  \"id\":1,\n  \"name\":\"Tech News\",\n  \"url\":\"https://technews.com\"\n}","status":"201 Created"}]
+    },
+    {
+      "name":"Create Source - Error 400",
+      "request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"name\":\"\",\n  \"url\":\"invalid\"\n}"}},
+      "response":[{"name":"400 Bad Request","body":"{\"errors\":[\"Name is blank\",\"URL is invalid\"]}","status":"400 Bad Request"}]
+    },
+    {
+      "name":"Get Source by ID - Success",
+      "request":{"method":"GET","url":"http://localhost:8080/api/sources/1"},
+      "response":[{"name":"200 OK","body":"{\n  \"id\":1,\n  \"name\":\"Tech News\",\n  \"url\":\"https://technews.com\"\n}","status":"200 OK"}]
+    },
+    {
+      "name":"Get Source by ID - Error 404",
+      "request":{"method":"GET","url":"http://localhost:8080/api/sources/999"},
+      "response":[{"name":"404 Not Found","body":"{\"error\":\"Source not found\"}","status":"404 Not Found"}]
+    },
+    {
+      "name":"Update Source - Success",
+      "request":{"method":"PUT","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"name\":\"Updated Tech News\",\n  \"url\":\"https://updatedtech.com\"\n}"},"url":"http://localhost:8080/api/sources/1"},
+      "response":[{"name":"200 OK","body":"{\n  \"id\":1,\n  \"name\":\"Updated Tech News\",\n  \"url\":\"https://updatedtech.com\"\n}","status":"200 OK"}]
+    },
+    {
+      "name":"Delete Source - Success",
+      "request":{"method":"DELETE","url":"http://localhost:8080/api/sources/1"},
+      "response":[{"name":"204 No Content","body":"","status":"204 No Content"}]
+    }
+  ]
+}
+
+{
+  "info": {
+    "name": "Writer API",
+    "_postman_id": "writer-collection",
+    "description": "CRUD requests for Writer with expected responses and errors",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Writer - Success",
+      "request": {
+        "method": "POST",
+        "header": [{"key":"Content-Type","value":"application/json"}],
+        "body":{"mode":"raw","raw":"{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane.doe@example.com\",\n  \"phoneNumber\": \"+12345678901\",\n  \"source\": {\"id\": 1}\n}"}
+      },
+      "response":[{"name":"201 Created","body":"{\n  \"id\":1,\n  \"name\":\"Jane Doe\",\n  \"email\":\"jane.doe@example.com\",\n  \"phoneNumber\":\"+12345678901\"\n}","status":"201 Created"}]
+    },
+    {
+      "name": "Create Writer - Error 400",
+      "request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"name\":\"\",\n  \"email\":\"invalid\",\n  \"phoneNumber\":\"abc\"\n}"}},
+      "response":[{"name":"400 Bad Request","body":"{\"errors\":[\"Name is blank\",\"Email invalid\",\"Phone number invalid\"]}","status":"400 Bad Request"}]
+    },
+    {
+      "name": "Get Writer by ID - Success",
+      "request":{"method":"GET","url":"http://localhost:8080/api/writers/1"},
+      "response":[{"name":"200 OK","body":"{\n  \"id\":1,\n  \"name\":\"Jane Doe\",\n  \"email\":\"jane.doe@example.com\",\n  \"phoneNumber\":\"+12345678901\"\n}","status":"200 OK"}]
+    },
+    {
+      "name": "Get Writer by ID - Error 404",
+      "request":{"method":"GET","url":"http://localhost:8080/api/writers/999"},
+      "response":[{"name":"404 Not Found","body":"{\"error\":\"Writer not found\"}","status":"404 Not Found"}]
+    },
+    {
+      "name": "Update Writer - Success",
+      "request":{"method":"PUT","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"name\":\"Jane Smith\",\n  \"email\":\"jane.smith@example.com\",\n  \"phoneNumber\":\"+12345678901\"\n}"},"url":"http://localhost:8080/api/writers/1"},
+      "response":[{"name":"200 OK","body":"{\n  \"id\":1,\n  \"name\":\"Jane Smith\",\n  \"email\":\"jane.smith@example.com\",\n  \"phoneNumber\":\"+12345678901\"\n}","status":"200 OK"}]
+    },
+    {
+      "name": "Delete Writer - Success",
+      "request":{"method":"DELETE","url":"http://localhost:8080/api/writers/1"},
+      "response":[{"name":"204 No Content","body":"","status":"204 No Content"}]
+    },
+    {
+      "name": "Get All Writers - Success",
+      "request":{"method":"GET","url":"http://localhost:8080/api/writers"},
+      "response":[{"name":"200 OK","body":"[{\"id\":1,\"name\":\"Jane Doe\",\"email\":\"jane.doe@example.com\",\"phoneNumber\":\"+12345678901\"}]","status":"200 OK"}]
+    }
+  ]
+}
