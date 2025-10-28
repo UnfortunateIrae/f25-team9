@@ -6,7 +6,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.*;
 import java.util.List;
 import jakarta.validation.Valid;
-import jakarta.transaction.Transactional;
 import com.Writer.Writer;
 import com.Writer.WriterRepository;
 

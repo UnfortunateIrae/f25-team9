@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.Article.Article;
 import com.Source.Source;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
