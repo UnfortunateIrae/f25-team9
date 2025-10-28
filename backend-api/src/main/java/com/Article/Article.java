@@ -1,7 +1,7 @@
 package com.Article;
 
 import com.Writer.Writer;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -21,8 +21,17 @@ public class Article {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "writer_id")
-    @JsonManagedReference
+    @JsonBackReference
     private Writer writer;
+
+    // JPA requires a no-arg constructor
+    public Article() { }
+
+    public Article(String title, String content, Writer writer) {
+        this.title = title;
+        this.content = content;
+        this.writer = writer;
+    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

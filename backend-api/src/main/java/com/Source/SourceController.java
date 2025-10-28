@@ -11,7 +11,7 @@ import jakarta.validation.Valid;
 @RequiredArgsConstructor
 public class SourceController {
 
-    private final SourceService sourceService;
+    private SourceService sourceService;
 
     @PostMapping
     public ResponseEntity<Source> createSource(@Valid @RequestBody Source source) {

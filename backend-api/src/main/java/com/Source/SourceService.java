@@ -8,7 +8,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SourceService {
 
-    private final SourceRepository sourceRepository;
+    private SourceRepository sourceRepository;
 
     public Source createSource(Source source) { return sourceRepository.save(source); }
     public Source updateSource(Long id, Source details) {
