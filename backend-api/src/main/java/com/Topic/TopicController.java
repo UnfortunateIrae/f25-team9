@@ -1,4 +1,4 @@
-package com.Customer;
+package com.Topic;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
 @Entity
-public class Customer {
+public class TopicController {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

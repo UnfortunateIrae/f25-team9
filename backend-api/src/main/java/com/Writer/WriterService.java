@@ -1,63 +1,53 @@
 package com.Writer;
 
+import com.Source.Source;
+import com.Source.SourceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import com.Source.*;
-
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class WriterService {
 
     private final WriterRepository writerRepository;
+    private final SourceRepository sourceRepository;
 
-    public static class DuplicateEmailException extends RuntimeException {
-        public DuplicateEmailException(String message) {
-            super(message);
-        }
-    }
-
-    public static class ResourceNotFoundException extends RuntimeException {
-        public ResourceNotFoundException(String message) {
-            super(message);
-        }
-    }
-
-    public Writer createWriter(Writer writer) {
-        if (writerRepository.existsByEmail(writer.getEmail())) {
-            throw new DuplicateEmailException("Email already in use: " + writer.getEmail());
+    @PostMapping
+    public Writer createWriter(@RequestBody Writer writer) {
+        // Assign default Source if null
+        if (writer.getSource() == null || writer.getSource().getId() == null) {
+            Source defaultSource = sourceRepository.findById(1L)
+                    .orElseThrow(() -> new RuntimeException("Default Source missing"));
+            writer.setSource(defaultSource);
+        } else {
+            // Load the full Source entity if client provides id
+            Source existingSource = sourceRepository.findById(writer.getSource().getId())
+                    .orElseThrow(() -> new RuntimeException("Source not found"));
+            writer.setSource(existingSource);
         }
         return writerRepository.save(writer);
     }
 
-    @Transactional(readOnly = true)
-    public Writer getWriterById(Long id) {
-        return writerRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Writer not found with id: " + id));
-    }
-
-    public Writer updateWriter(Long id, Writer writerDetails) {
-        Writer writer = getWriterById(id);
-
-        writer.setName(writerDetails.getName());
-
-        if (!writer.getEmail().equals(writerDetails.getEmail()) &&
-                writerRepository.existsByEmail(writerDetails.getEmail())) {
-            throw new DuplicateEmailException("Email already in use: " + writerDetails.getEmail());
-        }
-
-        writer.setEmail(writerDetails.getEmail());
-        writer.setPhoneNumber(writerDetails.getPhoneNumber());
-        writer.setSource(writerDetails.getSource());
-
+    public Writer createWriterWithSource(Long sourceId, Writer writer) {
+        Source source = sourceRepository.findById(sourceId).orElseThrow(() -> new RuntimeException("Source not found"));
+        writer.setSource(source);
         return writerRepository.save(writer);
     }
 
-    public void deleteWriter(Long id) {
-        Writer writer = getWriterById(id);
-        writerRepository.delete(writer);
+    public Writer updateWriter(Long id, Writer details) {
+        Writer writer = writerRepository.findById(id).orElseThrow(() -> new RuntimeException("Writer not found"));
+        writer.setName(details.getName());
+        writer.setEmail(details.getEmail());
+        writer.setPhoneNumber(details.getPhoneNumber());
+        writer.setSource(details.getSource());
+        return writerRepository.save(writer);
     }
+
+    public void deleteWriter(Long id) { writerRepository.deleteById(id); }
+    public Writer getWriterById(Long id) { return writerRepository.findById(id).orElseThrow(() -> new RuntimeException("Writer not found")); }
+    public List<Writer> getAllWriters() { return writerRepository.findAll(); }
 }

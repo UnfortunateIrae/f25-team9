@@ -1,21 +1,27 @@
 package com.Source;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import com.Writer.Writer;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Source {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // primary key
+    private Long id;
 
+    @NotBlank
     private String name;
+
+    @NotBlank
     private String url;
 
-    // getters and setters
+    @OneToMany(mappedBy = "source", cascade = CascadeType.ALL)
+    private List<Writer> writers = new ArrayList<>();
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -24,4 +30,7 @@ public class Source {
 
     public String getUrl() { return url; }
     public void setUrl(String url) { this.url = url; }
+
+    public List<Writer> getWriters() { return writers; }
+    public void setWriters(List<Writer> writers) { this.writers = writers; }
 }
