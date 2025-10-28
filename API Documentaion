@@ -235,40 +235,162 @@
       "name": "Create Writer - Success",
       "request": {
         "method": "POST",
-        "header": [{"key":"Content-Type","value":"application/json"}],
-        "body":{"mode":"raw","raw":"{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane.doe@example.com\",\n  \"phoneNumber\": \"+12345678901\",\n  \"source\": {\"id\": 1}\n}"}
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane.doe@example.com\",\n  \"phoneNumber\": \"+12345678901\",\n  \"source\": {\"id\": 1}\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/writers",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","writers"]
+        }
       },
-      "response":[{"name":"201 Created","body":"{\n  \"id\":1,\n  \"name\":\"Jane Doe\",\n  \"email\":\"jane.doe@example.com\",\n  \"phoneNumber\":\"+12345678901\"\n}","status":"201 Created"}]
+      "response": [
+        {
+          "name": "201 Created",
+          "body": "{\n  \"id\":1,\n  \"name\":\"Jane Doe\",\n  \"email\":\"jane.doe@example.com\",\n  \"phoneNumber\":\"+12345678901\"\n}",
+          "status": "201 Created"
+        }
+      ]
     },
     {
       "name": "Create Writer - Error 400",
-      "request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"name\":\"\",\n  \"email\":\"invalid\",\n  \"phoneNumber\":\"abc\"\n}"}},
-      "response":[{"name":"400 Bad Request","body":"{\"errors\":[\"Name is blank\",\"Email invalid\",\"Phone number invalid\"]}","status":"400 Bad Request"}]
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\":\"\",\n  \"email\":\"invalid\",\n  \"phoneNumber\":\"abc\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/writers",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","writers"]
+        }
+      },
+      "response": [
+        {
+          "name": "400 Bad Request",
+          "body": "{\"errors\":[\"Name is blank\",\"Email invalid\",\"Phone number invalid\"]}",
+          "status": "400 Bad Request"
+        }
+      ]
     },
     {
       "name": "Get Writer by ID - Success",
-      "request":{"method":"GET","url":"http://localhost:8080/api/writers/1"},
-      "response":[{"name":"200 OK","body":"{\n  \"id\":1,\n  \"name\":\"Jane Doe\",\n  \"email\":\"jane.doe@example.com\",\n  \"phoneNumber\":\"+12345678901\"\n}","status":"200 OK"}]
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8080/api/writers/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","writers","1"]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "body": "{\n  \"id\":1,\n  \"name\":\"Jane Doe\",\n  \"email\":\"jane.doe@example.com\",\n  \"phoneNumber\":\"+12345678901\"\n}",
+          "status": "200 OK"
+        }
+      ]
     },
     {
       "name": "Get Writer by ID - Error 404",
-      "request":{"method":"GET","url":"http://localhost:8080/api/writers/999"},
-      "response":[{"name":"404 Not Found","body":"{\"error\":\"Writer not found\"}","status":"404 Not Found"}]
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8080/api/writers/999",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","writers","999"]
+        }
+      },
+      "response": [
+        {
+          "name": "404 Not Found",
+          "body": "{\"error\":\"Writer not found\"}",
+          "status": "404 Not Found"
+        }
+      ]
     },
     {
       "name": "Update Writer - Success",
-      "request":{"method":"PUT","header":[{"key":"Content-Type","value":"application/json"}],"body":{"mode":"raw","raw":"{\n  \"name\":\"Jane Smith\",\n  \"email\":\"jane.smith@example.com\",\n  \"phoneNumber\":\"+12345678901\"\n}"},"url":"http://localhost:8080/api/writers/1"},
-      "response":[{"name":"200 OK","body":"{\n  \"id\":1,\n  \"name\":\"Jane Smith\",\n  \"email\":\"jane.smith@example.com\",\n  \"phoneNumber\":\"+12345678901\"\n}","status":"200 OK"}]
+      "request": {
+        "method": "PUT",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\":\"Jane Smith\",\n  \"email\":\"jane.smith@example.com\",\n  \"phoneNumber\":\"+12345678901\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/writers/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","writers","1"]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "body": "{\n  \"id\":1,\n  \"name\":\"Jane Smith\",\n  \"email\":\"jane.smith@example.com\",\n  \"phoneNumber\":\"+12345678901\"\n}",
+          "status": "200 OK"
+        }
+      ]
     },
     {
       "name": "Delete Writer - Success",
-      "request":{"method":"DELETE","url":"http://localhost:8080/api/writers/1"},
-      "response":[{"name":"204 No Content","body":"","status":"204 No Content"}]
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:8080/api/writers/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","writers","1"]
+        }
+      },
+      "response": [
+        {
+          "name": "204 No Content",
+          "body": "",
+          "status": "204 No Content"
+        }
+      ]
     },
     {
       "name": "Get All Writers - Success",
-      "request":{"method":"GET","url":"http://localhost:8080/api/writers"},
-      "response":[{"name":"200 OK","body":"[{\"id\":1,\"name\":\"Jane Doe\",\"email\":\"jane.doe@example.com\",\"phoneNumber\":\"+12345678901\"}]","status":"200 OK"}]
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8080/api/writers",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api","writers"]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "body": "[{\"id\":1,\"name\":\"Jane Doe\",\"email\":\"jane.doe@example.com\",\"phoneNumber\":\"+12345678901\"}]",
+          "status": "200 OK"
+        }
+      ]
     }
   ]
 }
