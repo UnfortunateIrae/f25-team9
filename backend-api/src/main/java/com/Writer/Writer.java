@@ -1,18 +1,20 @@
 package com.Writer;
 
+import com.Source.Source;
+import com.Review.Review;
+import com.Article.Article;
+import com.Topic.Topic;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.Source.*;
-
-@Data
-@NoArgsConstructor
 @Entity
-@Table(name = "writers")
 public class Writer {
 
     @Id
@@ -20,21 +22,50 @@ public class Writer {
     private Long id;
 
     @NotBlank
-    @Column(nullable = false)
     private String name;
 
     @Email
-    @NotBlank
-    @Column(unique = true, nullable = false)
     private String email;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("writers")
-    private Source source;
-
+    @Pattern(regexp="^\\+?\\d{10,15}$")
     private String phoneNumber;
 
-    public Writer(Long id) {
-        this.id = id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "source_id")
+    private Source source;
+
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Article> articles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
+    private List<Topic> topics = new ArrayList<>();
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+
+    public Source getSource() { return source; }
+    public void setSource(Source source) { this.source = source; }
+
+    public List<Review> getReviews() { return reviews; }
+    public void setReviews(List<Review> reviews) { this.reviews = reviews; }
+
+    public List<Article> getArticles() { return articles; }
+    public void setArticles(List<Article> articles) { this.articles = articles; }
+
+    public List<Topic> getTopics() { return topics; }
+    public void setTopics(List<Topic> topics) { this.topics = topics; }
 }

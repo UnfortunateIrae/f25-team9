@@ -1,79 +1,38 @@
 package com.Review;
+
+import com.Writer.Writer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
 
-import java.time.LocalDateTime;
-
-import com.Topic.Topic;
-
-@Data
-@NoArgsConstructor
 @Entity
-@Table(name = "reviews")
 public class Review {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String customer;
-    private String content;
-
-    @ManyToOne
-    @JoinColumn(name = "topic_id") // optional: sets the FK column name
-    private Topic topic;
-
-    public Review(String content, Topic topic) {
-        this.content = content;
-        this.topic = topic;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Topic getTopic() {
-        return topic;
-    }
-
-    public void setTopic(Topic topic) {
-        this.topic = topic;
-    }
-
-    public String getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(String customer) {
-        this.customer = customer;
-    }
 
     @Min(1)
     @Max(5)
-    private Double overallRating;
+    private int rating;
 
-    @Column(columnDefinition = "TEXT")
+    @NotBlank
     private String comment;
 
-    @NotNull
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @ManyToOne
+    @JoinColumn(name = "writer_id")
+    private Writer writer;
 
-    @Column(columnDefinition = "TEXT")
-    private String writerResponse;
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    private LocalDateTime writerResponseDate;
+    public int getRating() { return rating; }
+    public void setRating(int rating) { this.rating = rating; }
+
+    public String getComment() { return comment; }
+    public void setComment(String comment) { this.comment = comment; }
+
+    public Writer getWriter() { return writer; }
+    public void setWriter(Writer writer) { this.writer = writer; }
 }

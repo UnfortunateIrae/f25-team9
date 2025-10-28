@@ -1,67 +1,43 @@
 package com.Review;
 
-import com.Customer.Customer;
 import com.Writer.Writer;
-import com.Topic.Topic;
-
-import jakarta.persistence.EntityNotFoundException;
+import com.Writer.WriterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.OptionalDouble;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class ReviewService {
+
     private final ReviewRepository reviewRepository;
+    private final WriterRepository writerRepository;
 
-    public double getAverageOverallRating(Topic topic) {
-        List<Review> reviews = reviewRepository.findByTopic(topic);
-        OptionalDouble average = reviews.stream()
-                .mapToDouble(review -> review.getOverallRating() != null ? review.getOverallRating() : 0.0)
-                .average();
-        return average.orElse(0.0);
-    }
-
-    public double setOverallRating(Review review) {
-        return review.getOverallRating();
-    }
-
-    public Review createReview(Review review) {
-        review.setOverallRating(review.getOverallRating());
-        review.setCreatedAt(LocalDateTime.now());
+    public Review addReviewToWriter(Long writerId, Review review) {
+        Writer writer = writerRepository.findById(writerId).orElseThrow(() -> new RuntimeException("Writer not found"));
+        review.setWriter(writer);
         return reviewRepository.save(review);
     }
 
-    public Review addFarmerResponse(Long id, String response) {
-        Review review = reviewRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Review not found"));
-
-        review.setWriterResponse(response);
-        review.setWriterResponseDate(LocalDateTime.now());
+    public Review updateReview(Long id, Review details) {
+        Review review = reviewRepository.findById(id).orElseThrow(() -> new RuntimeException("Review not found"));
+        review.setRating(details.getRating());
+        review.setComment(details.getComment());
         return reviewRepository.save(review);
     }
 
-    public void deleteReview(Long id) {
-        if (!reviewRepository.existsById(id)) {
-            throw new EntityNotFoundException("Review not found");
-        }
-        reviewRepository.deleteById(id);
-    }
+    public void deleteReview(Long id) { reviewRepository.deleteById(id); }
 
-    public List<Review> getReviewsByTopic(Topic topic) {
-        return reviewRepository.findByTopic(topic);
-    }
+    public Review getReviewById(Long id) { return reviewRepository.findById(id).orElseThrow(() -> new RuntimeException("Review not found")); }
 
-    public List<Review> getReviewsByCustomer(Customer customer) {
-        return reviewRepository.findByCustomer(customer);
-    }
+    public List<Review> getAllReviews() { return reviewRepository.findAll(); }
 
-    public List<Review> getReviewsByFarmer(Writer writer) {
-        return reviewRepository.findByTopicWriter(writer);
+    public List<Review> getReviewsByWriterId(Long writerId) { return reviewRepository.findByWriterId(writerId); }
+
+    public double getAverageRatingForWriter(Long writerId) {
+        List<Review> reviews = reviewRepository.findByWriterId(writerId);
+        OptionalDouble avg = reviews.stream().mapToInt(Review::getRating).average();
+        return avg.orElse(0.0);
     }
 }

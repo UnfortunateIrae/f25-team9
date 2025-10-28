@@ -1,27 +1,41 @@
 package com.Source;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.*;
+import java.util.List;
+import jakarta.validation.Valid;
 
-@Entity
+@RestController
+@RequestMapping("/api/sources")
+@RequiredArgsConstructor
 public class SourceController {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // primary key
+    private final SourceService sourceService;
 
-    private String name;
-    private String url;
+    @PostMapping
+    public ResponseEntity<Source> createSource(@Valid @RequestBody Source source) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(sourceService.createSource(source));
+    }
 
-    // getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    @PutMapping("/{id}")
+    public ResponseEntity<Source> updateSource(@PathVariable Long id, @Valid @RequestBody Source details) {
+        return ResponseEntity.ok(sourceService.updateSource(id, details));
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSource(@PathVariable Long id) {
+        sourceService.deleteSource(id);
+        return ResponseEntity.noContent().build();
+    }
 
-    public String getUrl() { return url; }
-    public void setUrl(String url) { this.url = url; }
+    @GetMapping("/{id}")
+    public ResponseEntity<Source> getSourceById(@PathVariable Long id) {
+        return ResponseEntity.ok(sourceService.getSourceById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Source>> getAllSources() {
+        return ResponseEntity.ok(sourceService.getAllSources());
+    }
 }
