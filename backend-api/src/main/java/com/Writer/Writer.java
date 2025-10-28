@@ -31,7 +31,7 @@ public class Writer {
     private String phoneNumber;
 
     @ManyToOne
-    @JoinColumn(name = "source_id")
+    @JoinColumn(name = "source_id", nullable = true)
     private Source source;
 
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)

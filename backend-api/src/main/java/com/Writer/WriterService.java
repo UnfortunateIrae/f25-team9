@@ -4,6 +4,9 @@ import com.Source.Source;
 import com.Source.SourceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import java.util.List;
 
 @Service
@@ -13,7 +16,21 @@ public class WriterService {
     private final WriterRepository writerRepository;
     private final SourceRepository sourceRepository;
 
-    public Writer createWriter(Writer writer) { return writerRepository.save(writer); }
+    @PostMapping
+    public Writer createWriter(@RequestBody Writer writer) {
+        // Assign default Source if null
+        if (writer.getSource() == null || writer.getSource().getId() == null) {
+            Source defaultSource = sourceRepository.findById(1L)
+                    .orElseThrow(() -> new RuntimeException("Default Source missing"));
+            writer.setSource(defaultSource);
+        } else {
+            // Load the full Source entity if client provides id
+            Source existingSource = sourceRepository.findById(writer.getSource().getId())
+                    .orElseThrow(() -> new RuntimeException("Source not found"));
+            writer.setSource(existingSource);
+        }
+        return writerRepository.save(writer);
+    }
 
     public Writer createWriterWithSource(Long sourceId, Writer writer) {
         Source source = sourceRepository.findById(sourceId).orElseThrow(() -> new RuntimeException("Source not found"));
