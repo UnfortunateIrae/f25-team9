@@ -2,9 +2,14 @@ package com.Article;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.*;
 import java.util.List;
 import jakarta.validation.Valid;
+import com.Writer.Writer;
+import com.Writer.WriterRepository;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/articles")
@@ -12,10 +17,31 @@ import jakarta.validation.Valid;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final WriterRepository writerRepository;
 
-    @PostMapping("/writer/{writerId}")
-    public ResponseEntity<Article> addArticle(@PathVariable Long writerId, @Valid @RequestBody Article article) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(articleService.addArticleToWriter(writerId, article));
+    @RestController
+    @RequestMapping("/api/test")
+    public class TestController {
+
+    @PostMapping
+    public ResponseEntity<String> testJson(@RequestBody Map<String, Object> body) {
+        return ResponseEntity.ok("Received: " + body);
+    }
+}
+
+    @PostMapping(value = "/writer/{writerId}")
+    public ResponseEntity<Article> addArticle(
+            @PathVariable Long writerId,
+            @Valid @RequestBody Article article) {
+
+        Writer writer = writerRepository.findById(writerId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Writer not found"));
+
+        article.setWriter(writer); // associate the article with the writer
+
+        Article savedArticle = articleService.saveArticle(article); // make sure your service saves it
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedArticle);
     }
 
     @PutMapping("/{id}")

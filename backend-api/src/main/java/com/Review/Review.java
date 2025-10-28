@@ -1,12 +1,15 @@
 package com.Review;
 
 import com.Writer.Writer;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
+@JsonIgnoreProperties(value={"writer"}, allowGetters = true)
 public class Review {
 
     @Id

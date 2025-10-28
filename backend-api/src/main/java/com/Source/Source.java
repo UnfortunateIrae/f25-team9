@@ -1,8 +1,10 @@
 package com.Source;
 
 import com.Writer.Writer;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +18,10 @@ public class Source {
     @NotBlank
     private String name;
 
-    @NotBlank
     private String url;
 
-    @OneToMany(mappedBy = "source", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "source", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Writer> writers = new ArrayList<>();
 
     public Long getId() { return id; }
