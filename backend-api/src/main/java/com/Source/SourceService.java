@@ -8,9 +8,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SourceService {
 
-    private SourceRepository sourceRepository;
+    private final SourceRepository sourceRepository;
 
-    public Source createSource(Source source) { return sourceRepository.save(source); }
+    public Source createSource(Source source) {
+        return sourceRepository.save(source);
+    }
     public Source updateSource(Long id, Source details) {
         Source source = sourceRepository.findById(id).orElseThrow(() -> new RuntimeException("Source not found"));
         source.setName(details.getName());
