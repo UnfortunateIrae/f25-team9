@@ -11,9 +11,10 @@ import org.springframework.http.*;
 import java.util.List;
 import jakarta.validation.Valid;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Controller;
 
 
-@RestController
+@Controller
 @RequestMapping("/api/writers")
 @RequiredArgsConstructor
 public class WriterController {
@@ -23,6 +24,16 @@ public class WriterController {
 
     private final WriterRepository writerRepository;
     private final SourceRepository sourceRepository;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Writer> getWriterById(@PathVariable Long id) {
+        return ResponseEntity.ok(writerService.getWriterById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Writer>> getAllWriters() {
+        return ResponseEntity.ok(writerService.getAllWriters());
+    }
 
     @PostMapping
     @Transactional
@@ -64,15 +75,5 @@ public class WriterController {
     public ResponseEntity<Void> deleteWriter(@PathVariable Long id) {
         writerService.deleteWriter(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Writer> getWriterById(@PathVariable Long id) {
-        return ResponseEntity.ok(writerService.getWriterById(id));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Writer>> getAllWriters() {
-        return ResponseEntity.ok(writerService.getAllWriters());
     }
 }
