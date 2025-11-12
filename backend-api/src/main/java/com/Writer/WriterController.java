@@ -1,48 +1,68 @@
 package com.Writer;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
-import com.Source.SourceRepository;
 import com.Source.Source;
+import com.Article.ArticleRepository;
+import com.Topic.TopicRepository;
+import com.Source.SourceRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
-import java.util.List;
-import jakarta.validation.Valid;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.transaction.annotation.Transactional;
+import jakarta.validation.Valid;
 
+import java.util.*;
 
 @Controller
-@RequestMapping("/api/writers")
-@RequiredArgsConstructor
 public class WriterController {
 
-    @Autowired
-    private WriterService writerService;
-
     private final WriterRepository writerRepository;
+    private final WriterService writerService;
     private final SourceRepository sourceRepository;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Writer> getWriterById(@PathVariable Long id) {
-        return ResponseEntity.ok(writerService.getWriterById(id));
+    public WriterController(
+            WriterRepository writerRepository,
+            TopicRepository topicRepository,
+            ArticleRepository articleRepository,
+            SourceRepository sourceRepository,
+            WriterService writerService
+    ) 
+    {
+        this.writerRepository = writerRepository;
+        this.sourceRepository = sourceRepository;
+        this.writerService = writerService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Writer>> getAllWriters() {
-        return ResponseEntity.ok(writerService.getAllWriters());
+    @GetMapping("/writers")
+    public String writersList(Model model) {
+
+        List<Writer> writers = writerRepository.findAllWithSource();
+
+        writers.forEach(w -> w.getSourceName());
+
+        writers.sort((w1, w2) -> w1.getName().compareToIgnoreCase(w2.getName()));
+
+        model.addAttribute("writers", writers);
+        return "high-fidelity-prototype/writers-list";
     }
 
-    @PostMapping
+
+    @GetMapping("/writers/{id}")
+    public String viewWriter(@PathVariable Long id, Model model) {
+        Writer writer = writerService.getWriterById(id);
+        model.addAttribute("writer", writer);
+        return "high-fidelity-prototype/writer-detail";
+    }
+
+    @PostMapping("/writers")
     @Transactional
-    public ResponseEntity<Writer> createWriter(@RequestBody Writer writer) {
-
+    public String createWriter(@Valid @ModelAttribute Writer writer) {
         Source source = writer.getSource();
 
         if (source == null || source.getId() == null) {
-            // Get or create default source
             source = sourceRepository.findByName("Default Source")
                     .orElseGet(() -> {
                         Source s = new Source();
@@ -51,29 +71,25 @@ public class WriterController {
                         return sourceRepository.save(s);
                     });
         } else {
-            // Ensure provided source exists
             source = sourceRepository.findById(source.getId())
                     .orElseThrow(() -> new RuntimeException("Source not found"));
         }
 
         writer.setSource(source);
-        Writer saved = writerRepository.save(writer);
+        writerRepository.save(writer);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
-    }
-    @PostMapping("/source/{sourceId}")
-    public ResponseEntity<Writer> createWriterWithSource(@PathVariable Long sourceId, @Valid @RequestBody Writer writer) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(writerService.createWriterWithSource(sourceId, writer));
+        return "redirect:/writers";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Writer> updateWriter(@PathVariable Long id, @Valid @RequestBody Writer details) {
-        return ResponseEntity.ok(writerService.updateWriter(id, details));
+    @PostMapping("/writers/{id}/update")
+    public String updateWriter(@PathVariable Long id, @Valid @ModelAttribute Writer details) {
+        writerService.updateWriter(id, details);
+        return "redirect:/writers";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteWriter(@PathVariable Long id) {
+    @PostMapping("/writers/{id}/delete")
+    public String deleteWriter(@PathVariable Long id) {
         writerService.deleteWriter(id);
-        return ResponseEntity.noContent().build();
+        return "redirect:/writers";
     }
 }

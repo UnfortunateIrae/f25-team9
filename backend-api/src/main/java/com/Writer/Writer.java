@@ -48,6 +48,12 @@ public class Writer {
     public Source getSource() { return source; }
     public void setSource(Source source) { this.source = source; }
 
+    public String getSourceName() {
+    return (source != null && source.getName() != null && !source.getName().isEmpty()) 
+           ? source.getName() 
+           : "Freelance";
+}
+
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
     private List<Article> articles = new ArrayList<>();
 }
