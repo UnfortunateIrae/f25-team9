@@ -1,16 +1,16 @@
 package com.Writer;
 
-import java.util.ArrayList;
-
 import com.Article.Article;
 import com.Source.Source;
+import com.Topic.Topic;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Writer {
@@ -33,6 +33,18 @@ public class Writer {
     @JsonBackReference
     private Source source;
 
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Article> articles = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+        name = "writer_topic",
+        joinColumns = @JoinColumn(name = "writer_id"),
+        inverseJoinColumns = @JoinColumn(name = "topic_id")
+    )
+    private Set<Topic> topics = new HashSet<>();
+
+    // Getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -48,12 +60,26 @@ public class Writer {
     public Source getSource() { return source; }
     public void setSource(Source source) { this.source = source; }
 
-    public String getSourceName() {
-    return (source != null && source.getName() != null && !source.getName().isEmpty()) 
-           ? source.getName() 
-           : "Freelance";
-}
+    public Set<Article> getArticles() { return articles; }
+    public void setArticles(Set<Article> articles) { this.articles = articles; }
 
-    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
-    private List<Article> articles = new ArrayList<>();
+    public Set<Topic> getTopics() { return topics; }
+    public void setTopics(Set<Topic> topics) { this.topics = topics; }
+
+    public String getSourceName() {
+        return (source != null && source.getName() != null && !source.getName().isEmpty()) 
+               ? source.getName() 
+               : "Freelance";
+    }
+
+    @Column(name = "imageUrl", nullable = true)
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

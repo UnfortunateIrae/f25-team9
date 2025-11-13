@@ -50,4 +50,12 @@ public class WriterService {
     public void deleteWriter(Long id) { writerRepository.deleteById(id); }
     public Writer getWriterById(Long id) { return writerRepository.findById(id).orElseThrow(() -> new RuntimeException("Writer not found")); }
     public List<Writer> getAllWriters() { return writerRepository.findAll(); }
+
+    public String findByIDWithDetails(Long id) {
+        Writer writer = writerRepository.findByIdWithArticlesAndSource(id);
+        if (writer == null) {
+            throw new RuntimeException("Writer not found with id " + id);
+        }
+        return writer.getName();
+    }
 }

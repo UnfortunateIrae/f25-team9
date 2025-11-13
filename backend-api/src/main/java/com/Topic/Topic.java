@@ -1,49 +1,29 @@
 package com.Topic;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import com.Writer.Writer;
 
 @Entity
 public class Topic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // primary key
+    private Long id;
 
     private String name;
-    private String url;
-    private String writer;
 
-    // getters and setters
-    public Long getId() { 
-        return id; 
-    }
-    public void setId(Long id) { 
-        this.id = id; 
-    }
+    @ManyToMany(mappedBy = "topics")
+    private List<Writer> writers = new ArrayList<>();
 
-    public String getName() { 
-        return name; 
-    }
-    public void setName(String name) { 
-        this.name = name; 
-    }
+    // getters & setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getUrl() { 
-        return url; 
-    }
-    public void setUrl(String url) { 
-        this.url = url; 
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getWriter() {
-        return writer;
-    }
-
-    public void setWriter(String writer) {
-        this.writer = writer;
-    }
-
+    public List<Writer> getWriters() { return writers; }
+    public void setWriters(List<Writer> writers) { this.writers = writers; }
 }

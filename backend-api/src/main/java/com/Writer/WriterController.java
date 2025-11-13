@@ -39,9 +39,7 @@ public class WriterController {
     @GetMapping("/writers")
     public String writersList(Model model) {
 
-        List<Writer> writers = writerRepository.findAllWithSource();
-
-        writers.forEach(w -> w.getSourceName());
+        List<Writer> writers = writerRepository.findAllWithDetails();
 
         writers.sort((w1, w2) -> w1.getName().compareToIgnoreCase(w2.getName()));
 
@@ -51,10 +49,16 @@ public class WriterController {
 
 
     @GetMapping("/writers/{id}")
-    public String viewWriter(@PathVariable Long id, Model model) {
-        Writer writer = writerService.getWriterById(id);
-        model.addAttribute("writer", writer);
-        return "high-fidelity-prototype/writer-detail";
+    public String getWriter(@PathVariable Long id, Model model) {
+        Optional<Writer> optionalWriter = writerRepository.findById(id);
+
+        if (optionalWriter.isEmpty()) {
+            return "writerNotFound"; // Optional: a 404 page template
+        }
+
+        Writer writer = optionalWriter.get();
+        model.addAttribute("writer", writer); 
+        return "high-fidelity-prototype/writerPage";
     }
 
     @PostMapping("/writers")

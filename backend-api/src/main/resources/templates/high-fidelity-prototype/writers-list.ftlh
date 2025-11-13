@@ -3,32 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Writers, Topics & Articles</title>
+    <title>Writer Directory</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body class="bg-light">
+
 <div class="container mt-5">
-    <h1 class="mb-4 text-center">Writers, Topics & Articles</h1>
+    <h1 class="mb-4 text-center">Writer Directory</h1>
 
     <#if writers?has_content>
         <#list writers as writer>
             <div class="accordion mb-3" id="accordionWriter${writer.id}">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingWriter${writer.id}">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseWriter${writer.id}" aria-expanded="false"
+                        <button class="accordion-button collapsed" type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#collapseWriter${writer.id}"
+                                aria-expanded="false"
                                 aria-controls="collapseWriter${writer.id}">
                             ${writer.name}
                         </button>
                     </h2>
                     <div id="collapseWriter${writer.id}" class="accordion-collapse collapse"
-                         aria-labelledby="headingWriter${writer.id}" data-bs-parent="#accordionWriter${writer.id}">
+                         aria-labelledby="headingWriter${writer.id}"
+                         data-bs-parent="#accordionWriter${writer.id}">
                         <div class="accordion-body">
                             <p class="text-muted mb-2">
-                                Email: ${writer.email!""},
-                                Phone: ${writer.phoneNumber!""},
-                                Source: ${writer.sourceName}
+                                Email: ${writer.email!""}, 
+                                Phone: ${writer.phoneNumber!""}, 
+                                Source: ${writer.sourceName!}
                             </p>
 
                             <#if writer.topics?has_content>
@@ -38,7 +42,8 @@
                                             <h2 class="accordion-header" id="headingTopic${topic.id}">
                                                 <button class="accordion-button collapsed" type="button"
                                                         data-bs-toggle="collapse"
-                                                        data-bs-target="#collapseTopic${topic.id}" aria-expanded="false"
+                                                        data-bs-target="#collapseTopic${topic.id}"
+                                                        aria-expanded="false"
                                                         aria-controls="collapseTopic${topic.id}">
                                                     ${topic.name}
                                                 </button>
@@ -85,5 +90,6 @@
         </div>
     </#if>
 </div>
+
 </body>
 </html>
