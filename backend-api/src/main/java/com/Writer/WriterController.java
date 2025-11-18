@@ -28,9 +28,7 @@ public class WriterController {
             TopicRepository topicRepository,
             ArticleRepository articleRepository,
             SourceRepository sourceRepository,
-            WriterService writerService
-    ) 
-    {
+            WriterService writerService) {
         this.writerRepository = writerRepository;
         this.sourceRepository = sourceRepository;
         this.writerService = writerService;
@@ -47,17 +45,16 @@ public class WriterController {
         return "high-fidelity-prototype/writers-list";
     }
 
-
     @GetMapping("/writers/{id}")
     public String getWriter(@PathVariable Long id, Model model) {
         Optional<Writer> optionalWriter = writerRepository.findById(id);
 
         if (optionalWriter.isEmpty()) {
-            return "writerNotFound"; // Optional: a 404 page template
+            return "writerNotFound";
         }
 
         Writer writer = optionalWriter.get();
-        model.addAttribute("writer", writer); 
+        model.addAttribute("writer", writer);
         return "high-fidelity-prototype/writerPage";
     }
 
@@ -95,5 +92,27 @@ public class WriterController {
     public String deleteWriter(@PathVariable Long id) {
         writerService.deleteWriter(id);
         return "redirect:/writers";
+    }
+
+    @GetMapping("/writers/{id}/edit")
+    public String editWriterPage(@PathVariable Long id, Model model) {
+        Optional<Writer> optionalWriter = writerRepository.findById(id);
+
+        if (optionalWriter.isEmpty()) {
+            return "writerNotFound";
+        }
+
+        Writer writer = optionalWriter.get();
+        model.addAttribute("writer", writer);
+        model.addAttribute("sources", sourceRepository.findAll()); // optional if you need a dropdown
+
+        return "high-fidelity-prototype/edit-writers";
+    }
+
+    @GetMapping("/writers/new")
+    public String newWriterPage(Model model) {
+        model.addAttribute("writer", new Writer());
+        model.addAttribute("sources", sourceRepository.findAll()); // optional if you need a dropdown
+        return "high-fidelity-prototype/writers-create";
     }
 }

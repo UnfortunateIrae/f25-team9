@@ -11,7 +11,13 @@
 
 <div class="container mt-5">
     <h1 class="mb-4 text-center">Writer Directory</h1>
-
+    <div class="mb-3 text-center">
+                                <form action="/writers/new" method="get">
+                                    <button type="submit" class="btn btn-outline-primary w-100">
+                                        Create Writer Profile
+                                    </button>
+                                </form>
+                            </div>
     <#if writers?has_content>
         <#list writers as writer>
             <div class="accordion mb-3" id="accordionWriter${writer.id}">
@@ -33,14 +39,19 @@
                                 Email: ${writer.email?default("N/A")},
                                 Phone: ${writer.phoneNumber?default("N/A")},
                                 Source: <#if writer.source??>${writer.source.name!""}<#else>Freelance</#if>
-
                             </p>
 
-                            <!-- Profile Button -->
                             <div class="mb-3 text-center">
                                 <form action="/writers/${writer.id}" method="get">
                                     <button type="submit" class="btn btn-outline-primary w-100">
                                         View Writer Profile
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="mb-3 text-center">
+                                <form action="/writers/${writer.id}/edit" method="get">
+                                    <button type="submit" class="btn btn-outline-primary w-100">
+                                        Edit Writer Profile
                                     </button>
                                 </form>
                             </div>
