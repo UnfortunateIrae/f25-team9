@@ -1,27 +1,30 @@
 package com.Topic;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import java.util.List;
 
-@Entity
+@RestController
+@RequestMapping("/api/topics")
 public class TopicController {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // primary key
+    private final TopicRepository topicRepository;
 
-    private String name;
-    private String url;
+    public TopicController(TopicRepository topicRepository) {
+        this.topicRepository = topicRepository;
+    }
 
-    // getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    @GetMapping
+    public ResponseEntity<List<Topic>> getAllTopics() {
+        return ResponseEntity.ok(topicRepository.findAll());
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    @GetMapping("/{id}")
+    public ResponseEntity<Topic> getTopicById(@PathVariable Long id) {
+        return topicRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
 
-    public String getUrl() { return url; }
-    public void setUrl(String url) { this.url = url; }
 }

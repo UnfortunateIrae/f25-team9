@@ -13,8 +13,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WriterService {
 
-    private final WriterRepository writerRepository;
-    private final SourceRepository sourceRepository;
+    private WriterRepository writerRepository;
+    private SourceRepository sourceRepository;
 
     @PostMapping
     public Writer createWriter(@RequestBody Writer writer) {

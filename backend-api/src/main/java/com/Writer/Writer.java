@@ -55,5 +55,6 @@ public class Writer {
 }
 
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
+    @com.fasterxml.jackson.annotation.JsonManagedReference
     private List<Article> articles = new ArrayList<>();
 }

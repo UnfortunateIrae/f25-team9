@@ -1,14 +1,16 @@
 package com.Source;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class SourceService {
 
     private final SourceRepository sourceRepository;
+
+    public SourceService(SourceRepository sourceRepository) {
+        this.sourceRepository = sourceRepository;
+    }
 
     public Source createSource(Source source) {
         return sourceRepository.save(source);

@@ -1,17 +1,21 @@
 package com.Review;
 
-import lombok.RequiredArgsConstructor;
+// Explicit constructor used instead of Lombok to avoid annotation-processing issues during build
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
 import java.util.List;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/reviews")
-@RequiredArgsConstructor
 public class ReviewController {
 
     private final ReviewService reviewService;
+
+    public ReviewController(ReviewService reviewService) {
+        this.reviewService = reviewService;
+    }
 
     @PostMapping("/writer/{writerId}")
     public ResponseEntity<Review> addReview(@PathVariable Long writerId, @Valid @RequestBody Review review) {
