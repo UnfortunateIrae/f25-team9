@@ -4,69 +4,89 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.*;
+
 import java.util.List;
 import jakarta.validation.Valid;
+
 import com.Writer.Writer;
 import com.Writer.WriterRepository;
 
 import java.util.Map;
+import org.springframework.ui.Model;
 
-@RestController
-@RequestMapping("/api/articles")
 @RequiredArgsConstructor
+@RestController
 public class ArticleController {
 
-    private final ArticleService articleService;
+    private final ArticleRepository articleRepository;
     private final WriterRepository writerRepository;
 
-    @RestController
-    @RequestMapping("/api/test")
-    public class TestController {
-
-    @PostMapping
-    public ResponseEntity<String> testJson(@RequestBody Map<String, Object> body) {
-        return ResponseEntity.ok("Received: " + body);
-    }
-}
-
-    @PostMapping(value = "/writer/{writerId}")
-    public ResponseEntity<Article> addArticle(
-            @PathVariable Long writerId,
-            @Valid @RequestBody Article article) {
-
-        Writer writer = writerRepository.findById(writerId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Writer not found"));
-
-        article.setWriter(writer); // associate the article with the writer
-
-        Article savedArticle = articleService.saveArticle(article); // make sure your service saves it
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedArticle);
+    @GetMapping("/articles")
+    public String getAll(Model model) {
+        List<Article> articles = articleRepository.findAll();
+        model.addAttribute("articles", articles);
+        return "high-fidelity-prototype/articles-list";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Article> updateArticle(@PathVariable Long id, @Valid @RequestBody Article details) {
-        return ResponseEntity.ok(articleService.updateArticle(id, details));
+    @GetMapping("/articles/{id}")
+    public String getById(@PathVariable Long id, Model model) {
+        return "high-fidelity-prototype/article-view";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteArticle(@PathVariable Long id) {
-        articleService.deleteArticle(id);
+    @GetMapping("articles/create")
+    public String createArticlePage(@RequestParam Long topicId, Model model) {
+        return "high-fidelity-prototype/create-article";
+    }
+
+    @PostMapping("/articles")
+    public Article create(@Valid @RequestBody Map<String, Object> request) {
+
+        String title = (String) request.get("title");
+        String content = (String) request.get("content");
+        Number writerId = (Number) request.get("writerId");
+
+        if (title == null || content == null || writerId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        Writer writer = writerRepository.findById(writerId.longValue())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        Article article = new Article(title, content, writer);
+        return articleRepository.save(article);
+    }
+
+    @PutMapping("/articles/{id}")
+    public Article update(@PathVariable Long id, @Valid @RequestBody Map<String, Object> request) {
+
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (request.containsKey("title")) {
+            article.setTitle((String) request.get("title"));
+        }
+
+        if (request.containsKey("content")) {
+            article.setContent((String) request.get("content"));
+        }
+
+        if (request.containsKey("writerId")) {
+            Number writerId = (Number) request.get("writerId");
+            Writer writer = writerRepository.findById(writerId.longValue())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+            article.setWriter(writer);
+        }
+
+        return articleRepository.save(article);
+    }
+
+    @DeleteMapping("/articles/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        if (!articleRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        articleRepository.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Article> getArticleById(@PathVariable Long id) {
-        return ResponseEntity.ok(articleService.getArticleById(id));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Article>> getAllArticles() {
-        return ResponseEntity.ok(articleService.getAllArticles());
-    }
-
-    @GetMapping("/writer/{writerId}")
-    public ResponseEntity<List<Article>> getArticlesByWriter(@PathVariable Long writerId) {
-        return ResponseEntity.ok(articleService.getArticlesByWriterId(writerId));
     }
 }

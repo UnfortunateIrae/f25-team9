@@ -26,7 +26,6 @@ public class Article {
     @JsonBackReference
     private Writer writer;
 
-    // JPA requires a no-arg constructor
     public Article() { }
 
     public Article(String title, String content, Writer writer) {
