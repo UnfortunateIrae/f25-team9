@@ -9,8 +9,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 @Entity
 public class Writer {
@@ -36,15 +38,12 @@ public class Writer {
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Article> articles = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(
-        name = "writer_topic",
-        joinColumns = @JoinColumn(name = "writer_id"),
-        inverseJoinColumns = @JoinColumn(name = "topic_id")
-    )
-    private Set<Topic> topics = new HashSet<>();
+    @ManyToMany(mappedBy = "writers")
+    private List<Topic> topics = new ArrayList<>();
 
-    // Getters & setters
+    public List<Topic> getTopics() { return topics; }
+    public void setTopics(List<Topic> topics) { this.topics = topics; }
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -62,9 +61,6 @@ public class Writer {
 
     public Set<Article> getArticles() { return articles; }
     public void setArticles(Set<Article> articles) { this.articles = articles; }
-
-    public Set<Topic> getTopics() { return topics; }
-    public void setTopics(Set<Topic> topics) { this.topics = topics; }
 
     public String getSourceName() {
         return (source != null && source.getName() != null && !source.getName().isEmpty()) 

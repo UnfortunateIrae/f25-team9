@@ -1,27 +1,20 @@
 package com.Topic;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@Entity
+@Controller
 public class TopicController {
+    @Autowired
+    private TopicRepository topicRepository;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // primary key
-
-    private String name;
-    private String url;
-
-    // getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public String getUrl() { return url; }
-    public void setUrl(String url) { this.url = url; }
+    @GetMapping("/topics")
+    public String getAllTopics(Model model) {
+        List<Topic> topics = topicRepository.findAll();
+        model.addAttribute("topics", topics);
+        return "high-fidelity-prototype/topics-list";
+    }
 }
