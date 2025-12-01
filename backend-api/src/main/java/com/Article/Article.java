@@ -29,11 +29,6 @@ public class Article {
     @JsonBackReference
     private Writer writer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "topic_id")
-    private Topic topic;
-
-    // JPA requires a no-arg constructor
     public Article() { }
 
     public Article(String title, String content, Writer writer) {

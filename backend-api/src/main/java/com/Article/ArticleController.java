@@ -1,79 +1,75 @@
 package com.Article;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.http.*;
-import java.util.List;
-import java.util.stream.Collectors;
-import jakarta.validation.Valid;
-import com.Writer.Writer;
-import com.Writer.WriterRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@RestController
-@RequestMapping("/api/articles")
+@Controller
 public class ArticleController {
 
-    private final ArticleService articleService;
-    private final WriterRepository writerRepository;
+    @Autowired
+    private ArticleRepository articleRepository;
 
-    public ArticleController(ArticleService articleService, WriterRepository writerRepository) {
-        this.articleService = articleService;
-        this.writerRepository = writerRepository;
+    @GetMapping("/articles/create")
+    public String showCreateArticleForm(@RequestParam Long topicId, Model model) {
+        model.addAttribute("topicId", topicId);
+        model.addAttribute("article", new Article());
+        return "high-fidelity-prototype/create-article";
     }
 
-        @PostMapping(value = "/writer/{writerId}")
-        public ResponseEntity<Article> addArticle(
-                @PathVariable Long writerId,
-                @Valid @RequestBody Article article) {
+    @PostMapping("/articles/create")
+    public String createArticle(@RequestParam Long topicId,
+                                @RequestParam String title,
+                                @RequestParam String content) {
 
-            Writer writer = writerRepository.findById(writerId)
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Writer not found"));
+        Article article = new Article();
+        article.setTitle(title);
+        article.setContent(content);
 
-            article.setWriter(writer); // associate the article with the writer
+        articleRepository.save(article);
 
-            Article savedArticle = articleService.saveArticle(article);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedArticle);
-        }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Article> updateArticle(@PathVariable Long id, @Valid @RequestBody Article details) {
-        Article updated = articleService.updateArticle(id, details);
-        return ResponseEntity.ok(updated);
+        return "redirect:/topics/" + topicId;
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteArticle(@PathVariable Long id) {
-        articleService.deleteArticle(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/articles/{id}")
+    public String viewArticle(@PathVariable Long id, Model model) {
+        Article article = articleRepository.findById(id).orElseThrow();
+        model.addAttribute("article", article);
+        return "high-fidelity-prototype/article-view";
     }
 
-    @GetMapping("/{id}")
-    @Transactional(readOnly = true)
-    public ResponseEntity<Article> getArticleById(@PathVariable Long id) {
-        Article a = articleService.getArticleById(id);
-        return ResponseEntity.ok(a);
+    @GetMapping("/articles/{id}/edit")
+    public String editArticlePage(@PathVariable Long id, Model model) {
+        Article article = articleRepository.findById(id).orElseThrow();
+        model.addAttribute("article", article);
+        return "high-fidelity-prototype/article-edit";
     }
 
-    @GetMapping
-    @Transactional(readOnly = true)
-    public ResponseEntity<List<Article>> getAllArticles() {
-        List<Article> list = articleService.getAllArticles();
-        return ResponseEntity.ok(list);
+    @PostMapping("/articles/{id}/update")
+    public String updateArticle(@PathVariable Long id,
+                                @RequestParam String title,
+                                @RequestParam String content) {
+
+        Article article = articleRepository.findById(id).orElseThrow();
+        article.setTitle(title);
+        article.setContent(content);
+
+        articleRepository.save(article);
+
+        return "redirect:/articles/" + id;
     }
 
-    @GetMapping("/topic/{topicId}")
-    @Transactional(readOnly = true)
-    public ResponseEntity<List<Article>> getArticlesByTopic(@PathVariable Long topicId) {
-        List<Article> list = articleService.getArticlesByTopicId(topicId);
-        return ResponseEntity.ok(list);
+    @PostMapping("/articles/{id}/delete")
+    public String deleteArticle(@PathVariable Long id) {
+        articleRepository.deleteById(id);
+        return "redirect:/articles";
     }
 
-    @GetMapping("/writer/{writerId}")
-    @Transactional(readOnly = true)
-    public ResponseEntity<List<Article>> getArticlesByWriter(@PathVariable Long writerId) {
-        List<Article> list = articleService.getArticlesByWriterId(writerId);
-        return ResponseEntity.ok(list);
+    @GetMapping("/articles")
+    public String listArticles(Model model) {
+        model.addAttribute("articles", articleRepository.findAll());
+        return "high-fidelity-prototype/articles-list";
     }
 
     

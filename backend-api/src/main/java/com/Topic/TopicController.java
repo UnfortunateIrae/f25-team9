@@ -1,30 +1,76 @@
 package com.Topic;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
-@RestController
-@RequestMapping("/api/topics")
+@Controller
 public class TopicController {
 
-    private final TopicRepository topicRepository;
+    @Autowired
+    private TopicRepository topicRepository;
 
-    public TopicController(TopicRepository topicRepository) {
-        this.topicRepository = topicRepository;
+    @GetMapping("/topics")
+    public String listTopics(Model model) {
+        List<Topic> topics = topicRepository.findAll();
+        model.addAttribute("topics", topics);
+        return "high-fidelity-prototype/topics-list";
     }
 
-    @GetMapping
-    public ResponseEntity<List<Topic>> getAllTopics() {
-        return ResponseEntity.ok(topicRepository.findAll());
+    @GetMapping("/topics/create")
+    public String createTopicPage(Model model) {
+        model.addAttribute("topic", new Topic());
+        return "high-fidelity-prototype/create-topic";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Topic> getTopicById(@PathVariable Long id) {
-        return topicRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    @PostMapping("/topics")
+    public String createTopic(@Valid @ModelAttribute Topic topic) {
+        Topic savedTopic = topicRepository.save(topic);
+        savedTopic.setUrl("/topics/" + savedTopic.getId());
+        topicRepository.save(savedTopic);
+        return "redirect:/topics";
     }
 
+    @GetMapping("/topics/{id}/edit")
+    public String editTopicPage(@PathVariable Long id, Model model) {
+        Optional<Topic> optionalTopic = topicRepository.findById(id);
+        if (optionalTopic.isEmpty()) {
+            return "redirect:/topics";
+        }
+        model.addAttribute("topic", optionalTopic.get());
+        return "high-fidelity-prototype/edit-topic";
+    }
+
+    @PostMapping("/topics/{id}/update")
+    public String updateTopic(@PathVariable Long id, @Valid @ModelAttribute Topic details) {
+        Optional<Topic> optionalTopic = topicRepository.findById(id);
+        if (optionalTopic.isEmpty()) {
+            return "redirect:/topics";
+        }
+        Topic topic = optionalTopic.get();
+        topic.setName(details.getName());
+        topic.setUrl(details.getUrl());
+        topicRepository.save(topic);
+        return "redirect:/topics";
+    }
+
+    @PostMapping("/topics/{id}/delete")
+    public String deleteTopic(@PathVariable Long id) {
+        topicRepository.deleteById(id);
+        return "redirect:/topics";
+    }
+
+    @GetMapping("/topics/{id}")
+    public String viewTopic(@PathVariable Long id, Model model) {
+        Optional<Topic> optionalTopic = topicRepository.findById(id);
+        if (optionalTopic.isEmpty()) {
+            return "redirect:/topics";
+        }
+        model.addAttribute("topic", optionalTopic.get());
+        return "high-fidelity-prototype/topic-page";
+    }
 }

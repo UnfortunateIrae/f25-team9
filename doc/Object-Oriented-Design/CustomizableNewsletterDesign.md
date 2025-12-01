@@ -61,7 +61,7 @@ A customer shall be able to view available topic categories. They can do this fr
 ##### 2.2.1.4 Subscribe to a newsletter topic
 Upon selecting a topic, a customer shall be able to subscribe for the topic using a one-click action. This topic will then appear on their dashboard, and they will be able to ammend the subscription.
 ##### 2.2.1.5 Review newsletter
-A customer may write a review for a newsletter they read to. They will be able to rate the box based on freshness and delivery.
+A customer may write a review for a newsletter they read to.
 
 ## 3. UML Class Diagram
 ![UML Class Diagram](https://github.com/UnfortunateIrae/f25-team9/blob/b7052b9763d7633985e1ae27d4f2c525f81d800b/doc/Object-Oriented-Design/UML%20Diagram/UML%20Diagram.png)
