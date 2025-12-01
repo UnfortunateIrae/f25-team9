@@ -24,6 +24,9 @@ public class Article {
     @NotBlank
     private String content;
 
+    @NotBlank
+    private Topic topic;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "writer_id")
     @JsonBackReference
