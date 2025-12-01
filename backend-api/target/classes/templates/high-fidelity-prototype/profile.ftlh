@@ -3,68 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Profile</title>
-    <!--CSS link doesnt work for this page-->
-    <link rel="stylesheet" href="CSS/profile.css">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="/CSS/profile.css">
 </head>
 <body>
+
+<nav>
     <ul>
-        <style>
-            ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-                background-color: #333;
-            }
-
-            li {
-                float: left;
-            }
-
-            li a {
-                display: block;
-                color: white;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
-
-            li a:hover {
-                background-color: #111;
-            }
-        </style>
-        <li><a href="home.html">Home</a></li>
-        <li><a href="topics.html">Your Topics</a></li>
-        <li><a href="profile.html">Profile</a></li>
+        <li><a href="/home" class="active">Profile</a></li>
+        <li><a href="/articles">Articles</a></li>
+        <li><a href="/logout">Logout</a></li>
     </ul>
-    <div class="container">
-        <header>
-            <style>
-                h1 {
-                    text-align: center;
-                }
-            </style>
-            <h1>Your Username</h1>
-        </header>
-        <div id="content"> 
-            <p>Your email goes here</p>
-            <p>Your member since date goes here</p>
-            <p>Your number of articles read goes here</p>
-            <p>Your bio goes here</p>
-            <p>Your location goes here</p>
-            <p>Your interests go here</p>
-            <p>Your number of reviews goess here</p>
-            <p>Your number of subscriptions goes here:</p>
-            <p>With</p>
-            <p>An</p>
-            <p>Accompanying</p>
-            <p>List</p>
-            <p>Of</p>
-            <p>Topics</p>
-            <p>You're</p>
-            <p>Subscribed</p>
-            <p>To</p>
-        </div>
+</nav>
+
+<header class="profile-header">
+    <div class="profile-info">
+        <img src="${customer.imageUrl!'/images/default-profile.png'}" alt="Profile Photo" class="profile-img">
+        <h1>${customer.name}</h1>
+        <p>${customer.email}</p>
+        <p>${customer.phoneNumber}</p>
+    </div>
+
+    <div class="profile-actions">
+        <a href="/customer/edit/${customer.id}" class="btn">Edit Profile</a>
+        <a href="/subscriptions" class="btn secondary">Manage Subscriptions</a>
+    </div>
+</header>
+
+<section class="profile-section">
+    <h2>Active Subscriptions</h2>
+
+    <div class="subscriptions-list">
+        <#if activeSubscriptions?size gt 0>
+            <#list activeSubscriptions as topic>
+                <div class="subscription-card">
+                    <h3>${topic.name}</h3>
+                    <p>${topic.description!""}</p>
+
+                    <form action="/unsubscribe/${topic.id}" method="post">
+                        <button type="submit" class="unsubscribe-btn">Unsubscribe</button>
+                    </form>
+                </div>
+            </#list>
+        <#else>
+            <p>No active subscriptions yet.</p>
+        </#if>
+    </div>
+</section>
+
+<footer>
+    <p>© 2025 Newsletter Platform</p>
+</footer>
+
 </body>
 </html>
