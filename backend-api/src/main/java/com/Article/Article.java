@@ -1,6 +1,7 @@
 package com.Article;
 
 import com.Writer.Writer;
+import com.Topic.Topic;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
@@ -8,7 +9,9 @@ import jakarta.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties(value={"writer"}, allowGetters = true)
+// Avoid serializing Hibernate proxies; writer serialization is handled
+// via @JsonBackReference on the `writer` field and @JsonManagedReference on Writer.articles
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Article {
 
     @Id
@@ -20,6 +23,9 @@ public class Article {
 
     @NotBlank
     private String content;
+
+    @NotBlank
+    private Topic topic;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "writer_id")
@@ -45,4 +51,7 @@ public class Article {
 
     public Writer getWriter() { return writer; }
     public void setWriter(Writer writer) { this.writer = writer; }
+
+    public Topic getTopic() { return topic; }
+    public void setTopic(Topic topic) { this.topic = topic; }
 }

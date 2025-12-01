@@ -1,6 +1,5 @@
 package com.Source;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
 import java.util.List;
@@ -8,10 +7,13 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/sources")
-@RequiredArgsConstructor
 public class SourceController {
 
     private final SourceService sourceService;
+
+    public SourceController(SourceService sourceService) {
+        this.sourceService = sourceService;
+    }
 
     @PostMapping
     public ResponseEntity<Source> createSource(@Valid @RequestBody Source source) {

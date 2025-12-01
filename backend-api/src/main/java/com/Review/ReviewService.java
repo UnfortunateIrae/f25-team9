@@ -2,17 +2,20 @@ package com.Review;
 
 import com.Writer.Writer;
 import com.Writer.WriterRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.OptionalDouble;
 
 @Service
-@RequiredArgsConstructor
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final WriterRepository writerRepository;
+
+    public ReviewService(ReviewRepository reviewRepository, WriterRepository writerRepository) {
+        this.reviewRepository = reviewRepository;
+        this.writerRepository = writerRepository;
+    }
 
     public Review addReviewToWriter(Long writerId, Review review) {
         Writer writer = writerRepository.findById(writerId).orElseThrow(() -> new RuntimeException("Writer not found"));

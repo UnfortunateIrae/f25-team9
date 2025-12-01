@@ -7,4 +7,5 @@ import java.util.List;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Article> findByWriterId(Long writerId);
+    List<Article> findByTopicId(Long topicId);
 }

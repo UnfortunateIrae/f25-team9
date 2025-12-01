@@ -2,17 +2,20 @@ package com.Article;
 
 import com.Writer.Writer;
 import com.Writer.WriterRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final WriterRepository writerRepository;
+
+    public ArticleService(ArticleRepository articleRepository, WriterRepository writerRepository) {
+        this.articleRepository = articleRepository;
+        this.writerRepository = writerRepository;
+    }
 
     public Article addArticleToWriter(Long writerId, Article article) {
         Writer writer = writerRepository.findById(writerId)
@@ -33,6 +36,10 @@ public class ArticleService {
 
     public List<Article> getArticlesByWriterId(Long writerId) {
         return articleRepository.findByWriterId(writerId);
+    }
+
+    public List<Article> getArticlesByTopicId(Long topicId) {
+        return articleRepository.findByTopicId(topicId);
     }
 
     public Article updateArticle(Long id, Article details) {

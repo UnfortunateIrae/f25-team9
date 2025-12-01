@@ -71,4 +71,6 @@ public class ArticleController {
         model.addAttribute("articles", articleRepository.findAll());
         return "high-fidelity-prototype/articles-list";
     }
+
+    
 }
