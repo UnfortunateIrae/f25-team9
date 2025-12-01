@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class NewsletterApplicationTests {
 	@Test
 	void contextLoads() {
+		SpringApplication.run(NewsletterApplicationTests.class, args);
 	}
 
 }
