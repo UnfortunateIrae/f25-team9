@@ -1,92 +1,74 @@
 package com.Article;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.http.*;
-
-import java.util.List;
-import jakarta.validation.Valid;
-
-import com.Writer.Writer;
-import com.Writer.WriterRepository;
-
-import java.util.Map;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@RequiredArgsConstructor
-@RestController
+@Controller
 public class ArticleController {
 
-    private final ArticleRepository articleRepository;
-    private final WriterRepository writerRepository;
+    @Autowired
+    private ArticleRepository articleRepository;
 
-    @GetMapping("/articles")
-    public String getAll(Model model) {
-        List<Article> articles = articleRepository.findAll();
-        model.addAttribute("articles", articles);
-        return "high-fidelity-prototype/articles-list";
-    }
-
-    @GetMapping("/articles/{id}")
-    public String getById(@PathVariable Long id, Model model) {
-        return "high-fidelity-prototype/article-view";
-    }
-
-    @GetMapping("articles/create")
-    public String createArticlePage(@RequestParam Long topicId, Model model) {
+    @GetMapping("/articles/create")
+    public String showCreateArticleForm(@RequestParam Long topicId, Model model) {
+        model.addAttribute("topicId", topicId);
+        model.addAttribute("article", new Article());
         return "high-fidelity-prototype/create-article";
     }
 
-    @PostMapping("/articles")
-    public Article create(@Valid @RequestBody Map<String, Object> request) {
+    @PostMapping("/articles/create")
+    public String createArticle(@RequestParam Long topicId,
+                                @RequestParam String title,
+                                @RequestParam String content) {
 
-        String title = (String) request.get("title");
-        String content = (String) request.get("content");
-        Number writerId = (Number) request.get("writerId");
+        Article article = new Article();
+        article.setTitle(title);
+        article.setContent(content);
 
-        if (title == null || content == null || writerId == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
+        articleRepository.save(article);
 
-        Writer writer = writerRepository.findById(writerId.longValue())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
-        Article article = new Article(title, content, writer);
-        return articleRepository.save(article);
+        return "redirect:/topics/" + topicId;
     }
 
-    @PutMapping("/articles/{id}")
-    public Article update(@PathVariable Long id, @Valid @RequestBody Map<String, Object> request) {
-
-        Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
-        if (request.containsKey("title")) {
-            article.setTitle((String) request.get("title"));
-        }
-
-        if (request.containsKey("content")) {
-            article.setContent((String) request.get("content"));
-        }
-
-        if (request.containsKey("writerId")) {
-            Number writerId = (Number) request.get("writerId");
-            Writer writer = writerRepository.findById(writerId.longValue())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-            article.setWriter(writer);
-        }
-
-        return articleRepository.save(article);
+    @GetMapping("/articles/{id}")
+    public String viewArticle(@PathVariable Long id, Model model) {
+        Article article = articleRepository.findById(id).orElseThrow();
+        model.addAttribute("article", article);
+        return "high-fidelity-prototype/article-view";
     }
 
-    @DeleteMapping("/articles/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (!articleRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+    @GetMapping("/articles/{id}/edit")
+    public String editArticlePage(@PathVariable Long id, Model model) {
+        Article article = articleRepository.findById(id).orElseThrow();
+        model.addAttribute("article", article);
+        return "high-fidelity-prototype/article-edit";
+    }
 
+    @PostMapping("/articles/{id}/update")
+    public String updateArticle(@PathVariable Long id,
+                                @RequestParam String title,
+                                @RequestParam String content) {
+
+        Article article = articleRepository.findById(id).orElseThrow();
+        article.setTitle(title);
+        article.setContent(content);
+
+        articleRepository.save(article);
+
+        return "redirect:/articles/" + id;
+    }
+
+    @PostMapping("/articles/{id}/delete")
+    public String deleteArticle(@PathVariable Long id) {
         articleRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return "redirect:/articles";
+    }
+
+    @GetMapping("/articles")
+    public String listArticles(Model model) {
+        model.addAttribute("articles", articleRepository.findAll());
+        return "high-fidelity-prototype/articles-list";
     }
 }

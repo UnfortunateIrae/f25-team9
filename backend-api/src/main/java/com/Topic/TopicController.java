@@ -28,12 +28,12 @@ public class TopicController {
     }
 
     @PostMapping("/topics")
-public String createTopic(@Valid @ModelAttribute Topic topic) {
-    Topic savedTopic = topicRepository.save(topic);
-    savedTopic.setUrl("/topics/" + savedTopic.getId());
-    topicRepository.save(savedTopic);
-    return "redirect:/topics";
-}
+    public String createTopic(@Valid @ModelAttribute Topic topic) {
+        Topic savedTopic = topicRepository.save(topic);
+        savedTopic.setUrl("/topics/" + savedTopic.getId());
+        topicRepository.save(savedTopic);
+        return "redirect:/topics";
+    }
 
     @GetMapping("/topics/{id}/edit")
     public String editTopicPage(@PathVariable Long id, Model model) {
@@ -72,5 +72,5 @@ public String createTopic(@Valid @ModelAttribute Topic topic) {
         }
         model.addAttribute("topic", optionalTopic.get());
         return "high-fidelity-prototype/topic-page";
-}
+    }
 }
