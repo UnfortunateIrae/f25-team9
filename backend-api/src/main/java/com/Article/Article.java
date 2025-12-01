@@ -25,6 +25,8 @@ public class Article {
     private String content;
 
     @NotBlank
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "topic_id")
     private Topic topic;
 
     @ManyToOne(fetch = FetchType.LAZY)
