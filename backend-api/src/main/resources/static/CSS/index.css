@@ -6,8 +6,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    /* Plain blue background as requested */
-    background-color: #1E90FF; /* DodgerBlue */
+    background-color: #3f9cf9; /* DodgerBlue */
     min-height: 100vh;
 }
 
@@ -30,7 +29,6 @@ nav li {
     flex: 0 0 auto;
 }
 
-/* Move the last nav item (Profile) to the right-hand side */
 nav li:last-child {
     margin-left: auto;
 }

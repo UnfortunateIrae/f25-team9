@@ -22,15 +22,12 @@
     <div class="container">
         <div class="filter-section">
             <h3 style="color: white; margin-bottom: 15px;">Filter by Topics:</h3>
-            <!-- Single topic container: populated by app.js -->
             <div id="topic-filters" class="filter-buttons">
-                <!-- Quick filter button for Politics: call backend topic endpoint when possible -->
                 <button class="filter-btn" onclick="activeTopicId=null; loadArticlesForTopicByName('Politics')">Politics</button>
             </div>
         </div>
 
         <h2 class="section-title">Recent Articles</h2>
-        <!-- Articles list populated by app.js -->
         <div id="articles-list" class="articles-grid"></div>
 
         <button id="refresh-btn">Refresh</button>

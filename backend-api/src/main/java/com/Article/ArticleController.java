@@ -11,7 +11,7 @@ import com.Writer.Writer;
 import com.Writer.WriterRepository;
 
 @RestController
-@RequestMapping("/api/article")
+@RequestMapping("/api/articles")
 public class ArticleController {
 
     private final ArticleService articleService;
