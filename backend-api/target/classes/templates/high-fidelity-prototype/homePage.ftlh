@@ -45,6 +45,7 @@
         <#if topTopics?? && topTopics?size gt 0>
             <#list topTopics as topic>
                 <div class="topic-card">
+
                     <p><strong>${topic.name}</strong> — ${topic.customers?size} subscribers</p>
                 </div>
             </#list>
@@ -52,14 +53,6 @@
             <p style="color:white;">No topics available</p>
         </#if>
     </div>
-
-    <!-- Recent Articles Section -->
-    <h2 class="section-title">Recent Articles</h2>
-    <div id="articles-list" class="articles-grid">
-        <!-- The JS will inject articles here -->
-    </div>
-
-    <button id="refresh-btn">Refresh</button>
 </div>
 
 <script src="/app.js"></script>
