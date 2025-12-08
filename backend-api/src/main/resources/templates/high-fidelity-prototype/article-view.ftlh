@@ -31,7 +31,7 @@
         </form>
     </div>
 
-    <a href="/topics/${article.writer.topic.id}" class="btn btn-secondary w-100 mt-3">Back to Topic</a>
+    <a href="/topics/${article.topic.id}" class="btn btn-secondary w-100 mt-3">Back to Topic</a>
 </div>
 
 </body>

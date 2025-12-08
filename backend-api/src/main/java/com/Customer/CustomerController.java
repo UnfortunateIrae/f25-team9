@@ -20,7 +20,7 @@ public class CustomerController {
 
     @GetMapping("/")
     public String homePage(Model model) {
-        return "high-fidelity-prototype/index";
+        return "high-fidelity-prototype/index.ftlh";
     }
 
     @GetMapping("/profile/{id}")
@@ -34,7 +34,7 @@ public class CustomerController {
         model.addAttribute("customer", customer);
         model.addAttribute("activeSubscriptions", activeSubscriptions);
 
-        return "high-fidelity-prototype/profile";
+        return "high-fidelity-prototype/profile.ftlh";
     }
 
 }
