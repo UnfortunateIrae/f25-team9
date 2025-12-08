@@ -14,10 +14,6 @@ import lombok.RequiredArgsConstructor;
 public class SubscriptionController {
     private final SubscriptionService subscriptionService;
 
-    public SubscriptionController(SubscriptionService subscriptionService) {
-        this.subscriptionService = subscriptionService;
-    }
-
     @PostMapping
     public ResponseEntity<Subscription> createSubscription(@Valid @RequestBody Subscription subscription) {
         return ResponseEntity.ok(subscriptionService.createSubscription(subscription));
