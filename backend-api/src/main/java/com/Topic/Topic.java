@@ -1,5 +1,6 @@
 package com.Topic;
 
+import com.Article.Article;
 import com.Writer.Writer;
 import jakarta.persistence.*;
 import java.util.ArrayList;
@@ -23,6 +24,9 @@ public class Topic {
     )
     private List<Writer> writers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Article> articles = new ArrayList<>();
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -34,4 +38,7 @@ public class Topic {
 
     public List<Writer> getWriters() { return writers; }
     public void setWriters(List<Writer> writers) { this.writers = writers; }
+
+    public List<Article> getArticles() { return articles; }
+    public void setArticles(List<Article> articles) { this.articles = articles; }
 }

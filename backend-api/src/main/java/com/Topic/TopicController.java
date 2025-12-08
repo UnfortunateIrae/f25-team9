@@ -66,11 +66,9 @@ public class TopicController {
 
     @GetMapping("/topics/{id}")
     public String viewTopic(@PathVariable Long id, Model model) {
-        Optional<Topic> optionalTopic = topicRepository.findById(id);
-        if (optionalTopic.isEmpty()) {
-            return "redirect:/topics";
-        }
-        model.addAttribute("topic", optionalTopic.get());
+        Topic topic = topicRepository.findByIdWithArticles(id)
+                .orElseThrow(() -> new RuntimeException("Topic not found"));
+        model.addAttribute("topic", topic);
         return "high-fidelity-prototype/topic-page";
     }
 }

@@ -3,7 +3,12 @@ package com.Article;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.Topic.Topic;
+import com.Topic.TopicRepository;
+import com.Writer.Writer;
+import com.Writer.WriterRepository;
 
 @Controller
 public class ArticleController {
@@ -11,24 +16,36 @@ public class ArticleController {
     @Autowired
     private ArticleRepository articleRepository;
 
+    @Autowired
+    private TopicRepository topicRepository;
+
+    @Autowired
+    private WriterRepository writerRepository;
+
     @GetMapping("/articles/create")
     public String showCreateArticleForm(@RequestParam Long topicId, Model model) {
         model.addAttribute("topicId", topicId);
         model.addAttribute("article", new Article());
+        model.addAttribute("writers", writerRepository.findAll());
         return "high-fidelity-prototype/create-article";
     }
 
     @PostMapping("/articles/create")
-    public String createArticle(@RequestParam Long topicId,
-                                @RequestParam String title,
-                                @RequestParam String content) {
+    public String createArticle(
+            @RequestParam Long topicId,
+            @RequestParam Long writerId,
+            @Valid Article article) {
 
-        Article article = new Article();
-        article.setTitle(title);
-        article.setContent(content);
+        Topic topic = topicRepository.findById(topicId)
+                .orElseThrow(() -> new RuntimeException("Topic not found"));
+
+        Writer writer = writerRepository.findById(writerId)
+                .orElseThrow(() -> new RuntimeException("Writer not found"));
+
+        article.setTopic(topic);
+        article.setWriter(writer);
 
         articleRepository.save(article);
-
         return "redirect:/topics/" + topicId;
     }
 
@@ -48,8 +65,8 @@ public class ArticleController {
 
     @PostMapping("/articles/{id}/update")
     public String updateArticle(@PathVariable Long id,
-                                @RequestParam String title,
-                                @RequestParam String content) {
+            @RequestParam String title,
+            @RequestParam String content) {
 
         Article article = articleRepository.findById(id).orElseThrow();
         article.setTitle(title);
@@ -72,5 +89,4 @@ public class ArticleController {
         return "high-fidelity-prototype/articles-list";
     }
 
-    
 }
