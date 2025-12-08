@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
 
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, Long> {
@@ -14,4 +15,8 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
 
     @Query("SELECT t FROM Topic t LEFT JOIN FETCH t.articles WHERE t.id = :id")
     Optional<Topic> findByIdWithArticles(@Param("id") Long id);
+
+    @Query("SELECT t FROM Topic t LEFT JOIN t.customers c GROUP BY t.id ORDER BY COUNT(c) DESC")
+    List<Topic> findTopicsByMostSubscribers(Pageable pageable);
+
 }

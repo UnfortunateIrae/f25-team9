@@ -5,9 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
 import com.Topic.Topic;
 import com.Topic.TopicRepository;
+
 import java.util.List;
+import org.springframework.data.domain.PageRequest;
 
 @Controller
 public class CustomerController {
@@ -20,7 +23,23 @@ public class CustomerController {
 
     @GetMapping("/")
     public String homePage(Model model) {
-        return "high-fidelity-prototype/index.ftlh";
+
+        // TEMP: Load a test customer for the homepage (replace with session later)
+        Long demoCustomerId = 1L;
+
+        Customer customer = customerRepository.findById(demoCustomerId)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        List<Topic> activeSubscriptions = topicRepository.findActiveSubscriptions(demoCustomerId);
+
+        // Get Top 10 most-subscribed topics
+        List<Topic> topTopics = topicRepository.findTopicsByMostSubscribers(PageRequest.of(0, 10));
+
+        model.addAttribute("customer", customer);
+        model.addAttribute("activeSubscriptions", activeSubscriptions);
+        model.addAttribute("topTopics", topTopics);
+
+        return "high-fidelity-prototype/homePage";
     }
 
     @GetMapping("/profile/{id}")
@@ -34,7 +53,6 @@ public class CustomerController {
         model.addAttribute("customer", customer);
         model.addAttribute("activeSubscriptions", activeSubscriptions);
 
-        return "high-fidelity-prototype/profile.ftlh";
+        return "high-fidelity-prototype/profile";
     }
-
 }
