@@ -9,11 +9,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.Topic.Topic;
 import com.Topic.TopicRepository;
 
+import java.util.HashMap;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
+import com.Subscription.SubscriptionRepository;
+import java.util.Map;
 
 @Controller
 public class CustomerController {
+
+    @Autowired
+    private SubscriptionRepository subscriptionRepository;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -24,7 +30,6 @@ public class CustomerController {
     @GetMapping("/")
     public String homePage(Model model) {
 
-        // TEMP: Load a test customer for the homepage (replace with session later)
         Long demoCustomerId = 1L;
 
         Customer customer = customerRepository.findById(demoCustomerId)
@@ -32,12 +37,18 @@ public class CustomerController {
 
         List<Topic> activeSubscriptions = topicRepository.findActiveSubscriptions(demoCustomerId);
 
-        // Get Top 10 most-subscribed topics
         List<Topic> topTopics = topicRepository.findTopicsByMostSubscribers(PageRequest.of(0, 10));
+
+        Map<Long, Integer> subscriberCounts = new HashMap<>();
+        for (Topic topic : topTopics) {
+            int count = subscriptionRepository.findByTopic(topic).size();
+            subscriberCounts.put(topic.getId(), count);
+        }
 
         model.addAttribute("customer", customer);
         model.addAttribute("activeSubscriptions", activeSubscriptions);
         model.addAttribute("topTopics", topTopics);
+        model.addAttribute("subscriberCounts", subscriberCounts);
 
         return "high-fidelity-prototype/homePage";
     }

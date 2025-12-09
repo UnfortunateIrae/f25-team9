@@ -47,7 +47,8 @@
             <a href="/topics/${topic.id}" class="topic-card-link">
                 <div class="topic-card">
                     <p>
-                        <strong>${topic.name}</strong> — ${topic.customers?size} subscribers
+                        ${subscriberCounts[topic.id]} subscribers
+
                     </p>
                 </div>
             </a>
