@@ -6,26 +6,26 @@
     <title>Newsletter Home - Customer Portal</title>
     <link rel="stylesheet" href="/CSS/index.css">
 </head>
-<body>
+<body> 
 
-<nav>
-    <ul>
-        <li><a href="/index" class="active">Home</a></li>
-        <li><a href="/profile/${customer.id}">Profile</a></li>
-    </ul>
-</nav>
+<nav> 
+    <ul> 
+        <li><a href="/index" class="active">Home</a></li> 
+        <li><a href="/profile/${customer.id}">Profile</a></li> 
+    </ul> 
+</nav> 
 
-<div class="hero">
-    <h1>Your Personalized Newsletter Feed</h1>
-    <p>Latest articles from your subscribed topics</p>
-</div>
+<div class="hero"> 
+    <h1>Your Personalized Newsletter Feed</h1> 
+    <p>Latest articles from your subscribed topics</p> 
+</div> 
 
-<div class="container">
+<div class="container"> 
 
-    <!-- Topic Filter Section -->
-    <div class="filter-section">
-        <h3 style="color: white; margin-bottom: 15px;">Filter by Topics:</h3>
-        <div id="topic-filters" class="filter-buttons">
+    <!-- Topic Filter Section --> 
+    <div class="filter-section"> 
+        <h3 style="color: white; margin-bottom: 15px;">Filter by Topics:</h3> 
+        <div id="topic-filters" class="filter-buttons"> 
             <#if activeSubscriptions?? && activeSubscriptions?size gt 0>
                 <#list activeSubscriptions as topic>
                     <button class="filter-btn"
@@ -40,19 +40,23 @@
     </div>
 
     <!-- Top 10 Topics Section -->
-    <h2 class="section-title">Top 10 Topics by Subscribers</h2>
-    <div id="top-topics" class="topics-grid">
-        <#if topTopics?? && topTopics?size gt 0>
-            <#list topTopics as topic>
+<h2 class="section-title">Top 10 Topics by Subscribers</h2>
+<div id="top-topics" class="topics-grid">
+    <#if topTopics?? && topTopics?size gt 0>
+        <#list topTopics as topic>
+            <a href="/topics/${topic.id}" class="topic-card-link">
                 <div class="topic-card">
-
-                    <p><strong>${topic.name}</strong> — ${topic.customers?size} subscribers</p>
+                    <p>
+                        <strong>${topic.name}</strong> — ${topic.customers?size} subscribers
+                    </p>
                 </div>
-            </#list>
-        <#else>
-            <p style="color:white;">No topics available</p>
-        </#if>
-    </div>
+            </a>
+        </#list>
+    <#else>
+        <p style="color:white;">No topics available</p>
+    </#if>
+</div>
+
 </div>
 
 <script src="/app.js"></script>
@@ -61,5 +65,5 @@
     loadRecentArticles(customerId);
 </script>
 
-</body>
+</body> 
 </html>
