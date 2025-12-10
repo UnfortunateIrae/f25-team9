@@ -22,8 +22,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         if ("WRITER".equals(user.getAccountType())) {
             response.sendRedirect("/writers/" + user.getId());
-        } else if ("CUSTOMER".equals(user.getAccountType())) {
-            response.sendRedirect("/customer/home/" + user.getId());
         } else {
             response.sendRedirect("/");
         }
