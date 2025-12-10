@@ -15,7 +15,7 @@
         <a href="/topics">Topics</a>
         <a href="/articles">Articles</a>
         <a href="/writers">Writers</a>
-        <a href="/profiles">Profiles</a>
+        <a href="/profile/${customer.id}">Profile</a>
         <a href="/login">Login</a>
     </div>
 </nav>
