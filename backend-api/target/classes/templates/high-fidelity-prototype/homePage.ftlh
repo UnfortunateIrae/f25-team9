@@ -16,7 +16,13 @@
         <a href="/articles">Articles</a>
         <a href="/writers">Writers</a>
         <a href="/profile/${customer.id}">Profile</a>
-        <a href="/login">Login</a>
+        <#if customer??>
+            <form action="/logout" method="post">
+                <button type="submit">Logout</button>
+            </form>
+        <#else>
+            <a href="/login">Login</a>
+        </#if>
     </div>
 </nav>
 
