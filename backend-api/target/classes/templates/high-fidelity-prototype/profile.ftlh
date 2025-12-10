@@ -10,7 +10,8 @@
 
 <nav>
     <ul>
-        <li><a href="/home" class="active">Profile</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/profile/${customer.id}" class="active">Profile</a></li>
         <li><a href="/articles">Articles</a></li>
         <li><a href="/logout">Logout</a></li>
     </ul>
