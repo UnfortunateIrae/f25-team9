@@ -1,60 +1,155 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
     <meta charset="UTF-8">
-    <title>${topic.name}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>${topic.name!''}</title> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> 
+    <style> 
+        .stars { color: gold; font-size: 1.2em; } 
+    </style>
 </head>
-
 <body class="bg-light">
 
 <div class="container py-4">
 
-    <h2 class="text-center mb-4">${topic.name}</h2>
+    <!-- Topic Title -->
+    <h2 class="text-center mb-4">${topic.name!''}</h2>
 
-    <!-- Add Article button --> 
-    <form action="/articles/create" method="get"> 
-        <input type="hidden" name="topicId" value="${topic.id}"> 
-        <button type="submit" class="btn btn-outline-primary w-100 mb-3"> 
-            Add Article 
-        </button> 
+    <!-- Rating display -->
+    <#assign displayRating = 0>
+    <#if topic.rating?? && topic.rating?is_number>
+        <#assign displayRating = topic.rating>
+    </#if>
+
+    <div class="rating">
+        <#list 1..5 as i>
+            <#if i <= displayRating>
+                <span class="star filled">&#9733;</span>
+            <#else>
+                <span class="star">&#9734;</span>
+            </#if>
+        </#list>
+    </div>
+
+    <p>
+        Rating: <#if topic.rating?? && topic.rating?is_number>${topic.rating}<#else>N/A</#if>
+    </p>
+
+    <!-- Reviews count -->
+    <#assign reviewCount = 0>
+    <#if topic.reviews??>
+        <#assign reviewCount = topic.reviews?size>
+    </#if>
+    <p>${reviewCount} review<#if reviewCount != 1>s</#if></p>
+
+    <!-- Articles -->
+    <form action="/articles/create" method="get">
+        <input type="hidden" name="topicId" value="${topic.id}">
+        <button type="submit" class="btn btn-outline-primary w-100 mb-3">Add Article</button>
     </form>
 
-    <#if topic.articles?? && (topic.articles?size > 0)>
+    <#if (topic.articles??) && (topic.articles?size > 0)>
         <h4 class="mb-3">Articles (${topic.articles?size})</h4>
-
         <#list topic.articles as article>
-    <#-- safely get article content or empty string -->
-    <#assign contentPreview = article.content?default("")>
-    
-    <div class="card mb-3 shadow-sm">
-        <div class="card-body d-flex justify-content-between align-items-center">
-            <div>
-                <h5 class="mb-0">${article.title?default("Untitled Article")}</h5>
-                <p class="text-muted small mb-0">
-                    <#-- truncate to 100 characters or less -->
-                    <#if contentPreview?length &gt; 100>
-                        ${contentPreview?substring(0,100)}...
-                    <#else>
-                        ${contentPreview}
-                    </#if>
-                </p>
+            <#assign contentPreview = article.content!''>
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-0">${article.title!''}</h5>
+                        <p class="text-muted small mb-0">
+                            <#if contentPreview?length > 100>
+                                ${contentPreview?substring(0,100)}...
+                            <#else>
+                                ${contentPreview}
+                            </#if>
+                        </p>
+                    </div>
+                    <form action="/articles/${article.id}" method="get">
+                        <button class="btn btn-sm btn-primary">View</button>
+                    </form>
+                </div>
             </div>
-
-            <form action="/articles/${article.id}" method="get">
-                <button class="btn btn-sm btn-primary">View</button>
-            </form>
-        </div>
-    </div>
-</#list>
-
-
+        </#list>
     <#else>
         <div class="alert alert-info">No articles found for this topic.</div>
     </#if>
 
-    <a href="/topics" class="btn btn-secondary mt-3 w-100">Back to all topics</a>
+    <!-- Assigned Writers -->
+    <div class="mt-4">
+        <h4 class="mb-3">Assigned Writers</h4>
+        <#if (topic.writers??) && (topic.writers?size > 0)>
+            <div class="d-flex flex-wrap gap-2">
+                <#list topic.writers as writer>
+                    <a href="/writers/${writer.id}" class="badge bg-primary text-decoration-none">
+                        ${writer.name}
+                    </a>
+                </#list>
+            </div>
+        <#else>
+            <p class="text-muted">No writers assigned to this topic.</p>
+        </#if>
+    </div>
 
+<!-- Add Review Form -->
+<form action="/reviews/create" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <input type="hidden" name="topicId" value="${topic.id}">
+    
+    <div class="mb-3">
+        <label for="rating" class="form-label">Rating</label>
+        <select name="rating" id="rating" class="form-select" required>
+            <option value="1">1 &#9733;</option>
+            <option value="2">2 &#9733;</option>
+            <option value="3">3 &#9733;</option>
+            <option value="4">4 &#9733;</option>
+            <option value="5">5 &#9733;</option>
+        </select>
+
+    </div>
+    <div class="mb-3">
+        <label for="comment" class="form-label">Review</label>
+        <textarea name="comment" id="comment" class="form-control" rows="3" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-success w-100">Submit Review</button>
+</form>
+
+
+
+    <div class="mt-4">
+    <h4 class="mb-3">Reviews</h4>
+    <#if topic.reviews?? && topic.reviews?size gt 0>
+        <#list topic.reviews as review>
+
+            <div class="card mb-2">
+                <div class="card-body d-flex justify-content-between align-items-start">
+                    <div>
+                        <strong>
+                            <#if review.customer??>
+                                ${review.customer.name!''}
+                                <#else>
+                                    Anonymous
+                            </#if>
+                        </strong>
+
+                        <p>${review.rating} stars</p>
+                        <p>${review.comment!''}</p>
+                    </div>
+                    <div class="d-flex gap-1">
+                        <form action="/reviews/${review.id}/edit" method="get">
+                            <button class="btn btn-sm btn-warning">Edit</button>
+                        </form>
+                        <form action="/reviews/${review.id}/delete" method="post">
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </#list>
+    <#else>
+        <p class="text-muted">No reviews yet.</p>
+    </#if>
+</div>
+    <a href="/topics" class="btn btn-secondary mt-3 w-100">Back to all topics</a>
 </div>
 
 </body>

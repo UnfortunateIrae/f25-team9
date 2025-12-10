@@ -1,13 +1,12 @@
 package com.Topic;
 
 import com.Article.Article;
+import com.Review.Review;
 import com.Writer.Writer;
-import com.Customer.Customer;
+
 import jakarta.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Topic {
@@ -15,40 +14,81 @@ public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Float rating;
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 
     private String name;
     private String url;
 
     @ManyToMany
-    @JoinTable(
-        name = "writer_topic",
-        joinColumns = @JoinColumn(name = "topic_id"),
-        inverseJoinColumns = @JoinColumn(name = "writer_id")
-    )
+    @JoinTable(name = "writer_topic", joinColumns = @JoinColumn(name = "topic_id"), inverseJoinColumns = @JoinColumn(name = "writer_id"))
     private List<Writer> writers = new ArrayList<>();
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Article> articles = new ArrayList<>();
 
-    // Add this to link customers
-    @ManyToMany(mappedBy = "subscriptions")
-    private Set<Customer> customers = new HashSet<>();
+    public Long getId() {
+        return id;
+    }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getName() {
+        return name;
+    }
 
-    public String getUrl() { return url; }
-    public void setUrl(String url) { this.url = url; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public List<Writer> getWriters() { return writers; }
-    public void setWriters(List<Writer> writers) { this.writers = writers; }
+    public String getUrl() {
+        return url;
+    }
 
-    public List<Article> getArticles() { return articles; }
-    public void setArticles(List<Article> articles) { this.articles = articles; }
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-    public Set<Customer> getCustomers() { return customers; }
-    public void setCustomers(Set<Customer> customers) { this.customers = customers; }
+    public List<Writer> getWriters() {
+        return writers;
+    }
+
+    public void setWriters(List<Writer> writers) {
+        this.writers = writers;
+    }
+
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
+    }
+
+    public Float getRating() {
+        if (reviews == null || reviews.isEmpty()) {
+            return 0f;
+        }
+        float sum = 0;
+        for (Review r : reviews) {
+            sum += r.getRating();
+        }
+        return sum / reviews.size();
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+
 }
