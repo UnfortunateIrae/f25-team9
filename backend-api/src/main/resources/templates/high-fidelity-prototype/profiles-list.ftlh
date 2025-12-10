@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Profiles</title>
-    <link rel="stylesheet" href="/css/site.css">
-    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/CSS/topic.css">
+    <link rel="stylesheet" href="/CSS/profile.css">
 </head>
-<body>
+<body class="topic-page">
 
 <nav class="nav">
     <div class="links">
