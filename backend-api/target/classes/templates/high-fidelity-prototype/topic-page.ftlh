@@ -85,7 +85,7 @@
     </#list>
 
 <#else>
-    <div class="alert alert-info">No articles found for this topic.</div>
+    <div class="panel">No articles found for this topic.</div>
 </#if>
 
 

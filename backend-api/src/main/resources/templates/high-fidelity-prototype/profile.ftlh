@@ -18,6 +18,7 @@
     </ul>
 </nav>
 
+
 <header class="profile-header">
     <div class="profile-info">
         <img src="${customer.imageUrl!'/images/default-profile.png'}" alt="Profile Photo" class="profile-img">
