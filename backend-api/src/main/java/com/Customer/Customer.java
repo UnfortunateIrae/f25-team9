@@ -1,6 +1,6 @@
 package com.Customer;
 
-import com.Topic.Topic;
+import com.Subscription.Subscription;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -25,13 +25,11 @@ public class Customer {
     @Pattern(regexp = "^\\+?\\d{10,15}$")
     private String phoneNumber;
 
-    @ManyToMany
-    @JoinTable(
-            name = "customer_subscriptions",
-            joinColumns = @JoinColumn(name = "customer_id"),
-            inverseJoinColumns = @JoinColumn(name = "topic_id")
-    )
-    private Set<Topic> subscriptions = new HashSet<>();
+    @NotBlank
+    private String password;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Subscription> subscriptions = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -65,20 +63,29 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    public Set<Topic> getSubscriptions() {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Subscription> getSubscriptions() {
         return subscriptions;
     }
 
-    public void setSubscriptions(Set<Topic> subscriptions) {
+    public void setSubscriptions(Set<Subscription> subscriptions) {
         this.subscriptions = subscriptions;
     }
 
-    // Helpers to manage subscription state
-    public void subscribe(Topic topic) {
-        subscriptions.add(topic);
+    public void addSubscription(Subscription subscription) {
+        subscriptions.add(subscription);
+        subscription.setCustomer(this);
     }
 
-    public void unsubscribe(Topic topic) {
-        subscriptions.remove(topic);
+    public void removeSubscription(Subscription subscription) {
+        subscriptions.remove(subscription);
+        subscription.setCustomer(null);
     }
 }

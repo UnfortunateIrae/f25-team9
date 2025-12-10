@@ -10,13 +10,24 @@ import org.springframework.data.domain.Pageable;
 
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, Long> {
-    @Query("SELECT t FROM Customer c JOIN c.subscriptions t WHERE c.id = :customerId")
+
+    @Query("SELECT s.topic FROM Subscription s WHERE s.customer.id = :customerId AND s.active = true")
     List<Topic> findActiveSubscriptions(@Param("customerId") Long customerId);
 
     @Query("SELECT t FROM Topic t LEFT JOIN FETCH t.articles WHERE t.id = :id")
     Optional<Topic> findByIdWithArticles(@Param("id") Long id);
 
-    @Query("SELECT t FROM Topic t LEFT JOIN t.customers c GROUP BY t.id ORDER BY COUNT(c) DESC")
+    @Query(value = """
+                SELECT t
+                FROM Topic t
+                LEFT JOIN Subscription s ON s.topic = t
+                GROUP BY t.id, t.name, t.url
+                ORDER BY COUNT(s.id) DESC
+            """, countQuery = """
+                SELECT COUNT(DISTINCT t.id)
+                FROM Topic t
+                LEFT JOIN Subscription s ON s.topic = t
+            """)
     List<Topic> findTopicsByMostSubscribers(Pageable pageable);
 
 }

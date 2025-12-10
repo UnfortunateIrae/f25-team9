@@ -7,12 +7,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Writer {
@@ -30,6 +31,9 @@ public class Writer {
     @Pattern(regexp = "^\\+?\\d{10,15}$")
     private String phoneNumber;
 
+    @NotBlank
+    private String password;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "source_id", nullable = false)
     @JsonBackReference
@@ -41,8 +45,8 @@ public class Writer {
     @ManyToMany(mappedBy = "writers")
     private List<Topic> topics = new ArrayList<>();
 
-    public List<Topic> getTopics() { return topics; }
-    public void setTopics(List<Topic> topics) { this.topics = topics; }
+    @Column(name = "imageUrl", nullable = true)
+    private String imageUrl;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -56,26 +60,24 @@ public class Writer {
     public String getPhoneNumber() { return phoneNumber; }
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+
     public Source getSource() { return source; }
     public void setSource(Source source) { this.source = source; }
 
     public Set<Article> getArticles() { return articles; }
     public void setArticles(Set<Article> articles) { this.articles = articles; }
 
+    public List<Topic> getTopics() { return topics; }
+    public void setTopics(List<Topic> topics) { this.topics = topics; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
     public String getSourceName() {
-        return (source != null && source.getName() != null && !source.getName().isEmpty()) 
-               ? source.getName() 
-               : "Freelance";
-    }
-
-    @Column(name = "imageUrl", nullable = true)
-    private String imageUrl;
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+        return (source != null && source.getName() != null && !source.getName().isEmpty())
+                ? source.getName()
+                : "Freelance";
     }
 }

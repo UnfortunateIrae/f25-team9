@@ -44,7 +44,7 @@
                     </div>
 
                     <div class="d-flex gap-2">
-                        <form action="/topics/${topic.id}/edit" method="get">
+                        <form action="/topics/edit/${topic.id}" method="get">
                             <button class="btn btn-sm btn-warning">Edit</button>
                         </form>
 

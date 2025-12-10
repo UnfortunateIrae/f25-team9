@@ -9,11 +9,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.Topic.Topic;
 import com.Topic.TopicRepository;
 
+import java.util.HashMap;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.Subscription.SubscriptionRepository;
+import java.util.Map;
+
+import org.springframework.security.core.Authentication;
 
 @Controller
 public class CustomerController {
+
+    @Autowired
+    private SubscriptionRepository subscriptionRepository;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -24,16 +34,24 @@ public class CustomerController {
     @GetMapping("/")
     public String homePage(Model model) {
 
-        // TEMP: Load a test customer for the homepage (replace with session later)
-        Long demoCustomerId = 1L;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
 
-        Customer customer = customerRepository.findById(demoCustomerId)
+        Customer customer = customerRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
-        List<Topic> activeSubscriptions = topicRepository.findActiveSubscriptions(demoCustomerId);
+        Long customerId = customer.getId();
 
-        // Get Top 10 most-subscribed topics
+        List<Topic> activeSubscriptions = topicRepository.findActiveSubscriptions(customerId);
+
         List<Topic> topTopics = topicRepository.findTopicsByMostSubscribers(PageRequest.of(0, 10));
+
+        Map<String, Integer> subscriberCounts = new HashMap<>();
+        for (Topic topic : topTopics) {
+            int count = subscriptionRepository.findByTopic(topic).size();
+            subscriberCounts.put(String.valueOf(topic.getId()), count);
+        }
+        model.addAttribute("subscriberCounts", subscriberCounts);
 
         model.addAttribute("customer", customer);
         model.addAttribute("activeSubscriptions", activeSubscriptions);
