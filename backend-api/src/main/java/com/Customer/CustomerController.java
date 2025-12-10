@@ -12,8 +12,12 @@ import com.Topic.TopicRepository;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import com.Subscription.SubscriptionRepository;
 import java.util.Map;
+
+import org.springframework.security.core.Authentication;
 
 @Controller
 public class CustomerController {
@@ -30,15 +34,23 @@ public class CustomerController {
     @GetMapping("/")
     public String homePage(Model model) {
 
-        Long demoCustomerId = 1L;
+        // Get the logged-in user's email
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName(); // email is used as username
 
-        Customer customer = customerRepository.findById(demoCustomerId)
+        // Fetch the actual customer
+        Customer customer = customerRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
-        List<Topic> activeSubscriptions = topicRepository.findActiveSubscriptions(demoCustomerId);
+        Long customerId = customer.getId();
 
+        // Fetch the customer's active subscriptions
+        List<Topic> activeSubscriptions = topicRepository.findActiveSubscriptions(customerId);
+
+        // Fetch top topics (not user-specific)
         List<Topic> topTopics = topicRepository.findTopicsByMostSubscribers(PageRequest.of(0, 10));
 
+        // Count subscribers per top topic
         Map<Long, Integer> subscriberCounts = new HashMap<>();
         for (Topic topic : topTopics) {
             int count = subscriptionRepository.findByTopic(topic).size();
