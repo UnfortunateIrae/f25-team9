@@ -4,16 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Newsletter Home - Customer Portal</title>
-    <link rel="stylesheet" href="/CSS/index.css">
+    <link rel="stylesheet" href="/CSS/home.css">
 </head>
 <body>
 
-<nav> 
-    <ul> 
-        <li><a href="/index" class="active">Home</a></li> 
-        <li><a href="/profile/${customer.id}">Profile</a></li> 
-    </ul> 
-</nav> 
+<nav class="nav">
+    <div class="links">
+        <a href="/" style="font-weight:800;font-size:1.2rem;">Newsletter</a>
+        <a href="/">Home</a>
+        <a href="/topics">Topics</a>
+        <a href="/articles">Articles</a>
+        <a href="/writers">Writers</a>
+        <a href="/profiles">Profiles</a>
+        <a href="/login">Login</a>
+    </div>
+</nav>
 
 <div class="hero"> 
     <h1>Your Personalized Newsletter Feed</h1> 
@@ -34,11 +39,17 @@
                     </button>
                 </#list>
             <#else>
-                <p style="color:white;">No subscribed topics</p>
+                <p class="muted">No topics available</p>
             </#if>
         </div>
-    </div>
 
+        <section class="recent-articles">
+            <h2 class="section-title">Recent Articles</h2>
+            <div id="recent-articles" class="grid">
+                <!-- Filled by app.js via loadRecentArticles -->
+            </div>
+        </section>
+    </main>
     <!-- Top 10 Topics Section -->
     <p>TopTopics size: ${topTopics?size}</p>
 
@@ -67,5 +78,26 @@
     loadRecentArticles(customerId);
 </script>
 
-</body> 
+<!-- Nav active handling: highlights clicked link and sets active on load -->
+<script>
+    (function(){
+        const links = document.querySelectorAll('.nav .links a');
+        function setActiveForPath(path){
+            links.forEach(a=>{
+                try{ a.classList.remove('active') }catch(e){}
+                if(path === '/' && a.getAttribute('href') === '/') a.classList.add('active');
+                else if(a.getAttribute('href') !== '/' && path.startsWith(a.getAttribute('href'))) a.classList.add('active');
+            })
+        }
+        // set on load
+        setActiveForPath(window.location.pathname || '/');
+        // click handler to highlight
+        links.forEach(a=>a.addEventListener('click',e=>{
+            links.forEach(l=>l.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+        }));
+    })();
+</script>
+
+</body>
 </html>
