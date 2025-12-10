@@ -34,33 +34,28 @@ public class CustomerController {
     @GetMapping("/")
     public String homePage(Model model) {
 
-        // Get the logged-in user's email
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName(); // email is used as username
+        String email = auth.getName();
 
-        // Fetch the actual customer
         Customer customer = customerRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
         Long customerId = customer.getId();
 
-        // Fetch the customer's active subscriptions
         List<Topic> activeSubscriptions = topicRepository.findActiveSubscriptions(customerId);
 
-        // Fetch top topics (not user-specific)
         List<Topic> topTopics = topicRepository.findTopicsByMostSubscribers(PageRequest.of(0, 10));
 
-        // Count subscribers per top topic
-        Map<Long, Integer> subscriberCounts = new HashMap<>();
+        Map<String, Integer> subscriberCounts = new HashMap<>();
         for (Topic topic : topTopics) {
             int count = subscriptionRepository.findByTopic(topic).size();
-            subscriberCounts.put(topic.getId(), count);
+            subscriberCounts.put(String.valueOf(topic.getId()), count);
         }
+        model.addAttribute("subscriberCounts", subscriberCounts);
 
         model.addAttribute("customer", customer);
         model.addAttribute("activeSubscriptions", activeSubscriptions);
         model.addAttribute("topTopics", topTopics);
-        model.addAttribute("subscriberCounts", subscriberCounts);
 
         return "high-fidelity-prototype/homePage";
     }

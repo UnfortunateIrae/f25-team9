@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
 
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, Long> {
@@ -17,11 +18,16 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
     Optional<Topic> findByIdWithArticles(@Param("id") Long id);
 
     @Query(value = """
-            SELECT t
-            FROM Subscription s
-            JOIN s.topic t
-            GROUP BY t.id, t.name, t.url
-            ORDER BY COUNT(s.id) DESC
+                SELECT t
+                FROM Topic t
+                LEFT JOIN Subscription s ON s.topic = t
+                GROUP BY t.id, t.name, t.url
+                ORDER BY COUNT(s.id) DESC
+            """, countQuery = """
+                SELECT COUNT(DISTINCT t.id)
+                FROM Topic t
+                LEFT JOIN Subscription s ON s.topic = t
             """)
-    List<Topic> findTopicsByMostSubscribers(org.springframework.data.domain.Pageable pageable);
+    List<Topic> findTopicsByMostSubscribers(Pageable pageable);
+
 }

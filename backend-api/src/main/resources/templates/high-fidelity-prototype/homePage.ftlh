@@ -6,7 +6,7 @@
     <title>Newsletter Home - Customer Portal</title>
     <link rel="stylesheet" href="/CSS/index.css">
 </head>
-<body> 
+<body>
 
 <nav> 
     <ul> 
@@ -40,6 +40,8 @@
     </div>
 
     <!-- Top 10 Topics Section -->
+    <p>TopTopics size: ${topTopics?size}</p>
+
 <h2 class="section-title">Top 10 Topics by Subscribers</h2>
 <div id="top-topics" class="topics-grid">
     <#if topTopics?? && topTopics?size gt 0>
@@ -47,8 +49,7 @@
             <a href="/topics/${topic.id}" class="topic-card-link">
                 <div class="topic-card">
                     <p>
-                        ${subscriberCounts[topic.id]} subscribers
-
+                        ${topic.name}: ${subscriberCounts[topic.id?string]}
                     </p>
                 </div>
             </a>

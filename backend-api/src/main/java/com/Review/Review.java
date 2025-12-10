@@ -1,6 +1,5 @@
 package com.Review;
 
-import com.Writer.Writer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
@@ -8,8 +7,11 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
+import com.Customer.Customer;
+import com.Topic.Topic;
+
 @Entity
-@JsonIgnoreProperties(value={"writer"}, allowGetters = true)
+@JsonIgnoreProperties(value = { "writer" }, allowGetters = true)
 public class Review {
 
     @Id
@@ -24,18 +26,51 @@ public class Review {
     private String comment;
 
     @ManyToOne
-    @JoinColumn(name = "writer_id")
-    private Writer writer;
+    @JoinColumn(name = "customer")
+    private Customer customer;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public int getRating() { return rating; }
-    public void setRating(int rating) { this.rating = rating; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getComment() { return comment; }
-    public void setComment(String comment) { this.comment = comment; }
+    @ManyToOne
+    @JoinColumn(name = "topic_id")
+    private Topic topic;
 
-    public Writer getWriter() { return writer; }
-    public void setWriter(Writer writer) { this.writer = writer; }
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
 }

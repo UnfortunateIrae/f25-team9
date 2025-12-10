@@ -1,12 +1,12 @@
 package com.Topic;
 
 import com.Article.Article;
+import com.Review.Review;
 import com.Writer.Writer;
 
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Entity
 public class Topic {
@@ -14,6 +14,17 @@ public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Float rating;
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 
     private String name;
     private String url;
@@ -64,4 +75,14 @@ public class Topic {
     public void setArticles(List<Article> articles) {
         this.articles = articles;
     }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+
+    
 }

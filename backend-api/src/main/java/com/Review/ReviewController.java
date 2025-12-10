@@ -1,55 +1,56 @@
 package com.Review;
 
-// Explicit constructor used instead of Lombok to avoid annotation-processing issues during build
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.*;
-import java.util.List;
-import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 
-@RestController
-@RequestMapping("/api/reviews")
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import com.Topic.Topic;
+import com.Topic.TopicRepository;
+import com.Customer.Customer;
+import com.Customer.CustomerRepository;
+
+@Controller
 public class ReviewController {
 
-    private final ReviewService reviewService;
+    @Autowired
+    private ReviewRepository reviewRepository;
 
-    public ReviewController(ReviewService reviewService) {
-        this.reviewService = reviewService;
+    @Autowired
+    private TopicRepository topicRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @PostMapping("/review/add")
+    public String addReview(@RequestParam("topicId") Long topicId,
+            @RequestParam("rating") int rating,
+            @RequestParam("comment") String comment,
+            @RequestParam(value = "customerId", required = false) Long customerId,
+            Model model) {
+
+        Topic topic = topicRepository.findById(topicId).orElse(null);
+        if (topic == null) {
+            model.addAttribute("error", "Topic not found");
+            return "error";
+        }
+
+        Review review = new Review();
+        review.setRating(rating);
+        review.setComment(comment);
+
+        if (customerId != null) {
+            Customer customer = customerRepository.findById(customerId).orElse(null);
+            if (customer == null) {
+                model.addAttribute("error", "Customer not found");
+                return "error";
+            }
+            review.setCustomer(customer);
+        }
+
+        reviewRepository.save(review);
+
+        return "redirect:/topics/" + topicId;
     }
 
-    @PostMapping("/writer/{writerId}")
-    public ResponseEntity<Review> addReview(@PathVariable Long writerId, @Valid @RequestBody Review review) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(reviewService.addReviewToWriter(writerId, review));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Review> updateReview(@PathVariable Long id, @Valid @RequestBody Review details) {
-        return ResponseEntity.ok(reviewService.updateReview(id, details));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteReview(@PathVariable Long id) {
-        reviewService.deleteReview(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Review> getReviewById(@PathVariable Long id) {
-        return ResponseEntity.ok(reviewService.getReviewById(id));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Review>> getAllReviews() {
-        return ResponseEntity.ok(reviewService.getAllReviews());
-    }
-
-    @GetMapping("/writer/{writerId}")
-    public ResponseEntity<List<Review>> getReviewsByWriter(@PathVariable Long writerId) {
-        return ResponseEntity.ok(reviewService.getReviewsByWriterId(writerId));
-    }
-
-    @GetMapping("/writer/{writerId}/average")
-    public ResponseEntity<Double> getAverageRating(@PathVariable Long writerId) {
-        return ResponseEntity.ok(reviewService.getAverageRatingForWriter(writerId));
-    }
 }
