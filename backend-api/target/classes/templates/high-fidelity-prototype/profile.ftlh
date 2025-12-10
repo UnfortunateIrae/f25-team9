@@ -13,7 +13,7 @@
         <li><a href="/">Home</a></li>
         <li><a href="/profile/${customer.id}" class="active">Profile</a></li>
         <li><a href="/articles">Articles</a></li>
-        <li><a href="/logout">Logout</a></li>
+        <li><form action="/logout" method="post"><button>Logout</button></form></li>
     </ul>
 </nav>
 
