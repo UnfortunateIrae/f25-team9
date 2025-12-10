@@ -1,14 +1,28 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Topics & Writers</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/CSS/topic.css">
 </head>
-<body class="bg-light">
+<body class="topic-page">
 
-<div class="container py-4">
-    <h2 class="text-center mb-4">Topics & Writers</h2>
+<nav class="nav">
+    <div class="links">
+        <a href="/" style="font-weight:800;font-size:1.2rem;">Newsletter</a>
+        <a href="/">Home</a>
+        <a href="/topics">Topics</a>
+        <a href="/articles">Articles</a>
+        <a href="/writers">Writers</a>
+        <a href="/profiles">Profiles</a>
+        <a href="/login">Login</a>
+    </div>
+</nav>
+<div class="container">
+    <div class="hero">
+        <h2 class="mb-0 text-center">Topics & Writers</h2>
+    </div>
 
     <form action="/topics/create" method="get">
         <button type="submit" class="btn btn-outline-primary w-100 mb-3">
@@ -60,5 +74,25 @@
     </#if>
 </div>
 
+<script>
+    (function(){
+        const links = document.querySelectorAll('.nav .links a');
+        function setActiveForPath(path){
+            links.forEach(a=>{
+                try{ a.classList.remove('active') }catch(e){}
+                if(path === '/' && a.getAttribute('href') === '/') a.classList.add('active');
+                else if(a.getAttribute('href') !== '/' && path.startsWith(a.getAttribute('href'))) a.classList.add('active');
+            })
+        }
+        setActiveForPath(window.location.pathname || '/');
+        links.forEach(a=>a.addEventListener('click',e=>{
+            links.forEach(l=>l.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+        }));
+    })();
+</script>
+
 </body>
 </html>
+
+

@@ -1,30 +1,25 @@
-<!DOCTYPE html> 
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="CSS/login.css">
+  <meta charset="utf-8">
+  <title>Sign In</title>
+  <link rel="stylesheet" href="/css/site.css">
 </head>
-
 <body>
-  <div id="start">
-    <div id="login" class="box">
-      <h1>Login</h1>
-<form action="home.html" method="post">
-  <input type="text" placeholder="Email">
-  <input type="password" placeholder="Password">
-  <input type="submit" value="Login"><a href="home.html"></a>
-</form>
+  <div class="container">
+    <div class="card" style="max-width:420px;margin:60px auto;padding:20px;">
+      <h2>Sign In</h2>
+      <#if error??>
+        <div class="alert alert-danger">${error}</div>
+      </#if>
+      <form method="post" action="/login">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required>
+        <div style="margin-top:12px"><button class="btn">Sign In</button></div>
+      </form>
     </div>
-
-    <div id="Signup" class="box">    
-      <h1>Sign up</h1>
-      <form action> </form> 
-    </div>
-</div>
-
-<div>
-  <h3 class="end">Thank you for getting your news from Customizable Newsletter! Click here to learn more about us! </h3>
-</div>
-        </body>
+  </div>
+</body>
+</html>

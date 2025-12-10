@@ -4,18 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile</title>
-    <link rel="stylesheet" href="/CSS/profile.css">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/profile.css">
 </head>
 <body>
 
-<nav>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/profile/${customer.id}" class="active">Profile</a></li>
-        <li><a href="/articles">Articles</a></li>
-        <li><a href="/login">Logout</a></li>
-    </ul>
-</nav>
+    <#-- Shared navigation -->
+    <#include "high-fidelity-prototype/_nav.ftlh">
 
 <header class="profile-header">
     <div class="profile-info">
