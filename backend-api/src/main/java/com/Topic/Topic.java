@@ -77,12 +77,18 @@ public class Topic {
     }
 
     public Float getRating() {
-        return rating;
+        if (reviews == null || reviews.isEmpty()) {
+            return 0f;
+        }
+        float sum = 0;
+        for (Review r : reviews) {
+            sum += r.getRating();
+        }
+        return sum / reviews.size();
     }
 
     public void setRating(Float rating) {
         this.rating = rating;
     }
 
-    
 }

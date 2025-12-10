@@ -91,27 +91,28 @@
     </div>
 
 <!-- Add Review Form -->
-<div class="mt-4">
-    <h4 class="mb-3">Add a Review</h4>
-    <form action="/reviews/create" method="post">
-        <input type="hidden" name="topicId" value="${topic.id}">
-        <div class="mb-3">
-            <label for="rating" class="form-label">Rating</label>
-            <select name="rating" id="rating" class="form-select" required>
-                <option value="1">1 &#9733;</option>
-                <option value="2">2 &#9733;</option>
-                <option value="3">3 &#9733;</option>
-                <option value="4">4 &#9733;</option>
-                <option value="5">5 &#9733;</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="comment" class="form-label">Review</label>
-            <textarea name="comment" id="comment" class="form-control" rows="3" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-success w-100">Submit Review</button>
-    </form>
-</div>
+<form action="/reviews/create" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <input type="hidden" name="topicId" value="${topic.id}">
+    
+    <div class="mb-3">
+        <label for="rating" class="form-label">Rating</label>
+        <select name="rating" id="rating" class="form-select" required>
+            <option value="1">1 &#9733;</option>
+            <option value="2">2 &#9733;</option>
+            <option value="3">3 &#9733;</option>
+            <option value="4">4 &#9733;</option>
+            <option value="5">5 &#9733;</option>
+        </select>
+
+    </div>
+    <div class="mb-3">
+        <label for="comment" class="form-label">Review</label>
+        <textarea name="comment" id="comment" class="form-control" rows="3" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-success w-100">Submit Review</button>
+</form>
+
 
 
     <div class="mt-4">
@@ -122,16 +123,15 @@
             <div class="card mb-2">
                 <div class="card-body d-flex justify-content-between align-items-start">
                     <div>
-                        <strong>${customerName}</strong>
-                        <span class="stars">
-                            <#list 1..5 as i>
-                                <#if i <= reviewRating>
-                                    &#9733;
+                        <strong>
+                            <#if review.customer??>
+                                ${review.customer.name!''}
                                 <#else>
-                                    &#9734;
-                                </#if>
-                            </#list>
-                        </span>
+                                    Anonymous
+                            </#if>
+                        </strong>
+
+                        <p>${review.rating} stars</p>
                         <p>${review.comment!''}</p>
                     </div>
                     <div class="d-flex gap-1">

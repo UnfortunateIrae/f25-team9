@@ -9,6 +9,7 @@ import com.Topic.Topic;
 import com.Topic.TopicRepository;
 import com.Customer.Customer;
 import com.Customer.CustomerRepository;
+import java.util.List;
 
 @Controller
 public class ReviewController {
@@ -22,9 +23,9 @@ public class ReviewController {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @PostMapping("/review/add")
+    @PostMapping("/reviews/create")
     public String addReview(@RequestParam("topicId") Long topicId,
-            @RequestParam("rating") int rating,
+            @RequestParam("rating") Integer rating,
             @RequestParam("comment") String comment,
             @RequestParam(value = "customerId", required = false) Long customerId,
             Model model) {
@@ -36,8 +37,13 @@ public class ReviewController {
         }
 
         Review review = new Review();
-        review.setRating(rating);
         review.setComment(comment);
+        review.setTopic(topic);
+
+        if (rating == null) {
+            rating = 0; // default if no rating provided
+        }
+        review.setRating(rating);
 
         if (customerId != null) {
             Customer customer = customerRepository.findById(customerId).orElse(null);
@@ -49,6 +55,15 @@ public class ReviewController {
         }
 
         reviewRepository.save(review);
+
+        // update topic rating including the new review
+        List<Review> reviews = reviewRepository.findByTopicId(topic.getId());
+        double avgRating = reviews.stream()
+                .mapToInt(Review::getRating)
+                .average()
+                .orElse(0.0);
+        topic.setRating((float) avgRating);
+        topicRepository.save(topic);
 
         return "redirect:/topics/" + topicId;
     }
