@@ -26,7 +26,7 @@ public class CustomerUserDetailsService implements UserDetailsService {
 
         return new org.springframework.security.core.userdetails.User(
                 customer.getEmail(),
-                customer.getPassword(), // hashed in DB
+                customer.getPassword(),
                 Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))
         );
     }

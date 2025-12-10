@@ -24,4 +24,7 @@ public interface WriterRepository extends JpaRepository<Writer, Long> {
 
     @Query("SELECT w FROM Writer w WHERE w.name = :name")
     Optional<Writer> findByName(@Param("name") String name);
+
+    @Query("SELECT w FROM Writer w WHERE w.email = :email")
+    Optional<Writer> findByEmail(String email);
 }

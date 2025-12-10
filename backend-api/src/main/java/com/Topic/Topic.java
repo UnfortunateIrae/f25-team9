@@ -14,7 +14,6 @@ public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Float rating;
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
@@ -88,7 +87,6 @@ public class Topic {
     }
 
     public void setRating(Float rating) {
-        this.rating = rating;
     }
 
 }
