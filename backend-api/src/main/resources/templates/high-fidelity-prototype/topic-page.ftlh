@@ -58,30 +58,36 @@
     </form>
 
     <#if (topic.articles??) && (topic.articles?size > 0)>
-        <h4 class="mb-3">Articles (${topic.articles?size})</h4>
-        <#list topic.articles as article>
-            <#assign contentPreview = article.content!''>
-            <div class="card mb-3 shadow-sm">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <div>
-                        <h5 class="mb-0">${article.title!''}</h5>
-                        <p class="text-muted small mb-0">
-                            <#if contentPreview?length > 100>
-                                ${contentPreview?substring(0,100)}...
-                            <#else>
-                                ${contentPreview}
-                            </#if>
-                        </p>
-                    </div>
-                    <form action="/articles/${article.id}" method="get">
-                        <button class="btn btn-sm btn-primary">View</button>
-                    </form>
+    <h4 class="mb-3">Articles (${topic.articles?size})</h4>
+
+    <#list topic.articles as article>
+        <#assign contentPreview = (article.content!'')?string>
+
+        <div class="card mb-3 shadow-sm">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="mb-0">${article.title!''}</h5>
+
+                    <p class="text-muted small mb-0">
+                        <#if ((contentPreview?length) > 100)>
+                            ${contentPreview?substring(0,100)}...
+                        <#else>
+                            ${contentPreview}
+                        </#if>
+                    </p>
                 </div>
+
+                <form action="/articles/${article.id}" method="get">
+                    <button class="btn btn-sm btn-primary">View</button>
+                </form>
             </div>
-        </#list>
-    <#else>
-        <div class="panel">No articles found for this topic.</div>
-    </#if>
+        </div>
+    </#list>
+
+<#else>
+    <div class="panel">No articles found for this topic.</div>
+</#if>
+
 
     <a href="/topics" class="btn w-100 mt-3">Back to all topics</a>
     <!-- Assigned Writers -->
