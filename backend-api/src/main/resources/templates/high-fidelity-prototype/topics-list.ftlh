@@ -13,7 +13,7 @@
     <div class="hero">
         <h2 class="mb-0 text-center">Topics & Writers</h2>
     </div>
-
+    <p>${accountType}</p>
     <#-- Hide Create Topic button for writers -->
     <#if (customer??) && (accountType == "WRITER")>
         <form action="/topics/create" method="get">
@@ -37,7 +37,7 @@
                     </div>
 
                     <#-- Hide Edit/Delete buttons for non-admins/writers -->
-                    <#if customer?? && accountType == "WRITER">
+                    <#if accountType == "WRITER">
                         <div class="d-flex gap-2">
                             <form action="/topics/edit/${topic.id}" method="get">
                                 <button class="btn btn-sm btn-warning">Edit</button>

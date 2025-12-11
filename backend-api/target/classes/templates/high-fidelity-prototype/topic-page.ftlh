@@ -17,7 +17,7 @@
             <h2 class="mb-0">${topic.name!''}</h2>
             
             <#-- Hide "Add Article" button for non-admins/writers -->
-            <#if customer?? && accountType == "WRITER">
+            <#if accountType == "WRITER">
                 <form action="/articles/create" method="get">
                     <input type="hidden" name="topicId" value="${topic.id}">
                     <button type="submit" class="btn-cta">Add Article</button>
@@ -107,7 +107,7 @@
                         </form>
 
                         <#-- Hide Edit/Delete buttons for articles -->
-                        <#if customer?? && accountType == "WRITER">
+                        <#if accountType == "WRITER">
                             <div class="d-flex gap-2 mt-2">
                                 <form action="/articles/edit/${article.id}" method="get">
                                     <button class="btn btn-primary w-100">Edit</button>
@@ -148,12 +148,7 @@
                             <p style="color: black">${review.comment!''}</p>
                         </div>
                         <div class="d-flex gap-1">
-                        <#if customer?? && accountType == "WRITER">
-                            <form action="/reviews/${review.id}/edit" method="get">
-                                <button class="btn btn-sm btn-warning">Edit</button>
-                            </form>
-                        </#if>
-                        <#if customer?? && accountType == "WRITER">
+                        <#if accountType == "WRITER">
                             <form action="/reviews/${review.id}/delete" method="post">
                                 <button class="btn btn-sm btn-danger">Delete</button>
                             </form>
