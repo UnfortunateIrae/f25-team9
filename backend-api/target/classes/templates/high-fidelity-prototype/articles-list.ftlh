@@ -15,7 +15,9 @@
     <h2 class="text-center mb-4">All Articles</h2>
 
     <#if articles??>
-        <p class="muted" style="text-align:center;margin-top:-8px;">${articles?size} article<#if articles?size != 1>s</#if> available</p>
+        <p class="muted text-center" style="margin-top:-8px;">
+            ${articles?size} article<#if articles?size != 1>s</#if> available
+        </p>
     </#if>
 
     <#if articles?? && (articles?size > 0)>
@@ -23,6 +25,7 @@
             <#assign titleText = article.title?default("Untitled Article")>
             <#assign contentPreview = (article.content!"")?string>
             <#assign contentLength = contentPreview?length>
+
             <div class="article-card bright mb-3">
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
@@ -32,20 +35,22 @@
                                 ${contentPreview?substring(0,120)}...
                             <#elseif contentLength gt 0>
                                 ${contentPreview}
-                            <#if article.content??>
-                                <#if ((article.content?length) > 100)>
-                                    ${article.content?substring(0,100)}...
-                                <#else>
-                                    ${article.content}
-                                </#if>
                             <#else>
-                                <em>No content</em>
+                                <#if article.content??>
+                                    <#if article.content?length gt 100>
+                                        ${article.content?substring(0,100)}...
+                                    <#else>
+                                        ${article.content}
+                                    </#if>
+                                <#else>
+                                    <em>No content</em>
+                                </#if>
                             </#if>
                         </p>
                         <p class="text-muted small mb-0" style="margin-top:6px;">
-                            <#if article.topic??>Topic: ${article.topic.name!""}<#else>Topic: N/A</#if>
+                            Topic: <#if article.topic??>${article.topic.name!""}<#else>N/A</#if>
                             &nbsp;|&nbsp;
-                            <#if article.writer??>Writer: ${article.writer.name!""}<#else>Writer: N/A</#if>
+                            Writer: <#if article.writer??>${article.writer.name!""}<#else>N/A</#if>
                         </p>
                     </div>
                     <form action="/articles/${article.id}" method="get">
@@ -66,14 +71,14 @@
         const links = document.querySelectorAll('.nav .links a');
         function setActiveForPath(path){
             links.forEach(a=>{
-                try{ a.classList.remove('active') }catch(e){}
+                a.classList.remove('active');
                 if(path === '/' && a.getAttribute('href') === '/') a.classList.add('active');
                 else if(a.getAttribute('href') !== '/' && path.startsWith(a.getAttribute('href'))) a.classList.add('active');
             })
         }
         setActiveForPath(window.location.pathname || '/');
-        links.forEach(a=>a.addEventListener('click',e=>{
-            links.forEach(l=>l.classList.remove('active'));
+        links.forEach(a => a.addEventListener('click', e => {
+            links.forEach(l => l.classList.remove('active'));
             e.currentTarget.classList.add('active');
         }));
     })();

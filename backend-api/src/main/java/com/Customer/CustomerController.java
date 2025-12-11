@@ -19,6 +19,7 @@ import com.Subscription.SubscriptionRepository;
 import java.util.Map;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 @Controller
 public class CustomerController {
@@ -42,6 +43,7 @@ public class CustomerController {
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
         Long customerId = customer.getId();
+        model.addAttribute("customerId", customerId);
 
         List<Topic> activeSubscriptions = topicRepository.findActiveSubscriptions(customerId);
 
@@ -62,7 +64,7 @@ public class CustomerController {
     }
 
     @GetMapping("/profile/{id}")
-    public String profilePage(Model model, @PathVariable Long id) {
+    public String profilePage(Model model, @PathVariable Long id, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
 
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
@@ -71,6 +73,8 @@ public class CustomerController {
 
         model.addAttribute("customer", customer);
         model.addAttribute("activeSubscriptions", activeSubscriptions);
+        Long customerId = customUserDetails.getId();
+        model.addAttribute("customerId", customerId);
 
         return "high-fidelity-prototype/profile";
     }

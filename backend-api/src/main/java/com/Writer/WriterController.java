@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.util.*;
 
@@ -35,11 +36,13 @@ public class WriterController {
     }
 
     @GetMapping("/writers")
-    public String writersList(Model model) {
+    public String writersList(Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
 
         List<Writer> writers = writerRepository.findAllWithDetails();
 
         writers.sort((w1, w2) -> w1.getName().compareToIgnoreCase(w2.getName()));
+        Long customerId = customUserDetails.getId();
+        model.addAttribute("customerId", customerId);
 
         model.addAttribute("writers", writers);
         return "high-fidelity-prototype/writers-list";

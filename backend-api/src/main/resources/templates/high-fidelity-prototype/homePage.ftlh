@@ -50,7 +50,6 @@
                 <#list topTopics as topic>
                     <div class="topic-card">
                         <div class="topic-head"><h3>${topic.name}</h3><span class="count small">${subscriberCounts[topic.id?string]!0}</span></div>
-                        <p class="small muted">Short description placeholder — add topic summary here.</p>
                         <div style="margin-top:12px">
                             <a class="learn" href="/topics/${topic.id}">Explore</a>
                         </div>
@@ -60,31 +59,7 @@
                 <p class="muted">No topics available</p>
             </#if>
         </div>
-
-        <section class="recent-articles">
-            <h2 class="section-title">Recent Articles</h2>
-            <div id="recent-articles" class="grid">
-                <!-- Filled by app.js via loadRecentArticles -->
-            </div>
-        </section>
     </main>
-    <!-- Top 10 Topics Section -->
-<h2 class="section-title">Top 10 Topics by Subscribers</h2>
-<div id="top-topics" class="topics-grid">
-    <#if topTopics?? && topTopics?size gt 0>
-        <#list topTopics as topic>
-            <a href="/topics/${topic.id}" class="topic-card-link">
-                <div class="topic-card">
-                    <p>
-                        ${topic.name}: ${subscriberCounts[topic.id?string]}
-                    </p>
-                </div>
-            </a>
-        </#list>
-    <#else>
-        <p style="color:white;">No topics available</p>
-    </#if>
-</div>
 
 </div>
 

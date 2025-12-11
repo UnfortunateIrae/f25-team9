@@ -6,7 +6,7 @@
         <a href="/topics">Topics</a>
         <a href="/articles">Articles</a>
         <a href="/writers">Writers</a>
-        <a href="/profiles">Profiles</a>
+        <a href="/profile/${customerId}">Profile</a>
         <#if customer??>
             <form action="/logout" method="post">
                 <button type="submit">Logout</button>

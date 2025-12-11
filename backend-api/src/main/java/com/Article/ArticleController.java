@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import com.Topic.Topic;
 import com.Topic.TopicRepository;
@@ -90,7 +91,9 @@ public class ArticleController {
     }
 
     @GetMapping("/articles")
-    public String listArticles(Model model) {
+    public String listArticles(Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
+        Long customerId = customUserDetails.getId();
+        model.addAttribute("customerId", customerId);
         model.addAttribute("articles", articleRepository.findAll(Sort.by(Sort.Direction.DESC, "id")));
         return "high-fidelity-prototype/articles-list";
     }
