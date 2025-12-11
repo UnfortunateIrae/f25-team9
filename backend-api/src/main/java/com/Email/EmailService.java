@@ -53,7 +53,6 @@ public class EmailService {
 
     @Scheduled(cron = "0 0 8 * * SUN")
     public void sendWeeklyNewsletter() {
-
         List<Subscription> subscriptions =
                 subscriptionRepository.findByActiveTrueAndEndDateAfter(null);
 
