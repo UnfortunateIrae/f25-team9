@@ -53,9 +53,14 @@
                             <div class="topic-head">
                                 <h3>${article.title}</h3>
                             </div>
-                            <div style="margin-top:12px;display:flex;gap:8px;">
+                            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
                                 <a class="learn" href="/articles/${article.id}">View</a>
                                 <a class="learn" href="/articles/${article.id}/edit" style="background:rgba(255,255,255,0.08);">Edit</a>
+                                <form action="/articles/${article.id}/delete" method="post" style="display:inline;">
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                    <button type="submit" class="learn" style="background:rgba(220,53,69,0.2);border:1px solid rgba(220,53,69,0.5);cursor:pointer;" 
+                                            onclick="return confirm('Are you sure you want to delete this article?')">Delete</button>
+                                </form>
                             </div>
                         </div>
                     </#list>

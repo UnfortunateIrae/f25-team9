@@ -92,7 +92,7 @@ public class ArticleController {
 
         articleRepository.save(article);
 
-        return "redirect:/articles/" + id;
+        return "redirect:/";
     }
 
     @PostMapping("/articles/{id}/delete")

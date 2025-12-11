@@ -1,15 +1,21 @@
 package com.Topic;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import jakarta.validation.Valid;
-import java.util.List;
 import com.Writer.Writer;
 import com.Writer.WriterRepository;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class TopicController {
@@ -73,7 +79,7 @@ public class TopicController {
         }
 
         topicRepository.save(topic);
-        return "redirect:/topics/edit/" + id;
+        return "redirect:/";
     }
 
     @PostMapping("/topics/{id}/delete")
