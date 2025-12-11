@@ -113,7 +113,8 @@
                                     <button class="btn btn-primary w-100">Edit</button>
                                 </form>
 
-                                <form action="/articles/delete/${article.id}" method="post">
+                                <form action="/articles/${article.id}/delete" method="post">
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                     <button class="btn btn-danger w-100"
                                             onclick="return confirm('Are you sure you want to delete this article?')">
                                         Delete

@@ -47,7 +47,9 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/register", "/CSS/**", "/JS/**").permitAll()
-                        .requestMatchers("/subscriptions/**", "articles/**", "/", "/topics/**", "/reviews/**").hasAuthority("CUSTOMER")
+                        .requestMatchers("/", "/topics/**", "/articles/**", "/writers/**").hasAnyAuthority("CUSTOMER", "WRITER")
+                        .requestMatchers("/profiles/**").hasAuthority("WRITER")
+                        .requestMatchers("/subscriptions/**").hasAuthority("CUSTOMER")
                         .requestMatchers("/edit/**", "/update/**", "/add/**", "/delete/**").hasAuthority("WRITER")
                         .anyRequest().authenticated())
 
