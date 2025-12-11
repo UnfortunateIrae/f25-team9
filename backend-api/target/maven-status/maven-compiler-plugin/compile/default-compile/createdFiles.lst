@@ -1,5 +1,4 @@
 com\Writer\WriterRepository.class
-com\Topic\TopicController.class
 com\Review\Review.class
 com\Source\SourceRepository.class
 com\Email\EmailService.class
@@ -21,19 +20,12 @@ com\Source\SourceController.class
 com\Security\SecurityConfig.class
 com\Security\CustomLoginSuccessHandler.class
 com\Customer\Customer.class
-com\Customer\CustomerController.class
-com\Source\SourceService.class
-com\Subscription\SubscriptionService.class
 com\Subscription\SubscriptionController.class
-com\Topic\TopicService.class
 com\Topic\Topic.class
-com\NewsletterApplication.class
 com\Writer\Writer.class
 com\Writer\WriterService.class
 com\Customer\CustomerService.class
 com\Review\ReviewRepository.class
 com\Security\CustomUserDetails.class
 com\Article\ArticleRepository.class
-com\Review\ReviewController.class
-com\Article\ArticleController.class
 com\Source\Source.class

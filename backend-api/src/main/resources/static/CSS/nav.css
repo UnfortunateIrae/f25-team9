@@ -63,6 +63,27 @@
   color:var(--nav-deep);
 }
 
+.role-badge{
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:0.85rem;
+  font-weight:600;
+  letter-spacing:0.3px;
+  text-transform:uppercase;
+}
+
+.customer-badge{
+  background:linear-gradient(135deg, #5AA9E6, #4A9AD6);
+  color:#ffffff;
+  box-shadow:0 2px 8px rgba(90,169,230,0.3);
+}
+
+.writer-badge{
+  background:linear-gradient(135deg, #FFC107, #FFB300);
+  color:#0E2B66;
+  box-shadow:0 2px 8px rgba(255,193,7,0.3);
+}
+
 @media (max-width:600px){
   .nav{
     padding:12px 14px;
@@ -70,5 +91,15 @@
   .nav .links{
     gap:8px;
     flex-wrap:wrap;
+  }
+  .nav .links a:first-child{
+    font-size:1rem !important;
+  }
+}
+
+@media (max-width:480px){
+  .nav .links a:not(:first-child):not(.active){
+    font-size:0.85rem;
+    padding:6px 10px;
   }
 }
