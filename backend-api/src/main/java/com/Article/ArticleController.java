@@ -2,13 +2,13 @@ package com.Article;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import com.Topic.Topic;
 import com.Topic.TopicRepository;
@@ -30,11 +30,12 @@ public class ArticleController {
     private WriterRepository writerRepository;
 
     @GetMapping("/articles/create")
-    public String showCreateArticleForm(@RequestParam Long topicId, Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
+    public String showCreateArticleForm(@RequestParam(required = false) Long topicId, Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
         model.addAttribute("topicId", topicId);
         Long customerId = customUserDetails.getId();
         model.addAttribute("customerId", customerId);
         model.addAttribute("article", new Article());
+        model.addAttribute("topics", topicRepository.findAll());
         model.addAttribute("writers", writerRepository.findAll());
         return "high-fidelity-prototype/create-article";
     }
@@ -55,7 +56,9 @@ public class ArticleController {
         article.setWriter(writer);
 
         articleRepository.save(article);
-        return "redirect:/topics/" + topicId;
+        
+        // Redirect to the writer's homepage
+        return "redirect:/";
     }
 
     @GetMapping("/articles/{id}")
@@ -89,7 +92,7 @@ public class ArticleController {
 
         articleRepository.save(article);
 
-        return "redirect:/articles/" + id;
+        return "redirect:/";
     }
 
     @PostMapping("/articles/{id}/delete")

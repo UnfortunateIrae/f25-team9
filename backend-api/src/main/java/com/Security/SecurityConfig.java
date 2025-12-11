@@ -46,9 +46,11 @@ public class SecurityConfig {
                         .ignoringRequestMatchers("/logout"))
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/register", "/CSS/**", "/JS/**", "/subscriptions/**", "articles/**", "/", "/topics/**", "/reviews/**", "**/delete", "/delete/**").permitAll()
-                        .requestMatchers("/subscriptions/**", "articles/**", "/", "/topics/**", "/reviews/**").hasAuthority("CUSTOMER")
-                        .requestMatchers("/edit/**", "/update/**", "/add/**", "/delete/**", "/subscriptions/**", "articles/**", "/", "/topics/**", "/reviews/**").hasAuthority("WRITER")
+                        .requestMatchers("/login", "/register", "/CSS/**", "/JS/**").permitAll()
+                        .requestMatchers("/", "/topics/**", "/articles/**", "/writers/**").hasAnyAuthority("CUSTOMER", "WRITER")
+                        .requestMatchers("/profiles/**").hasAuthority("WRITER")
+                        .requestMatchers("/subscriptions/**").hasAuthority("CUSTOMER")
+                        .requestMatchers("/edit/**", "/update/**", "/add/**", "/delete/**").hasAuthority("WRITER")
                         .anyRequest().authenticated())
 
                 .formLogin(form -> form

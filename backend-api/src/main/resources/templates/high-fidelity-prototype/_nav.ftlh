@@ -1,20 +1,22 @@
 <link rel="stylesheet" href="/CSS/nav.css">
 <nav class="nav">
     <div class="links">
-        <a href="/" style="font-weight:800;font-size:1.2rem;">Newsletter</a>
+        <span class="brand-title">Customizable Newsletter</span>
+        <#if customer??>
+            <span class="role-badge customer-badge">Customer</span>
+        <#elseif writer??>
+            <span class="role-badge writer-badge">Writer</span>
+        </#if>
         <a href="/">Home</a>
         <a href="/topics">Topics</a>
         <a href="/articles">Articles</a>
         <a href="/writers">Writers</a>
-        <a href="/profiles">Profiles</a>
         <#if customer??>
-            <span class="role-badge customer-badge">Customer</span>
             <a href="/profile/${customer.id}">Profile</a>
             <form action="/logout" method="post">
                 <button type="submit">Logout</button>
             </form>
         <#elseif writer??>
-            <span class="role-badge writer-badge">Writer</span>
             <a href="/writers/${writer.id}">Profile</a>
             <form action="/logout" method="post">
                 <button type="submit">Logout</button>

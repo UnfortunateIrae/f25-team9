@@ -1,19 +1,22 @@
 package com.Writer;
 
-import com.Source.Source;
-import com.Source.SourceRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+import com.Source.Source;
+import com.Source.SourceRepository;
+
 @Service
-@RequiredArgsConstructor
 public class WriterService {
 
     private final WriterRepository writerRepository;
     private final SourceRepository sourceRepository;
+
+    public WriterService(WriterRepository writerRepository, SourceRepository sourceRepository) {
+        this.writerRepository = writerRepository;
+        this.sourceRepository = sourceRepository;
+    }
 
     public Writer createWriter(Writer writer) {
         if (writer.getSource() == null || writer.getSource().getId() == null) {

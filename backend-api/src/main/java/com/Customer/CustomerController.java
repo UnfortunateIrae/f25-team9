@@ -1,25 +1,27 @@
 package com.Customer;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.Article.Article;
+import com.Article.ArticleRepository;
+import com.Subscription.SubscriptionRepository;
 import com.Topic.Topic;
 import com.Topic.TopicRepository;
-
-import java.util.HashMap;
-import java.util.List;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-import com.Subscription.SubscriptionRepository;
-import java.util.Map;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import com.Writer.Writer;
+import com.Writer.WriterRepository;
 
 @Controller
 public class CustomerController {
@@ -33,12 +35,35 @@ public class CustomerController {
     @Autowired
     private TopicRepository topicRepository;
 
+    @Autowired
+    private WriterRepository writerRepository;
+
+    @Autowired
+    private ArticleRepository articleRepository;
+
     @GetMapping("/")
     public String homePage(Model model) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
 
+        // Check if user is a writer first
+        var writerOpt = writerRepository.findByEmail(email);
+        if (writerOpt.isPresent()) {
+            Writer writer = writerOpt.get();
+            model.addAttribute("writer", writer);
+            
+            // Get writer's articles
+            List<Article> writerArticles = articleRepository.findByWriterId(writer.getId());
+            model.addAttribute("writerArticles", writerArticles);
+            
+            // Get writer's topics
+            model.addAttribute("writerTopics", writer.getTopics());
+            
+            return "high-fidelity-prototype/homePage";
+        }
+
+        // Otherwise, handle as customer
         Customer customer = customerRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 

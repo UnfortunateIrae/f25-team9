@@ -14,8 +14,8 @@
         <h2 class="mb-0 text-center">Topics & Writers</h2>
     </div>
     <p>${accountType}</p>
-    <#-- Hide Create Topic button for writers -->
-    <#if (customer??) && (accountType == "WRITER")>
+    <#-- Hide Create Topic button for customers, show only for writers -->
+    <#if accountType == "WRITER">
         <form action="/topics/create" method="get">
             <button type="submit" class="btn btn-outline-primary w-100 mb-3">
                 Create Topic

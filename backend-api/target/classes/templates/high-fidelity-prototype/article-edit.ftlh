@@ -14,7 +14,8 @@
 <div class="container py-4" style="max-width: 700px;">
     <h2 class="mb-4 text-center">Edit Article</h2>
 
-    <form action="/articles/edit/${article.id}" method="post">
+    <form action="/articles/${article.id}/update" method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
         <div class="mb-3">
             <label class="form-label">Title</label>

@@ -15,8 +15,8 @@
 <div class="container">
     <h1 class="mb-4 text-center">Writer Directory</h1>
 
-    <#-- Only show Create Writer Profile button if customer is not WRITER -->
-    <#if && accountType == "WRITER">
+    <#-- Only show Create Writer Profile button if customer is WRITER -->
+    <#if accountType == "WRITER">
     <div class="mb-3 text-center">
         <form action="/writers/new" method="get">
             <button type="submit" class="btn btn-outline-primary w-100">

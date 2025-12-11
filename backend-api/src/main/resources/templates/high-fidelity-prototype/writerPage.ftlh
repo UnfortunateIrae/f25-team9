@@ -111,7 +111,7 @@
                 <div class="profile-info">
                     <p>Email: ${writer.email?if_exists}</p>
                     <p>Phone: ${writer.phoneNumber?if_exists}</p>
-                    <p>Source: ${writer.sourceName}</p>
+                    <p>Source: ${writer.getSourceName()?if_exists}</p>
                 </div>
             </div>
         </div>
@@ -119,18 +119,26 @@
         <div class="section">
             <h2>Articles</h2>
             <ul>
-                <#list writer.articles?sort_by("title") as article>
-                    <li>${article.title}</li>
-                </#list>
+                <#if writer.articles??>
+                    <#list writer.articles as article>
+                        <li>${article.title}</li>
+                    </#list>
+                <#else>
+                    <li>No articles yet</li>
+                </#if>
             </ul>
         </div>
 
         <div class="section">
             <h2>Topics</h2>
             <ul>
-                <#list writer.topics?sort_by("name") as topic>
-                    <li>${topic.name}</li>
-                </#list>
+                <#if writer.topics??>
+                    <#list writer.topics as topic>
+                        <li>${topic.name}</li>
+                    </#list>
+                <#else>
+                    <li>No topics yet</li>
+                </#if>
             </ul>
         </div>
     </div>
