@@ -56,7 +56,6 @@ public class ReviewController {
 
         reviewRepository.save(review);
 
-        // update topic rating including the new review
         List<Review> reviews = reviewRepository.findByTopicId(topic.getId());
         double avgRating = reviews.stream()
                 .mapToInt(Review::getRating)
@@ -66,6 +65,28 @@ public class ReviewController {
         topicRepository.save(topic);
 
         return "redirect:/topics/" + topicId;
+    }
+
+    @PostMapping("/reviews/{id}/delete")
+    public String deleteReview(@RequestParam("reviewId") Long reviewId, Model model) {
+        Review review = reviewRepository.findById(reviewId).orElse(null);
+        if (review == null) {
+            model.addAttribute("error", "Review not found");
+            return "error";
+        }
+
+        Topic topic = review.getTopic();
+        reviewRepository.delete(review);
+
+        List<Review> reviews = reviewRepository.findByTopicId(topic.getId());
+        double avgRating = reviews.stream()
+                .mapToInt(Review::getRating)
+                .average()
+                .orElse(0.0);
+        topic.setRating((float) avgRating);
+        topicRepository.save(topic);
+
+        return "redirect:/topics/" + topic.getId();
     }
 
 }
