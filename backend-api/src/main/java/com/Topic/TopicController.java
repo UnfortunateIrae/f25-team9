@@ -26,6 +26,8 @@ public class TopicController {
         model.addAttribute("topics", topics);
 
         Long customerId = customUserDetails.getId();
+        String accountType = customUserDetails.getAccountType();
+        model.addAttribute("accountType", accountType);
         model.addAttribute("customerId", customerId);
         return "high-fidelity-prototype/topics-list";
     }
@@ -86,6 +88,8 @@ public class TopicController {
                 .orElseThrow(() -> new RuntimeException("Topic not found"));
         model.addAttribute("topic", topic);
         Long customerId = customUserDetails.getId();
+        String accountType = customUserDetails.getAccountType();
+        model.addAttribute("accountType", accountType);
         model.addAttribute("customerId", customerId);
         return "high-fidelity-prototype/topic-page";
     }

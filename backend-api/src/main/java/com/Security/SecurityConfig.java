@@ -48,6 +48,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/register", "/CSS/**", "/JS/**").permitAll()
                         .requestMatchers("/subscriptions/**").hasAuthority("CUSTOMER")
+                        .requestMatchers("/edit/**", "/update/**", "/add/**", "/delete/**").hasAuthority("WRITER")
                         .anyRequest().authenticated())
 
                 .formLogin(form -> form

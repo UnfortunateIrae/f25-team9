@@ -15,10 +15,14 @@
     <div class="hero">
         <div class="topic-head">
             <h2 class="mb-0">${topic.name!''}</h2>
-            <form action="/articles/create" method="get">
-                <input type="hidden" name="topicId" value="${topic.id}">
-                <button type="submit" class="btn-cta">Add Article</button>
-            </form>
+            
+            <#-- Hide "Add Article" button for non-admins/writers -->
+            <#if customer?? && accountType == "WRITER">
+                <form action="/articles/create" method="get">
+                    <input type="hidden" name="topicId" value="${topic.id}">
+                    <button type="submit" class="btn-cta">Add Article</button>
+                </form>
+            </#if>
         </div>
 
         <#assign displayRating = 0>
@@ -101,6 +105,22 @@
                         <form action="/articles/${article.id}" method="get">
                             <button class="btn btn-cta" type="submit">View</button>
                         </form>
+
+                        <#-- Hide Edit/Delete buttons for articles -->
+                        <#if customer?? && accountType == "WRITER">
+                            <div class="d-flex gap-2 mt-2">
+                                <form action="/articles/edit/${article.id}" method="get">
+                                    <button class="btn btn-primary w-100">Edit</button>
+                                </form>
+
+                                <form action="/articles/delete/${article.id}" method="post">
+                                    <button class="btn btn-danger w-100"
+                                            onclick="return confirm('Are you sure you want to delete this article?')">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </#if>
                     </div>
                 </#list>
             </div>

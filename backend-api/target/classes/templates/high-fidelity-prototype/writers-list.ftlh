@@ -14,13 +14,18 @@
 
 <div class="container">
     <h1 class="mb-4 text-center">Writer Directory</h1>
+
+    <#-- Only show Create Writer Profile button if customer is not WRITER -->
+    <#if customer?? && accountType == "WRITER">
     <div class="mb-3 text-center">
-                                <form action="/writers/new" method="get">
-                                    <button type="submit" class="btn btn-outline-primary w-100">
-                                        Create Writer Profile
-                                    </button>
-                                </form>
-                            </div>
+        <form action="/writers/new" method="get">
+            <button type="submit" class="btn btn-outline-primary w-100">
+                Create Writer Profile
+            </button>
+        </form>
+    </div>
+    </#if>
+
     <#if writers?has_content>
         <#list writers as writer>
             <div class="accordion mb-3" id="accordionWriter${writer.id}">
@@ -50,11 +55,15 @@
                                         View Profile
                                     </button>
                                 </form>
+
+                                <#-- Hide Edit button if customer is WRITER -->
+                                <#if customer?? && accountType == "WRITER">
                                 <form action="/writers/${writer.id}/edit" method="get">
                                     <button type="submit" class="btn btn-outline-secondary">
                                         Edit
                                     </button>
                                 </form>
+                                </#if>
                             </div>
 
                             <#if writer.topics?has_content>
@@ -81,11 +90,15 @@
                                                                     ${article.title?default("Untitled Article")}
                                                                     <span>
                                                                         <a href="/articles/view/${article.id}" class="btn btn-sm btn-info">View</a>
-                                                                        <a href="/articles/edit/${article.id}" class="btn btn-sm btn-primary">Edit</a>
-                                                                        <a href="/articles/delete/${article.id}" class="btn btn-sm btn-danger"
-                                                                           onclick="return confirm('Are you sure you want to delete this article?');">
-                                                                            Delete
-                                                                        </a>
+
+                                                                        <#-- Hide Edit/Delete buttons if customer is WRITER -->
+                                                                        <#if customer?? && accountType == "WRITER">
+                                                                            <a href="/articles/edit/${article.id}" class="btn btn-sm btn-primary">Edit</a>
+                                                                            <a href="/articles/delete/${article.id}" class="btn btn-sm btn-danger"
+                                                                               onclick="return confirm('Are you sure you want to delete this article?');">
+                                                                                Delete
+                                                                            </a>
+                                                                        </#if>
                                                                     </span>
                                                                 </li>
                                                             </#list>
