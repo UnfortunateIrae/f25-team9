@@ -15,6 +15,7 @@ public class CustomUserDetailsService{
     private PasswordEncoder passwordEncoder;
 
     private String accountType;
+    private Object id;
 
     public CustomUserDetailsService(CustomerRepository customerRepo,
                                     WriterRepository writerRepo,
@@ -52,5 +53,9 @@ public class CustomUserDetailsService{
 
     public String getAccountType() {
         return accountType;
+    }
+
+    public Object getId() {
+        return id;
     }
 }

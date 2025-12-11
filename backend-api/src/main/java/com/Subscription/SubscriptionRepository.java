@@ -29,5 +29,7 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
           AND (s.endDate IS NULL OR s.endDate > :now)
     """)
     List<Subscription> findAllValidActive(@Param("now") LocalDateTime now);
+
+    boolean existsByCustomerAndTopic(Customer customer, Topic topic);
 }
 

@@ -51,8 +51,6 @@
         </section>
     </main>
     <!-- Top 10 Topics Section -->
-    <p>TopTopics size: ${topTopics?size}</p>
-
 <h2 class="section-title">Top 10 Topics by Subscribers</h2>
 <div id="top-topics" class="topics-grid">
     <#if topTopics?? && topTopics?size gt 0>

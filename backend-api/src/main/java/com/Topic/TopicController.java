@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import jakarta.validation.Valid;
 import java.util.List;
 import com.Writer.Writer;
@@ -17,11 +19,14 @@ public class TopicController {
 
     @Autowired
     private WriterRepository writerRepository;
-
+    
     @GetMapping("/topics")
-    public String listTopics(Model model) {
+    public String listTopics(Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
         List<Topic> topics = topicRepository.findAll();
         model.addAttribute("topics", topics);
+
+        Long customerId = customUserDetails.getId();
+        model.addAttribute("customerId", customerId);
         return "high-fidelity-prototype/topics-list";
     }
 
@@ -73,10 +78,13 @@ public class TopicController {
     }
 
     @GetMapping("/topics/{id}")
-    public String viewTopic(@PathVariable Long id, Model model) {
+    public String viewTopic(@PathVariable Long id, Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
         Topic topic = topicRepository.findByIdWithArticles(id)
                 .orElseThrow(() -> new RuntimeException("Topic not found"));
         model.addAttribute("topic", topic);
+
+        Long customerId = customUserDetails.getId();
+        model.addAttribute("customerId", customerId);
         return "high-fidelity-prototype/topic-page";
     }
 }

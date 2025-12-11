@@ -32,7 +32,7 @@
                         <h5 class="mb-0">${article.title}</h5>
                         <p class="text-muted small mb-0">
                             <#if article.content??>
-                                <#if article.content?length > 100>
+                                <#if ((article.content?length) > 100)>
                                     ${article.content?substring(0,100)}...
                                 <#else>
                                     ${article.content}

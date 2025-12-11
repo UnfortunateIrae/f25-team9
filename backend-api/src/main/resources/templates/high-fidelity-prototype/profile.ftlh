@@ -23,12 +23,12 @@
         <img src="${customer.imageUrl!'/images/default-profile.png'}" alt="Profile Photo" class="profile-img">
         <h1>${customer.name}</h1>
         <p>${customer.email}</p>
-        <p>${customer.phoneNumber}</p>
+        <p>${customer.phoneNumber!"Not added yet!"}</p>
     </div>
 
     <div class="profile-actions">
         <a href="/customer/edit/${customer.id}" class="btn">Edit Profile</a>
-        <a href="/subscriptions" class="btn secondary">Manage Subscriptions</a>
+        <a href="/customer/subscriptions/${customer.id}" class="btn secondary">Manage Subscriptions</a>
     </div>
 </header>
 

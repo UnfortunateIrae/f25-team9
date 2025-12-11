@@ -45,7 +45,7 @@ public class SecurityController {
         newCustomer.setEmail(email);
         newCustomer.setPassword(passwordEncoder.encode(password));
         customerRepository.save(newCustomer);
-        return "redirect:/login";
+        return "redirect:/";
     }
 
 }
