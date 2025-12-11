@@ -18,7 +18,7 @@
             <div>
                 <h1 style="margin:0 0 6px;">${customer.name}</h1>
                 <p class="muted" style="margin:0">${customer.email}</p>
-                <p class="muted" style="margin:4px 0 0;">${customer.phoneNumber!"Not added yet!"}</p>
+                <p class="muted" style="margin:4px 0 0;">${customer.phoneNumber}</p>
             </div>
         </div>
         <div class="profile-actions" style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
