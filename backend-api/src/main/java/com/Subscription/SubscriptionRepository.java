@@ -31,5 +31,8 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
     List<Subscription> findAllValidActive(@Param("now") LocalDateTime now);
 
     boolean existsByCustomerAndTopic(Customer customer, Topic topic);
+
+    @Query("SELECT s FROM Subscription s WHERE s.customer.email = :email")
+    List<Subscription> findByCustomerEmail(String email);
 }
 
