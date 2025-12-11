@@ -31,8 +31,10 @@ public class TopicController {
     }
 
     @GetMapping("/topics/create")
-    public String createTopicPage(Model model) {
+    public String createTopicPage(Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
         model.addAttribute("topic", new Topic());
+        Long customerId = customUserDetails.getId();
+        model.addAttribute("customerId", customerId);
         return "high-fidelity-prototype/create-topic";
     }
 
@@ -45,11 +47,12 @@ public class TopicController {
     }
 
     @GetMapping("/topics/edit/{id}")
-    public String editTopicPage(@PathVariable Long id, Model model) {
+    public String editTopicPage(@PathVariable Long id, Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
         Topic topic = topicRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Topic not found"));
         List<Writer> allWriters = writerRepository.findAll();
-
+        Long customerId = customUserDetails.getId();
+        model.addAttribute("customerId", customerId);
         model.addAttribute("topic", topic);
         model.addAttribute("allWriters", allWriters);
         return "high-fidelity-prototype/edit-topic";
@@ -82,7 +85,6 @@ public class TopicController {
         Topic topic = topicRepository.findByIdWithArticles(id)
                 .orElseThrow(() -> new RuntimeException("Topic not found"));
         model.addAttribute("topic", topic);
-
         Long customerId = customUserDetails.getId();
         model.addAttribute("customerId", customerId);
         return "high-fidelity-prototype/topic-page";

@@ -30,8 +30,10 @@ public class ArticleController {
     private WriterRepository writerRepository;
 
     @GetMapping("/articles/create")
-    public String showCreateArticleForm(@RequestParam Long topicId, Model model) {
+    public String showCreateArticleForm(@RequestParam Long topicId, Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
         model.addAttribute("topicId", topicId);
+        Long customerId = customUserDetails.getId();
+        model.addAttribute("customerId", customerId);
         model.addAttribute("article", new Article());
         model.addAttribute("writers", writerRepository.findAll());
         return "high-fidelity-prototype/create-article";
@@ -57,15 +59,19 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{id}")
-    public String viewArticle(@PathVariable Long id, Model model) {
+    public String viewArticle(@PathVariable Long id, Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
         Article article = articleRepository.findById(id).orElseThrow();
+        Long customerId = customUserDetails.getId();
+        model.addAttribute("customerId", customerId);
         model.addAttribute("article", article);
         return "high-fidelity-prototype/article-view";
     }
 
     @GetMapping("/articles/{id}/edit")
-    public String editArticlePage(@PathVariable Long id, Model model) {
+    public String editArticlePage(@PathVariable Long id, Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
         Article article = articleRepository.findById(id).orElseThrow();
+        Long customerId = customUserDetails.getId();
+        model.addAttribute("customerId", customerId);
         model.addAttribute("article", article);
         return "high-fidelity-prototype/article-edit";
     }
