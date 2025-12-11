@@ -1,17 +1,17 @@
 package com.Security;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+import java.util.List;
 import java.util.Collection;
-import java.util.Collections;
 
 public class CustomUserDetails implements UserDetails {
 
     private Long id;
     private String email;
     private String password;
-    private String accountType; // "CUSTOMER" or "WRITER"
+    private String accountType;
 
     public CustomUserDetails(Long id, String email, String password, String accountType) {
         this.id = id;
@@ -30,8 +30,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // If you want roles later, return them here
-        return Collections.emptyList();
+        return List.of(new SimpleGrantedAuthority(accountType)); // "CUSTOMER" or "ADMIN"
     }
 
     @Override

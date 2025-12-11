@@ -68,6 +68,24 @@
             </div>
         </section>
     </main>
+    <!-- Top 10 Topics Section -->
+<h2 class="section-title">Top 10 Topics by Subscribers</h2>
+<div id="top-topics" class="topics-grid">
+    <#if topTopics?? && topTopics?size gt 0>
+        <#list topTopics as topic>
+            <a href="/topics/${topic.id}" class="topic-card-link">
+                <div class="topic-card">
+                    <p>
+                        ${topic.name}: ${subscriberCounts[topic.id?string]}
+                    </p>
+                </div>
+            </a>
+        </#list>
+    <#else>
+        <p style="color:white;">No topics available</p>
+    </#if>
+</div>
+
 </div>
 
 <script src="/app.js"></script>

@@ -32,6 +32,12 @@
                                 ${contentPreview?substring(0,120)}...
                             <#elseif contentLength gt 0>
                                 ${contentPreview}
+                            <#if article.content??>
+                                <#if ((article.content?length) > 100)>
+                                    ${article.content?substring(0,100)}...
+                                <#else>
+                                    ${article.content}
+                                </#if>
                             <#else>
                                 <em>No content</em>
                             </#if>

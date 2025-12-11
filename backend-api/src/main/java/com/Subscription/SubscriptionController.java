@@ -1,43 +1,47 @@
 package com.Subscription;
 
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
+import com.Customer.Customer;
+
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.Customer.CustomerRepository;
+import com.Topic.Topic;
+import com.Topic.TopicRepository;
 
 @RestController
-@RequestMapping("/api/subscription")
 @RequiredArgsConstructor
 public class SubscriptionController {
-    private final SubscriptionService subscriptionService;
+    @Autowired
+    private SubscriptionRepository subscriptionRepository;
 
-    @PostMapping
-    public ResponseEntity<Subscription> createSubscription(@Valid @RequestBody Subscription subscription) {
-        return ResponseEntity.ok(subscriptionService.createSubscription(subscription));
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private TopicRepository topicRepository;
+
+    @PostMapping("/subscriptions")
+    public String subscribe(@RequestParam Long topicId, @RequestParam Long customerId) {
+
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        Topic topic = topicRepository.findById(topicId)
+                .orElseThrow(() -> new RuntimeException("Topic not found"));
+
+        boolean alreadySubscribed = subscriptionRepository.existsByCustomerAndTopic(customer, topic);
+        if (!alreadySubscribed) {
+            Subscription subscription = new Subscription();
+            subscription.setCustomer(customer);
+            subscription.setTopic(topic);
+            subscription.setStartDate(java.time.LocalDateTime.now());
+            subscription.setActive(true);
+            subscriptionRepository.save(subscription);
+        }
+
+        return "redirect:/topics";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Subscription> updateSubscription(@PathVariable Long id, @Valid @RequestBody Subscription subscriptionDetails) {
-        return ResponseEntity.ok(subscriptionService.updateSubscription(id, subscriptionDetails));
-    }
-
-    @PostMapping("/{id}/cancel")
-    public ResponseEntity<Void> cancelSubscription(@PathVariable Long id) {
-        subscriptionService.cancelSubscription(id);
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<Subscription>> getCustomerSubscriptions(@PathVariable Long customerId) {
-        return ResponseEntity.ok(subscriptionService.findByCustomer(customerId));
-    }
-
-    @GetMapping("/topic/{topicId}")
-    public ResponseEntity<List<Subscription>> getTopicSubscriptions(@PathVariable Long topicId) {
-        return ResponseEntity.ok(subscriptionService.findByTopic(topicId));
-    }
-    
 }
