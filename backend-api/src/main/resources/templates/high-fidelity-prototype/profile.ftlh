@@ -18,12 +18,32 @@
             <div>
                 <h1 style="margin:0 0 6px;">${customer.name}</h1>
                 <p class="muted" style="margin:0">${customer.email}</p>
-                <p class="muted" style="margin:4px 0 0;">${customer.phoneNumber}</p>
+                <p class="muted" style="margin:4px 0 0;">${customer.phoneNumber!''}</p>
             </div>
         </div>
         <div class="profile-actions" style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
-            <a href="/customer/edit/${customer.id}" class="btn-cta">Edit Profile</a>
+            <#if customerId?? && customerId == customer.id>
+                <a href="/customer/edit/${customer.id}" class="btn-cta">Edit Profile</a>
+            </#if>
             <a href="/subscriptions" class="btn">Manage Subscriptions</a>
+        </div>
+    </div>
+
+    <div class="article-card" style="margin-top:18px;">
+        <h2 class="mb-3">Profile Information</h2>
+        <div style="display:grid;gap:12px;">
+            <div>
+                <strong style="color:rgba(255,255,255,0.7);">Name:</strong>
+                <p style="margin:4px 0 0;font-size:1.1rem;">${customer.name}</p>
+            </div>
+            <div>
+                <strong style="color:rgba(255,255,255,0.7);">Email:</strong>
+                <p style="margin:4px 0 0;font-size:1.1rem;">${customer.email}</p>
+            </div>
+            <div>
+                <strong style="color:rgba(255,255,255,0.7);">Phone Number:</strong>
+                <p style="margin:4px 0 0;font-size:1.1rem;">${customer.phoneNumber!('Not provided')}</p>
+            </div>
         </div>
     </div>
 
@@ -33,7 +53,7 @@
             <#if activeSubscriptions?size gt 0>
                 <#list activeSubscriptions as topic>
                     <div class="subscription-card">
-                        <h3>${topic.name}</h3>
+                        <h3><a href="/topic/${topic.id}" style="color:inherit;text-decoration:none;">${topic.name}</a></h3>
                         <p>${topic.description!""}</p>
 
                         <form action="/unsubscribe/${topic.id}" method="post">
