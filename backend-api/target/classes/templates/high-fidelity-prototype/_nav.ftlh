@@ -2,19 +2,21 @@
 <nav class="nav">
     <div class="links">
         <span class="brand-title">Customizable Newsletter</span>
+        <#if customer??>
+            <span class="role-badge customer-badge">Customer</span>
+        <#elseif writer??>
+            <span class="role-badge writer-badge">Writer</span>
+        </#if>
         <a href="/">Home</a>
         <a href="/topics">Topics</a>
         <a href="/articles">Articles</a>
         <a href="/writers">Writers</a>
         <#if customer??>
-            <span class="role-badge customer-badge">Customer</span>
             <a href="/profile/${customer.id}">Profile</a>
             <form action="/logout" method="post">
                 <button type="submit">Logout</button>
             </form>
         <#elseif writer??>
-            <a href="/profiles">Profiles</a>
-            <span class="role-badge writer-badge">Writer</span>
             <a href="/writers/${writer.id}">Profile</a>
             <form action="/logout" method="post">
                 <button type="submit">Logout</button>
