@@ -1,14 +1,21 @@
 package com.Article;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import com.Topic.Topic;
 import com.Topic.TopicRepository;
 import com.Writer.Writer;
 import com.Writer.WriterRepository;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class ArticleController {
@@ -23,8 +30,10 @@ public class ArticleController {
     private WriterRepository writerRepository;
 
     @GetMapping("/articles/create")
-    public String showCreateArticleForm(@RequestParam Long topicId, Model model) {
+    public String showCreateArticleForm(@RequestParam Long topicId, Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
         model.addAttribute("topicId", topicId);
+        Long customerId = customUserDetails.getId();
+        model.addAttribute("customerId", customerId);
         model.addAttribute("article", new Article());
         model.addAttribute("writers", writerRepository.findAll());
         return "high-fidelity-prototype/create-article";
@@ -50,15 +59,21 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{id}")
-    public String viewArticle(@PathVariable Long id, Model model) {
+    public String viewArticle(@PathVariable Long id, Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
         Article article = articleRepository.findById(id).orElseThrow();
+        Long customerId = customUserDetails.getId();
+        String accountType = customUserDetails.getAccountType();
+        model.addAttribute("accountType", accountType);
+        model.addAttribute("customerId", customerId);
         model.addAttribute("article", article);
         return "high-fidelity-prototype/article-view";
     }
 
     @GetMapping("/articles/{id}/edit")
-    public String editArticlePage(@PathVariable Long id, Model model) {
+    public String editArticlePage(@PathVariable Long id, Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
         Article article = articleRepository.findById(id).orElseThrow();
+        Long customerId = customUserDetails.getId();
+        model.addAttribute("customerId", customerId);
         model.addAttribute("article", article);
         return "high-fidelity-prototype/article-edit";
     }
@@ -84,8 +99,10 @@ public class ArticleController {
     }
 
     @GetMapping("/articles")
-    public String listArticles(Model model) {
-        model.addAttribute("articles", articleRepository.findAll());
+    public String listArticles(Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
+        Long customerId = customUserDetails.getId();
+        model.addAttribute("customerId", customerId);
+        model.addAttribute("articles", articleRepository.findAll(Sort.by(Sort.Direction.DESC, "id")));
         return "high-fidelity-prototype/articles-list";
     }
 

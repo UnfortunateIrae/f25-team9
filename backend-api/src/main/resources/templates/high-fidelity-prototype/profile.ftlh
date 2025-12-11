@@ -4,57 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile</title>
+    <link rel="stylesheet" href="/CSS/topic.css">
     <link rel="stylesheet" href="/CSS/profile.css">
 </head>
-<body>
+<body class="topic-page">
 
-<nav>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/profile/${customer.id}" class="active">Profile</a></li>
-        <li><a href="/articles">Articles</a></li>
-        <li><a href="/login">Logout</a></li>
-    </ul>
-</nav>
+<#include "_nav.ftlh">
 
-<header class="profile-header">
-    <div class="profile-info">
-        <img src="${customer.imageUrl!'/images/default-profile.png'}" alt="Profile Photo" class="profile-img">
-        <h1>${customer.name}</h1>
-        <p>${customer.email}</p>
-        <p>${customer.phoneNumber}</p>
+<div class="container">
+    <div class="hero">
+        <div class="profile-header" style="background:transparent;box-shadow:none;padding:0;display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
+            <img src="${customer.imageUrl!'/images/default-profile.png'}" alt="Profile Photo" class="profile-img">
+            <div>
+                <h1 style="margin:0 0 6px;">${customer.name}</h1>
+                <p class="muted" style="margin:0">${customer.email}</p>
+                <p class="muted" style="margin:4px 0 0;">${customer.phoneNumber!''}</p>
+            </div>
+        </div>
+        <div class="profile-actions" style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+            <#if customerId?? && customerId == customer.id>
+                <a href="/customer/edit/${customer.id}" class="btn-cta">Edit Profile</a>
+            </#if>
+            <a href="/subscriptions" class="btn">Manage Subscriptions</a>
+        </div>
     </div>
 
-    <div class="profile-actions">
-        <a href="/customer/edit/${customer.id}" class="btn">Edit Profile</a>
-        <a href="/subscriptions" class="btn secondary">Manage Subscriptions</a>
+    <div class="article-card" style="margin-top:18px;">
+        <h2 class="mb-3">Profile Information</h2>
+        <div style="display:grid;gap:12px;">
+            <div>
+                <strong style="color:rgba(255,255,255,0.7);">Name:</strong>
+                <p style="margin:4px 0 0;font-size:1.1rem;">${customer.name}</p>
+            </div>
+            <div>
+                <strong style="color:rgba(255,255,255,0.7);">Email:</strong>
+                <p style="margin:4px 0 0;font-size:1.1rem;">${customer.email}</p>
+            </div>
+            <div>
+                <strong style="color:rgba(255,255,255,0.7);">Phone Number:</strong>
+                <p style="margin:4px 0 0;font-size:1.1rem;">${customer.phoneNumber!('Not provided')}</p>
+            </div>
+        </div>
     </div>
-</header>
 
-<section class="profile-section">
-    <h2>Active Subscriptions</h2>
+    <div class="article-card" style="margin-top:18px;">
+        <h2 class="mb-3">Active Subscriptions</h2>
+        <div class="subscriptions-list">
+            <#if activeSubscriptions?size gt 0>
+                <#list activeSubscriptions as topic>
+                    <div class="subscription-card">
+                        <h3><a href="/topic/${topic.id}" style="color:inherit;text-decoration:none;">${topic.name}</a></h3>
+                        <p>${topic.description!""}</p>
 
-    <div class="subscriptions-list">
-        <#if activeSubscriptions?size gt 0>
-            <#list activeSubscriptions as topic>
-                <div class="subscription-card">
-                    <h3>${topic.name}</h3>
-                    <p>${topic.description!""}</p>
-
-                    <form action="/unsubscribe/${topic.id}" method="post">
-                        <button type="submit" class="unsubscribe-btn">Unsubscribe</button>
-                    </form>
-                </div>
-            </#list>
-        <#else>
-            <p>No active subscriptions yet.</p>
-        </#if>
+                        <form action="/unsubscribe/${topic.id}" method="post">
+                            <button type="submit" class="unsubscribe-btn">Unsubscribe</button>
+                        </form>
+                    </div>
+                </#list>
+            <#else>
+                <p class="muted">No active subscriptions yet.</p>
+            </#if>
+        </div>
     </div>
-</section>
 
-<footer>
-    <p>© 2025 Newsletter Platform</p>
-</footer>
+    <footer style="margin:24px 0 0;" class="muted">© 2025 Newsletter Platform</footer>
+</div>
 
 </body>
 </html>

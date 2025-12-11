@@ -1,0 +1,30 @@
+/* Shared site theme for newsletter pages (based on home/profile colors) */
+:root{
+  --primary: #2645A6; /* deep blue */
+  --secondary: #5AA9E6; /* light blue */
+  --accent: #FFC107; /* amber */
+  --bg: #F4F8FF; /* pale background */
+  --card: #FFFFFF; /* card background */
+  --muted: #6B7280; /* gray */
+  --text: #0F172A; /* dark text */
+}
+*{box-sizing:border-box}
+body{font-family:Inter,Segoe UI,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);margin:0}
+a{color:var(--primary);text-decoration:none}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:linear-gradient(90deg,var(--primary),var(--secondary));color:white}
+.nav .links{display:flex;gap:12px}
+.nav a{color:white;padding:8px 10px;border-radius:6px}
+.nav a:hover{background:rgba(255,255,255,0.15)}
+.container{max-width:1100px;margin:28px auto;padding:0 18px}
+.hero{background:linear-gradient(180deg,rgba(38,69,166,0.12),transparent);padding:28px;border-radius:10px;margin-bottom:20px}
+.hero h1{color:var(--primary);font-size:28px;margin-bottom:8px}
+.hero p{color:var(--muted);margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.card{background:var(--card);padding:16px;border-radius:10px;box-shadow:0 6px 18px rgba(11,22,55,0.06);border:1px solid rgba(15,23,42,0.04)}
+.card h3{margin:0 0 8px 0;color:var(--primary)}
+.btn{display:inline-block;background:var(--accent);color:#0b0b0b;padding:8px 12px;border-radius:8px;font-weight:600}
+.muted{color:var(--muted)}
+form input[type=text],form input[type=email],form textarea,select{width:100%;padding:10px;border:1px solid #e6eefc;border-radius:8px;margin-top:6px}
+form label{display:block;margin-top:12px;color:var(--muted)}
+.small{font-size:0.9rem}
+footer{padding:30px 0;text-align:center;color:var(--muted)}

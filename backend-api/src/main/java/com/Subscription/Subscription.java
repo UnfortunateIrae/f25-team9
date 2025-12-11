@@ -1,73 +1,62 @@
 package com.Subscription;
 
-import java.time.LocalDateTime;
-
 import com.Customer.Customer;
 import com.Topic.Topic;
 import com.Writer.Writer;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "subscriptions")
 public class Subscription {
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long id;
 
-   @NotNull
-   private LocalDateTime startDate;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-   private LocalDateTime endDate;
+    @NotNull
+    private LocalDateTime startDate;
 
-   @NotNull
-   private boolean active = true;
+    private LocalDateTime endDate;
 
-   @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "customer_id")
-   private Customer customer;
+    @NotNull
+    private boolean active = true;
 
-   @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "topic_id")
-   private Topic topic;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
-   @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "writer_id")
-   private Writer writer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "topic_id")
+    private Topic topic;
 
-   public Subscription() { }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "writer_id")
+    private Writer writer;
 
-   public Long getId() { return id; }
-   public void setId(Long id) { this.id = id; }
+    public Subscription() { }
 
-   public LocalDateTime getStartDate() { return startDate; }
-   public void setStartDate(LocalDateTime startDate) { this.startDate = startDate; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-   public LocalDateTime getEndDate() { return endDate; }
-   public void setEndDate(LocalDateTime endDate) { this.endDate = endDate; }
+    public LocalDateTime getStartDate() { return startDate; }
+    public void setStartDate(LocalDateTime startDate) { this.startDate = startDate; }
 
-   public boolean isActive() { return active; }
-   public void setActive(boolean active) { this.active = active; }
+    public LocalDateTime getEndDate() { return endDate; }
+    public void setEndDate(LocalDateTime endDate) { this.endDate = endDate; }
 
-   public Customer getCustomer() { return customer; }
-   public void setCustomer(Customer customer) { this.customer = customer; }
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 
-   public Topic getTopic() { return topic; }
-   public void setTopic(Topic topic) { this.topic = topic; }
+    public Customer getCustomer() { return customer; }
+    public void setCustomer(Customer customer) { this.customer = customer; }
 
-   public Writer getWriter() { return writer; }
-   public void setWriter(Writer writer) { this.writer = writer; }
-}
+    public Topic getTopic() { return topic; }
+    public void setTopic(Topic topic) { this.topic = topic; }
 
-enum SubscriptionType {
-   ONE_TIME,
-   MONTHLY
+    public Writer getWriter() { return writer; }
+    public void setWriter(Writer writer) { this.writer = writer; }
 }

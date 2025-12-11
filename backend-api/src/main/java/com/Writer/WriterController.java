@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import java.util.Optional;
 
 import java.util.*;
 
@@ -35,20 +37,24 @@ public class WriterController {
     }
 
     @GetMapping("/writers")
-    public String writersList(Model model) {
+    public String writersList(Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
 
         List<Writer> writers = writerRepository.findAllWithDetails();
 
         writers.sort((w1, w2) -> w1.getName().compareToIgnoreCase(w2.getName()));
-
+        Long customerId = customUserDetails.getId();
+        model.addAttribute("customerId", customerId);
+        String accountType = customUserDetails.getAccountType();
+        model.addAttribute("accountType", accountType);
         model.addAttribute("writers", writers);
         return "high-fidelity-prototype/writers-list";
     }
 
     @GetMapping("/writers/{id}")
-    public String getWriter(@PathVariable Long id, Model model) {
+    public String getWriter(@PathVariable Long id, Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
         Optional<Writer> optionalWriter = writerRepository.findById(id);
-
+        Long customerId = customUserDetails.getId();
+        model.addAttribute("customerId", customerId);
         if (optionalWriter.isEmpty()) {
             return "writerNotFound";
         }
@@ -89,19 +95,20 @@ public class WriterController {
     }
 
     @PostMapping("/writers/{id}/delete")
-    public String deleteWriter(@PathVariable Long id) {
+    public String deleteWriter(@PathVariable Long id, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
         writerService.deleteWriter(id);
         return "redirect:/writers";
     }
 
     @GetMapping("/writers/{id}/edit")
-    public String editWriterPage(@PathVariable Long id, Model model) {
+    public String editWriterPage(@PathVariable Long id, Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
         Optional<Writer> optionalWriter = writerRepository.findById(id);
 
         if (optionalWriter.isEmpty()) {
             return "writerNotFound";
         }
-
+        Long customerId = customUserDetails.getId();
+        model.addAttribute("customerId", customerId);
         Writer writer = optionalWriter.get();
         model.addAttribute("writer", writer);
         model.addAttribute("sources", sourceRepository.findAll()); // optional if you need a dropdown

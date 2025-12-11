@@ -1,0 +1,221 @@
+:root {
+  --primary: #0E2B66;
+  --primary-2: #23459E;
+  --secondary: #5AA9E6;
+  --accent: #FFC107;
+  --bg: #0E2B66;
+  --text: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  min-height: 100vh;
+}
+
+body {
+  background: linear-gradient(135deg, #0E2B66 0%, #081432 100%);
+  background-attachment: fixed;
+  font-family: Inter, 'Segoe UI', Helvetica, Arial, sans-serif;
+  color: var(--text);
+  display: block;
+  padding: 20px;
+  margin: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.brand-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.brand-header h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 8px;
+  letter-spacing: 0.5px;
+}
+
+.brand-header p {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.auth-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.auth-box {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.auth-box h2 {
+  color: var(--text);
+  font-size: 1.75rem;
+  margin: 0 0 8px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.auth-description {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0 0 24px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  width: 100%;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 3px rgba(90, 169, 230, 0.15);
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  background: var(--primary-2);
+  color: var(--text);
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+  box-shadow: 0 4px 12px rgba(35, 69, 158, 0.4);
+}
+
+.btn-submit:hover {
+  background: var(--secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(90, 169, 230, 0.5);
+}
+
+.btn-submit:active {
+  transform: translateY(0);
+}
+
+.btn-writer {
+  background: #5AA9E6;
+  box-shadow: 0 4px 12px rgba(90, 169, 230, 0.4);
+}
+
+.btn-writer:hover {
+  background: #7BBEF0;
+  box-shadow: 0 6px 20px rgba(90, 169, 230, 0.6);
+}
+
+.signup-section {
+  margin-top: 24px;
+}
+
+.signup-box {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.error-msg {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.95rem;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.success-msg {
+  color: #51cf66;
+  background: rgba(81, 207, 102, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.95rem;
+  border: 1px solid rgba(81, 207, 102, 0.3);
+}
+
+footer {
+  text-align: center;
+  margin-top: 24px;
+}
+
+footer p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .brand-header h1 {
+    font-size: 2rem;
+  }
+  
+  .auth-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .auth-box {
+    padding: 24px;
+  }
+}
