@@ -1,14 +1,12 @@
 # Customizable Newsletter Requirements Testing
 ## Actors
-- Customer (the user with the customer role)
-- Writer/Provider (the user with the writer/provider role)
-- SysAdmin (the user with the admin role if applicable)
+- Customer (aka the user who just reads the news)
+- Writer/Provider (aka the writer who creates/updates/edits their article)
 
 ### Use Cases
 #### 1. Writer: Create writer profile use case:
 1. Writer W1 logs in for the first time and creates a profile.
-2. W1 creates new topics T1 and T2 with articles A1, A2, A3.  
-W1 exits the app.
+2. W1 creates new article and it shows up in their home page, then log out.
 
 #### 2. Customer: Create customer profile:
 1. Customer C1 logs in for the first time and creates a profile.
