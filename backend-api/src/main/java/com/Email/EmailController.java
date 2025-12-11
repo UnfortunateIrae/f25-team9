@@ -16,7 +16,7 @@ public class EmailController {
     public String sendTest() throws Exception {
         mailService.sendEmail(
                 "jamesjkerrigan05@gmail.com",
-                "Test Email",
+                "Your Weekly Newsletter!",
                 "<h1>Hello from Spring Boot + Mailjet</h1>"
         );
         return "redirect:/";

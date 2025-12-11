@@ -144,16 +144,20 @@
                                 </#if>
                             </strong>
 
-                            <p>${review.rating} stars</p>
-                            <p>${review.comment!''}</p>
+                            <p style="color: black">${review.rating} stars</p>
+                            <p style="color: black">${review.comment!''}</p>
                         </div>
                         <div class="d-flex gap-1">
+                        <#if customer?? && accountType == "WRITER">
                             <form action="/reviews/${review.id}/edit" method="get">
                                 <button class="btn btn-sm btn-warning">Edit</button>
                             </form>
+                        </#if>
+                        <#if customer?? && accountType == "WRITER">
                             <form action="/reviews/${review.id}/delete" method="post">
                                 <button class="btn btn-sm btn-danger">Delete</button>
                             </form>
+                        </#if>
                         </div>
                     </div>
                 </div>
