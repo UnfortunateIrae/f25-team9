@@ -3,15 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>${writer.name} - Profile</title>
+    <link rel="stylesheet" href="/CSS/topic.css">
     <style>
-        body {
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-
         .container {
             max-width: 900px;
             margin: 40px auto;
@@ -19,9 +12,10 @@
         }
 
         .profile-card {
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            background:linear-gradient(180deg,rgba(255,255,255,0.98), rgba(245,250,255,0.95));
+            border:1px solid rgba(90,169,230,0.2);
+            border-radius: 16px;
+            box-shadow: 0 12px 32px rgba(14,43,102,0.2);
             padding: 30px;
             display: flex;
             flex-direction: column;
@@ -32,33 +26,42 @@
             display: flex;
             align-items: center;
             gap: 20px;
+            padding-bottom:20px;
+            border-bottom:1px solid rgba(90,169,230,0.15);
         }
 
         .profile-avatar {
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            background-color: #ddd;
+            background:linear-gradient(135deg, #667eea, #764ba2);
             display: inline-block;
             flex-shrink: 0;
+            overflow:hidden;
+            box-shadow:0 8px 24px rgba(102,126,234,0.3);
         }
 
         .profile-name {
             font-size: 28px;
-            font-weight: bold;
-            margin: 0;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            color:#0E2B66;
         }
 
         .profile-info p {
             margin: 5px 0;
             font-size: 16px;
+            color:#4a5568;
         }
 
         h2 {
-            margin-top: 30px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 5px;
-            font-size: 20px;
+            margin-top: 20px;
+            margin-bottom:15px;
+            padding-bottom: 10px;
+            font-size: 22px;
+            color:#0E2B66;
+            font-weight:700;
+            border-bottom: 2px solid rgba(90,169,230,0.2);
         }
 
         ul {
@@ -67,15 +70,20 @@
         }
 
         li {
-            background-color: #f9f9f9;
-            margin: 5px 0;
-            padding: 10px 15px;
-            border-radius: 8px;
+            background:linear-gradient(180deg,rgba(90,169,230,0.08),rgba(90,169,230,0.04));
+            border:1px solid rgba(90,169,230,0.15);
+            color:#062045;
+            margin: 8px 0;
+            padding: 12px 16px;
+            border-radius: 10px;
             transition: 0.2s;
+            font-weight:500;
         }
 
         li:hover {
-            background-color: #e0e0ff;
+            background:linear-gradient(180deg,rgba(90,169,230,0.15),rgba(90,169,230,0.1));
+            border-color:#5AA9E6;
+            transform:translateX(4px);
         }
 
         .section {
@@ -84,7 +92,10 @@
         }
     </style>
 </head>
-<body>
+<body class="topic-page">
+
+<#include "_nav.ftlh">
+
 <div class="container">
     <div class="profile-card">
         <div class="profile-header">

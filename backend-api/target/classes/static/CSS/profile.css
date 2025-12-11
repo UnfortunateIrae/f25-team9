@@ -111,8 +111,9 @@ body {
 }
 
 .profile-info h1 {
-    color: #333;
+    color: #ffffff;
     margin-bottom: 10px;
+    font-weight: 600;
 }
 
 .profile-info p {

@@ -10,23 +10,7 @@
 </head>
 <body class="topic-page">
 
-<nav class="nav">
-    <div class="links">
-        <a href="/" style="font-weight:800;font-size:1.2rem;">Newsletter</a>
-        <a href="/">Home</a>
-        <a href="/topics">Topics</a>
-        <a href="/articles">Articles</a>
-        <a href="/writers">Writers</a>
-        <a href="/profiles">Profiles</a>
-        <#if customer??>
-            <form action="/logout" method="post">
-                <button type="submit">Logout</button>
-            </form>
-        <#else>
-            <a href="/login">Login</a>
-        </#if>
-    </div>
-</nav>
+<#include "_nav.ftlh">
 
 <div class="container">
     <h1 class="mb-4 text-center">Writer Directory</h1>
@@ -60,17 +44,15 @@
                                 Source: <#if writer.source??>${writer.source.name!""}<#else>Freelance</#if>
                             </p>
 
-                            <div class="mb-3 text-center">
+                            <div class="mb-3 text-center d-flex gap-2 justify-content-center">
                                 <form action="/writers/${writer.id}" method="get">
-                                    <button type="submit" class="btn btn-outline-primary w-100">
-                                        View Writer Profile
+                                    <button type="submit" class="btn btn-outline-primary" style="color:#0E2B66;border-color:#0E2B66;">
+                                        View Profile
                                     </button>
                                 </form>
-                            </div>
-                            <div class="mb-3 text-center">
                                 <form action="/writers/${writer.id}/edit" method="get">
-                                    <button type="submit" class="btn btn-outline-primary w-100">
-                                        Edit Writer Profile
+                                    <button type="submit" class="btn btn-outline-secondary">
+                                        Edit
                                     </button>
                                 </form>
                             </div>

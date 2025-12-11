@@ -8,23 +8,7 @@
 </head>
 <body class="topic-page">
 
-<nav class="nav">
-    <div class="links">
-        <a href="/" style="font-weight:800;font-size:1.2rem;">Newsletter</a>
-        <a href="/">Home</a>
-        <a href="/topics">Topics</a>
-        <a href="/articles">Articles</a>
-        <a href="/writers">Writers</a>
-        <a href="/profiles">Profiles</a>
-        <#if customer??>
-            <form action="/logout" method="post">
-                <button type="submit">Logout</button>
-            </form>
-        <#else>
-            <a href="/login">Login</a>
-        </#if>
-    </div>
-</nav>
+<#include "_nav.ftlh">
 <div class="container">
     <div class="hero">
         <h2 class="mb-0 text-center">Topics & Writers</h2>
@@ -63,14 +47,14 @@
 
                 <div class="card-body">
                     <#if topic.writers?? && (topic.writers?size > 0)>
-                        <p class="mb-2">Writers:</p>
+                        <p class="mb-2" style="color:rgba(255,255,255,0.9);">Writers:</p>
                         <div>
                             <#list topic.writers as writer>
                                 <span class="badge bg-primary me-1 mb-1">${writer.name?default("Unnamed Writer")}</span>
                             </#list>
                         </div>
                     <#else>
-                        <p class="text-muted mb-0">No writers assigned.</p>
+                        <p class="mb-0" style="color:rgba(255,255,255,0.75) !important;">No writers assigned.</p>
                     </#if>
                 </div>
             </div>

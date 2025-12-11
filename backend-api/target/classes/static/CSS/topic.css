@@ -16,24 +16,6 @@
 body.topic-page{font-family:Inter,Segoe UI,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);margin:0;padding:0}
 .page-section{margin-bottom:24px}
 
-/* Navigation */
-.nav{
-  display:flex;align-items:center;justify-content:center;
-  padding:18px 28px;
-  background:rgba(255,255,255,0.04);
-  backdrop-filter: blur(6px);
-  border-bottom:1px solid rgba(255,255,255,0.04);
-  box-shadow:0 6px 18px rgba(4,12,40,0.35);
-  border-radius:12px;margin:18px 20px;
-}
-.nav .links{display:flex;gap:14px}
-.nav a{color:rgba(255,255,255,0.95);padding:8px 12px;border-radius:8px;font-weight:600;transition:all 160ms ease;text-decoration:none}
-.nav a:hover{background:rgba(255,255,255,0.08);color:var(--nav-deep)}
-.nav a.active{background:#ffffff;color:var(--nav-deep);box-shadow:0 6px 18px rgba(4,12,40,0.25);transform:translateY(-2px)}
-.nav .links form{margin:0}
-.nav .links button{background:transparent;border:none;color:rgba(255,255,255,0.95);padding:8px 12px;border-radius:8px;font-weight:600;cursor:pointer;transition:all 160ms ease}
-.nav .links button:hover{background:rgba(255,255,255,0.08);color:var(--nav-deep)}
-
 .container{max-width:1100px;margin:24px auto;padding:0 18px}
 
 /* Hero / header */

@@ -9,23 +9,7 @@
 
 <body class="topic-page">
 
-<nav class="nav">
-    <div class="links">
-        <a href="/" style="font-weight:800;font-size:1.2rem;">Newsletter</a>
-        <a href="/">Home</a>
-        <a href="/topics">Topics</a>
-        <a href="/articles">Articles</a>
-        <a href="/writers">Writers</a>
-        <a href="/profiles">Profiles</a>
-        <#if customer??>
-            <form action="/logout" method="post">
-                <button type="submit">Logout</button>
-            </form>
-        <#else>
-            <a href="/login">Login</a>
-        </#if>
-    </div>
-</nav>
+<#include "_nav.ftlh">
 
 <div class="container">
     <h2 class="text-center mb-4">All Articles</h2>

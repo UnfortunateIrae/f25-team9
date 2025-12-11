@@ -9,175 +9,142 @@
 
 <body class="topic-page">
 
-<nav class="nav">
-    <div class="links">
-        <a href="/" style="font-weight:800;font-size:1.2rem;">Newsletter</a>
-        <a href="/">Home</a>
-        <a href="/topics">Topics</a>
-        <a href="/articles">Articles</a>
-        <a href="/writers">Writers</a>
-        <a href="/profiles">Profiles</a>
-        <#if customer??>
-            <form action="/logout" method="post">
-                <button type="submit">Logout</button>
+<#include "_nav.ftlh">
+
+<div class="container">
+    <div class="hero">
+        <div class="topic-head">
+            <h2 class="mb-0">${topic.name!''}</h2>
+            <form action="/articles/create" method="get">
+                <input type="hidden" name="topicId" value="${topic.id}">
+                <button type="submit" class="btn-cta">Add Article</button>
             </form>
+        </div>
+
+        <#assign displayRating = 0>
+        <#if topic.rating?? && topic.rating?is_number>
+            <#assign displayRating = topic.rating>
+        </#if>
+
+        <div class="rating" style="margin:12px 0 6px;">
+            <#list 1..5 as i>
+                <#if i <= displayRating>
+                    <span class="star filled">&#9733;</span>
+                <#else>
+                    <span class="star">&#9734;</span>
+                </#if>
+            </#list>
+        </div>
+        <div class="muted" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
+            <span>Rating: <#if topic.rating?? && topic.rating?is_number>${topic.rating}<#else>N/A</#if></span>
+            <#assign reviewCount = (topic.reviews??)?then(topic.reviews?size,0)>
+            <span>${reviewCount} review<#if reviewCount != 1>s</#if></span>
+        </div>
+        <div class="accent-band"></div>
+    </div>
+
+    <div class="grid" style="margin-bottom:18px;">
+        <div class="article-card">
+            <h4 class="mb-2">Assigned Writers</h4>
+            <#if (topic.writers??) && (topic.writers?size > 0)>
+                <div class="d-flex flex-wrap gap-2">
+                    <#list topic.writers as writer>
+                        <a href="/writers/${writer.id}" class="badge bg-primary text-decoration-none">
+                            ${writer.name}
+                        </a>
+                    </#list>
+                </div>
+            <#else>
+                <p class="muted mb-0">No writers assigned to this topic.</p>
+            </#if>
+        </div>
+
+        <div class="article-card">
+            <h4 class="mb-2">Create a Review</h4>
+            <form action="/reviews/create" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <input type="hidden" name="topicId" value="${topic.id}">
+                <div class="mb-2">
+                    <label for="rating" class="form-label">Rating</label>
+                    <select name="rating" id="rating" class="form-select" required>
+                        <option value="1">1 &#9733;</option>
+                        <option value="2">2 &#9733;</option>
+                        <option value="3">3 &#9733;</option>
+                        <option value="4">4 &#9733;</option>
+                        <option value="5">5 &#9733;</option>
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label for="comment" class="form-label">Review</label>
+                    <textarea name="comment" id="comment" class="form-control" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Submit Review</button>
+            </form>
+        </div>
+    </div>
+
+    <div style="margin-bottom:24px;">
+        <h4 class="section-title">Articles (${(topic.articles??)?then(topic.articles?size,0)})</h4>
+        <#if (topic.articles??) && (topic.articles?size > 0)>
+            <div class="grid">
+                <#list topic.articles as article>
+                    <#assign contentPreview = (article.content!'')?string>
+                    <div class="article-card">
+                        <h5 class="mb-2">${article.title!''}</h5>
+                        <p class="muted" style="margin:0 0 12px;">
+                            <#if ((contentPreview?length) > 120)>
+                                ${contentPreview?substring(0,120)}...
+                            <#else>
+                                ${contentPreview}
+                            </#if>
+                        </p>
+                        <form action="/articles/${article.id}" method="get">
+                            <button class="btn btn-cta" type="submit">View</button>
+                        </form>
+                    </div>
+                </#list>
+            </div>
         <#else>
-            <a href="/login">Login</a>
+            <div class="panel">No articles found for this topic.</div>
         </#if>
     </div>
-</nav>
 
-    <!-- Topic Title -->
-    <h2 class="text-center mb-4">${topic.name!''}</h2>
-
-    <!-- Rating display -->
-    <#assign displayRating = 0>
-    <#if topic.rating?? && topic.rating?is_number>
-        <#assign displayRating = topic.rating>
-    </#if>
-
-    <div class="rating">
-        <#list 1..5 as i>
-            <#if i <= displayRating>
-                <span class="star filled">&#9733;</span>
-            <#else>
-                <span class="star">&#9734;</span>
-
-                <div class="container">
-                    <div class="hero">
-                        <div class="topic-head">
-                            <h2 class="mb-0">${topic.name!''}</h2>
-                            <form action="/articles/create" method="get">
-                                <input type="hidden" name="topicId" value="${topic.id}">
-                                <button type="submit" class="btn-cta">Add Article</button>
-                            </form>
-                        </div>
-
-                        <#assign displayRating = 0>
-                        <#if topic.rating?? && topic.rating?is_number>
-                            <#assign displayRating = topic.rating>
-                        </#if>
-
-                        <div class="rating" style="margin:12px 0 6px;">
-                            <#list 1..5 as i>
-                                <#if i <= displayRating>
-                                    <span class="star filled">&#9733;</span>
+    <div class="article-card" style="margin-bottom:16px;">
+        <h4 class="mb-3">Reviews</h4>
+        <#if topic.reviews?? && topic.reviews?size gt 0>
+            <#list topic.reviews as review>
+                <div class="card mb-2">
+                    <div class="card-body d-flex justify-content-between align-items-start">
+                        <div>
+                            <strong>
+                                <#if review.customer??>
+                                    ${review.customer.name!''}
                                 <#else>
-                                    <span class="star">&#9734;</span>
+                                    Anonymous
                                 </#if>
-                            </#list>
-                        </div>
-                        <div class="muted" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
-                            <span>Rating: <#if topic.rating?? && topic.rating?is_number>${topic.rating}<#else>N/A</#if></span>
-                            <#assign reviewCount = (topic.reviews??)?then(topic.reviews?size,0)>
-                            <span>${reviewCount} review<#if reviewCount != 1>s</#if></span>
-                        </div>
-                        <div class="accent-band"></div>
-                    </div>
+                            </strong>
 
-                    <div class="grid" style="margin-bottom:18px;">
-                        <div class="article-card">
-                            <h4 class="mb-2">Assigned Writers</h4>
-                            <#if (topic.writers??) && (topic.writers?size > 0)>
-                                <div class="d-flex flex-wrap gap-2">
-                                    <#list topic.writers as writer>
-                                        <a href="/writers/${writer.id}" class="badge bg-primary text-decoration-none">
-                                            ${writer.name}
-                                        </a>
-                                    </#list>
-                                </div>
-                            <#else>
-                                <p class="muted mb-0">No writers assigned to this topic.</p>
-                            </#if>
+                            <p>${review.rating} stars</p>
+                            <p>${review.comment!''}</p>
                         </div>
-
-                        <div class="article-card">
-                            <h4 class="mb-2">Create a Review</h4>
-                            <form action="/reviews/create" method="post">
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                <input type="hidden" name="topicId" value="${topic.id}">
-                                <div class="mb-2">
-                                    <label for="rating" class="form-label">Rating</label>
-                                    <select name="rating" id="rating" class="form-select" required>
-                                        <option value="1">1 &#9733;</option>
-                                        <option value="2">2 &#9733;</option>
-                                        <option value="3">3 &#9733;</option>
-                                        <option value="4">4 &#9733;</option>
-                                        <option value="5">5 &#9733;</option>
-                                    </select>
-                                </div>
-                                <div class="mb-2">
-                                    <label for="comment" class="form-label">Review</label>
-                                    <textarea name="comment" id="comment" class="form-control" rows="3" required></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-success w-100">Submit Review</button>
+                        <div class="d-flex gap-1">
+                            <form action="/reviews/${review.id}/edit" method="get">
+                                <button class="btn btn-sm btn-warning">Edit</button>
+                            </form>
+                            <form action="/reviews/${review.id}/delete" method="post">
+                                <button class="btn btn-sm btn-danger">Delete</button>
                             </form>
                         </div>
                     </div>
-
-                    <div style="margin-bottom:24px;">
-                        <h4 class="section-title">Articles (${(topic.articles??)?then(topic.articles?size,0)})</h4>
-                        <#if (topic.articles??) && (topic.articles?size > 0)>
-                            <div class="grid">
-                                <#list topic.articles as article>
-                                    <#assign contentPreview = (article.content!'')?string>
-                                    <div class="article-card">
-                                        <h5 class="mb-2">${article.title!''}</h5>
-                                        <p class="muted" style="margin:0 0 12px;">
-                                            <#if ((contentPreview?length) > 120)>
-                                                ${contentPreview?substring(0,120)}...
-                                            <#else>
-                                                ${contentPreview}
-                                            </#if>
-                                        </p>
-                                        <form action="/articles/${article.id}" method="get">
-                                            <button class="btn btn-cta" type="submit">View</button>
-                                        </form>
-                                    </div>
-                                </#list>
-                            </div>
-                        <#else>
-                            <div class="panel">No articles found for this topic.</div>
-                        </#if>
-                    </div>
-
-                    <div class="article-card" style="margin-bottom:16px;">
-                        <h4 class="mb-3">Reviews</h4>
-                        <#if topic.reviews?? && topic.reviews?size gt 0>
-                            <#list topic.reviews as review>
-                                <div class="card mb-2">
-                                    <div class="card-body d-flex justify-content-between align-items-start">
-                                        <div>
-                                            <strong>
-                                                <#if review.customer??>
-                                                    ${review.customer.name!''}
-                                                <#else>
-                                                    Anonymous
-                                                </#if>
-                                            </strong>
-
-                                            <p>${review.rating} stars</p>
-                                            <p>${review.comment!''}</p>
-                                        </div>
-                                        <div class="d-flex gap-1">
-                                            <form action="/reviews/${review.id}/edit" method="get">
-                                                <button class="btn btn-sm btn-warning">Edit</button>
-                                            </form>
-                                            <form action="/reviews/${review.id}/delete" method="post">
-                                                <button class="btn btn-sm btn-danger">Delete</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </#list>
-                        <#else>
-                            <p class="text-muted">No reviews yet.</p>
-                        </#if>
-                    </div>
-
-                    <a href="/topics" class="btn w-100 mt-3">Back to all topics</a>
+                </div>
+            </#list>
+        <#else>
+            <p class="text-muted">No reviews yet.</p>
+        </#if>
     </div>
-</script>
+
+    <a href="/topics" class="btn w-100 mt-3">Back to all topics</a>
+</div>
 
 </body>
 </html>

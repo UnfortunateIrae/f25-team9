@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Create New Writer</title>
+    <link rel="stylesheet" href="/CSS/topic.css">
     <style>
         body {
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
+            background-color: #0E2B66;
+            color: #ffffff;
             margin: 0;
             padding: 0;
         }
@@ -72,7 +73,9 @@
 
     </style>
 </head>
-<body>
+<body class="topic-page">
+
+<#include "_nav.ftlh">
 
 <div class="container">
     <div class="profile-card">
