@@ -2,13 +2,15 @@
 <nav class="nav">
     <div class="links">
         <a href="/" style="font-weight:800;font-size:1.2rem;">Newsletter</a>
+
         <a href="/">Home</a>
         <a href="/topics">Topics</a>
         <a href="/articles">Articles</a>
         <a href="/writers">Writers</a>
         <a href="/profile/${customerId}">Profile</a>
+
         <#if customer??>
-            <form action="/logout" method="post">
+            <form action="/logout" method="post" style="display:inline;">
                 <button type="submit">Logout</button>
             </form>
         <#else>
@@ -16,6 +18,7 @@
         </#if>
     </div>
 </nav>
+
 
 <script>
 (function(){

@@ -62,6 +62,8 @@ public class ArticleController {
     public String viewArticle(@PathVariable Long id, Model model, @AuthenticationPrincipal com.Security.CustomUserDetails customUserDetails) {
         Article article = articleRepository.findById(id).orElseThrow();
         Long customerId = customUserDetails.getId();
+        String accountType = customUserDetails.getAccountType();
+        model.addAttribute("accountType", accountType);
         model.addAttribute("customerId", customerId);
         model.addAttribute("article", article);
         return "high-fidelity-prototype/article-view";

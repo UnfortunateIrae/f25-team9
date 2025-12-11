@@ -44,7 +44,8 @@ public class WriterController {
         writers.sort((w1, w2) -> w1.getName().compareToIgnoreCase(w2.getName()));
         Long customerId = customUserDetails.getId();
         model.addAttribute("customerId", customerId);
-
+        String accountType = customUserDetails.getAccountType();
+        model.addAttribute("accountType", accountType);
         model.addAttribute("writers", writers);
         return "high-fidelity-prototype/writers-list";
     }

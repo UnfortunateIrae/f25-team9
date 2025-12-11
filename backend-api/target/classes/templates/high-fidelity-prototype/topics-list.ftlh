@@ -14,11 +14,14 @@
         <h2 class="mb-0 text-center">Topics & Writers</h2>
     </div>
 
-    <form action="/topics/create" method="get">
-        <button type="submit" class="btn btn-outline-primary w-100 mb-3">
-            Create Topic
-        </button>
-    </form>
+    <#-- Hide Create Topic button for writers -->
+    <#if (customer??) && (accountType == "WRITER")>
+        <form action="/topics/create" method="get">
+            <button type="submit" class="btn btn-outline-primary w-100 mb-3">
+                Create Topic
+            </button>
+        </form>
+    </#if>
 
     <#if topics?? && (topics?size > 0)>
         <#list topics as topic>
@@ -33,16 +36,19 @@
                         </#if>
                     </div>
 
-                    <div class="d-flex gap-2">
-                        <form action="/topics/edit/${topic.id}" method="get">
-                            <button class="btn btn-sm btn-warning">Edit</button>
-                        </form>
+                    <#-- Hide Edit/Delete buttons for non-admins/writers -->
+                    <#if customer?? && accountType == "WRITER">
+                        <div class="d-flex gap-2">
+                            <form action="/topics/edit/${topic.id}" method="get">
+                                <button class="btn btn-sm btn-warning">Edit</button>
+                            </form>
 
-                        <form action="/topics/${topic.id}/delete" method="post"
-                              onsubmit="return confirm('Delete topic?');">
-                            <button class="btn btn-sm btn-danger">Delete</button>
-                        </form>
-                    </div>
+                            <form action="/topics/${topic.id}/delete" method="post"
+                                  onsubmit="return confirm('Delete topic?');">
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </#if>
                 </div>
 
                 <div class="card-body">
@@ -84,5 +90,3 @@
 
 </body>
 </html>
-
-

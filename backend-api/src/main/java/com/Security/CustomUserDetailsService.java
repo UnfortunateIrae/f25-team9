@@ -12,8 +12,6 @@ public class CustomUserDetailsService{
 
     private CustomerRepository customerRepo;
     private WriterRepository writerRepo;
-    private PasswordEncoder passwordEncoder;
-
     private String accountType;
     private Object id;
 
@@ -22,7 +20,6 @@ public class CustomUserDetailsService{
                                     PasswordEncoder passwordEncoder) {
         this.customerRepo = customerRepo;
         this.writerRepo = writerRepo;
-        this.passwordEncoder = passwordEncoder;
     }
 
      public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
