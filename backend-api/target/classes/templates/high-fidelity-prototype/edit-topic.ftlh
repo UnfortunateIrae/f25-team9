@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Topic</title>
+    <link rel="stylesheet" href="/CSS/topic.css">
     <style>
         /* Blue home theme (same as homepage) */
         :root{
@@ -25,7 +26,7 @@
             background:var(--bg);
             color:var(--text);
             margin:0;
-            padding:20px;
+            padding:0;
         }
 
         /* Centered container */
@@ -70,9 +71,7 @@
         input:focus{
             border-color:var(--secondary);
             box-shadow:0 0 10px rgba(90,169,230,0.4);
-        }
-
-        /* Buttons */
+        }        /* Buttons */
         button{
             background:var(--primary-2);
             color:white;
@@ -118,20 +117,60 @@
         .form-section{
             margin-top:25px;
         }
+
+        /* Writer checkbox cards */
+        .writer-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+            gap:12px;
+            margin-bottom:20px;
+        }
+
+        .writer-card{
+            background:rgba(255,255,255,0.06);
+            border:2px solid rgba(255,255,255,0.1);
+            border-radius:10px;
+            padding:12px;
+            cursor:pointer;
+            transition:all 0.2s ease;
+            color:rgba(255,255,255,0.9);
+            font-weight:500;
+        }
+
+        .writer-card:hover{
+            background:rgba(255,255,255,0.1);
+            border-color:var(--secondary);
+        }
+
+        .writer-card.selected{
+            background:var(--secondary);
+            border-color:var(--secondary);
+            color:#062045;
+            font-weight:700;
+        }
+
+        .writer-card input[type="checkbox"]{
+            margin-right:8px;
+            width:auto;
+        }
     </style>
 
 </head>
-<body>
+<body class="topic-page">
+
+<#include "_nav.ftlh">
+
+<div class="container">
 <h1>Edit Topic</h1>
 
-<form action="/topics/update/${topic.id}" method="post">
+<form action="/topics/update/${topic.id}" method="post" class="form-section">
     <label>Name:</label>
     <input type="text" name="name" value="${topic.name}" required />
 
     <label>URL:</label>
-    <input type="text" name="url" value="${topic.url!}" />
+    <input type="text" name="url" value="${topic.url!}" readonly style="opacity:0.6;cursor:not-allowed;" />
 
-    <h3>Assign Writers:</h3>
+    <h3 style="margin-top:25px;color:var(--text);">Assign Writers:</h3>
     <div class="writer-grid">
         <#if allWriters?? && allWriters?size gt 0>
             <#list allWriters as writer>
@@ -146,14 +185,15 @@
         </#if>
     </div>
 
-    <button type="submit" style="margin-top:15px;">Update Topic</button>
+    <button type="submit">Update Topic</button>
 </form>
 
 <form action="/topics/${topic.id}/delete" method="post">
-    <button type="submit" style="margin-top:10px;">Delete Topic</button>
+    <button type="submit" class="delete-btn">Delete Topic</button>
 </form>
 
-<a href="/topics" style="display:block; margin-top:15px;">Back</a>
+<a href="/topics" class="back" style="display:block;text-align:center;width:100%;">Back</a>
+</div>
 
 <script>
     // Toggle selected class when clicking a writer card

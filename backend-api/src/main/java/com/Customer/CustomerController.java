@@ -75,6 +75,13 @@ public class CustomerController {
         return "high-fidelity-prototype/profile";
     }
 
+    @GetMapping("/profiles")
+    public String profilesList(Model model) {
+        List<Customer> customers = customerRepository.findAll();
+        model.addAttribute("customers", customers);
+        return "high-fidelity-prototype/profiles-list";
+    }
+        
     @GetMapping("/customer/edit/{id}")
     public String editCustomerPage(Model model, @PathVariable Long id) {
 

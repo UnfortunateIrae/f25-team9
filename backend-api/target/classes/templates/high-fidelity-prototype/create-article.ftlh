@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8"> 
     <title>Create Article</title> 
+    <link rel="stylesheet" href="/CSS/topic.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> 
 </head> 
 
-<body class="bg-light"> 
+<body class="topic-page">
+
+<#include "_nav.ftlh"> 
 
 <div class="container py-4" style="max-width: 700px;"> 
 

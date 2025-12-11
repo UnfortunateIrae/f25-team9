@@ -9,28 +9,29 @@
 
 <body class="topic-page">
 
-<nav class="nav">
-    <div class="links">
-        <a href="/" style="font-weight:800;font-size:1.2rem;">Newsletter</a>
-        <a href="/">Home</a>
-        <a href="/topics">Topics</a>
-        <a href="/articles">Articles</a>
-        <a href="/writers">Writers</a>
-        <a href="/profiles">Profiles</a>
-        <a href="/login">Login</a>
-    </div>
-</nav>
+<#include "_nav.ftlh">
 
 <div class="container">
     <h2 class="text-center mb-4">All Articles</h2>
 
+    <#if articles??>
+        <p class="muted" style="text-align:center;margin-top:-8px;">${articles?size} article<#if articles?size != 1>s</#if> available</p>
+    </#if>
+
     <#if articles?? && (articles?size > 0)>
         <#list articles as article>
-            <div class="card mb-3 shadow-sm">
+            <#assign titleText = article.title?default("Untitled Article")>
+            <#assign contentPreview = (article.content!"")?string>
+            <#assign contentLength = contentPreview?length>
+            <div class="article-card bright mb-3">
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
-                        <h5 class="mb-0">${article.title}</h5>
+                        <h5 class="mb-1">${titleText}</h5>
                         <p class="text-muted small mb-0">
+                            <#if contentLength gt 120>
+                                ${contentPreview?substring(0,120)}...
+                            <#elseif contentLength gt 0>
+                                ${contentPreview}
                             <#if article.content??>
                                 <#if ((article.content?length) > 100)>
                                     ${article.content?substring(0,100)}...
@@ -40,6 +41,11 @@
                             <#else>
                                 <em>No content</em>
                             </#if>
+                        </p>
+                        <p class="text-muted small mb-0" style="margin-top:6px;">
+                            <#if article.topic??>Topic: ${article.topic.name!""}<#else>Topic: N/A</#if>
+                            &nbsp;|&nbsp;
+                            <#if article.writer??>Writer: ${article.writer.name!""}<#else>Writer: N/A</#if>
                         </p>
                     </div>
                     <form action="/articles/${article.id}" method="get">

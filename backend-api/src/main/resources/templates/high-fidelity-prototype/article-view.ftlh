@@ -9,17 +9,7 @@
 
 <body class="topic-page">
 
-<nav class="nav">
-    <div class="links">
-        <a href="/" style="font-weight:800;font-size:1.2rem;">Newsletter</a>
-        <a href="/">Home</a>
-        <a href="/topics">Topics</a>
-        <a href="/articles">Articles</a>
-        <a href="/writers">Writers</a>
-        <a href="/profiles">Profiles</a>
-        <a href="/login">Login</a>
-    </div>
-</nav>
+<#include "_nav.ftlh">
 
 <div class="container" style="max-width: 800px;">
     <h2>${article.title}</h2>
